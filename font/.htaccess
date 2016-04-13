@@ -1,0 +1,18 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine Off
+</IfModule>
+
+RemoveType .eot
+AddType application/vnd.ms-fontobject .eot
+
+RemoveType .woff
+AddType application/font-woff .woff
+
+RemoveType .ttf
+AddType application/font-ttf .ttf
+
+RemoveType .otf
+AddType application/font-otf .otf
+
+RemoveType .svg
+AddType image/svg+xml .svg

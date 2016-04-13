@@ -1,0 +1,31 @@
+<? if (!isset($this->indexStart)) $this->indexStart = 0; ?>
+<? $showCheckboxes = (isset($this->showCartControls) && $this->showCartControls)
+    || (isset($this->showBulkOptions) && $this->showBulkOptions); ?>
+<? $i = $this->indexStart; ?>
+
+<table class="table-condensed">
+    <tbody>
+    <? foreach ($this->results->getResults() as $current): ?>
+
+        <?= $this->record($current)->getSearchResult('list') ?>
+        <!--
+        <? /*
+        $recordNumber = $this->results->getStartRecord() + $i - $this->indexStart; ?>
+                <tr id="row result<?= $i++ ?>" class="result">
+                    <td class="hidden-xs col-sm-1 record-number hidden-print<? if ($showCheckboxes): ?> checkbox<? endif; ?>">
+                        <label>
+                            <? if ($showCheckboxes): ?>
+                                <?= $this->record($current)->getCheckbox() ?>
+                            <? endif; ?>
+                            <?= $recordNumber ?>
+                        </label>
+                    </td>
+                    <td class="col-xs-12 col-sm-11">
+
+                    </td>
+                </tr>
+        */ ?>
+        -->
+    <? endforeach; ?>
+    </tbody>
+</table>

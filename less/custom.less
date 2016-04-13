@@ -1,0 +1,194 @@
+
+@import "variables";
+@import "icons";
+@import "animation";
+a {}
+/* --- Bootstrap MODS ---*/
+
+
+/** NAVBAR */
+.ddm() when (@dropDown) {
+  > li > .dropdown-menu {
+    background-color: @bgDefault;
+    > li {
+      > a {
+        color: @colDefault;
+        &:hover,  &:focus {
+          color: @colHighlight;
+          background-color: @bgHighlight; }}
+      > .divider {
+        background-color: @bgHighlight;}}}
+  .open .dropdown-menu > .active {
+    > a, > a:hover, > a:focus {
+      color: @colHighlight;
+      background-color: @bgHighlight; }}}
+.navbar-collapse {
+  border-top: 1px solid @bgHighlight;
+  background-color: @bgDefault;
+  border-color: @bgHighlight;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+  .navbar-brand {
+    color: @colDefault;
+    &:hover, &:focus {
+      background: @bgHighlight;
+      color: @colHighlight; }}
+  .navbar-text {
+    color: @colDefault; }
+  .navbar-nav {
+    > li {
+      > a {
+        color: @colDefault;
+        &:hover,  &:focus {
+          background: @bgHighlight;
+          color: @colHighlight; }}}
+    .ddm;
+    > .active {
+      > a, > a:hover, > a:focus {
+        color: @colHighlight;
+        background-color: @bgHighlight; }}
+    > .open {
+      > a, > a:hover, > a:focus {
+        color: @colHighlight;
+        background-color: @bgHighlight; }}}
+  .navbar-toggle {
+    border-color: @bgHighlight;
+    &:hover, &:focus {
+      background-color: @bgHighlight; }
+    .icon-bar {
+      background-color: @colDefault; }}
+  .navbar-collapse,
+  .navbar-form {
+    border-color: @colDefault; }
+  .navbar-link {
+    color: @colDefault;
+    &:hover {
+      background: @bgHighlight;
+      color: @colHighlight; }}}
+@media (max-width: 767px) {
+  .navbar-collapse .navbar-nav .open .dropdown-menu {
+    > li > a {
+      color: @colDefault;
+      &:hover, &:focus {
+        background: @bgHighlight;
+        color: @colHighlight; }}
+    > .active {
+      > a, > a:hover, > a:focus {
+        color: @colHighlight;
+        background-color: @bgHighlight; }}}
+  .container.navbar {
+    border: none;
+    background-color: @bgDefault;
+  }
+}
+
+@media (min-width: 768px) {
+  .container.navbar {
+    border: none;
+    padding: 0;
+  }
+}
+
+.container.navbar {
+  margin-bottom: 0;
+}
+
+/* header container */
+
+.header-main {
+  background: linear-gradient(top, @bgHighlight, @bgDefault);
+  background: -webkit-linear-gradient(top, @bgHighlight, @bgDefault); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(top, @bgHighlight, @bgDefault); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(top, @bgHighlight, @bgDefault); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(top, @bgHighlight, @bgDefault); /* Standard syntax */
+}
+
+.breadcrumb {
+  margin-bottom: 0;
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  a {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  a, .active {
+    color: #fff;
+  }
+  .active {
+    font-style: italic;
+  }
+}
+
+
+/* logo */
+
+.department {
+  color: #fff;
+  display: block;
+  font-family: Georgia, times, serif;
+  font-size: 18px;
+  font-weight: normal;
+  padding-left: 20px;
+  line-height: 16px;
+  margin: 20px 0;
+
+  a {
+    color: #fff;
+  }
+  .departmentNumber {
+    font-size: 36px;
+    padding-left: 8px;
+    position: relative;
+    top: 12px;
+  }
+  .departmentName {
+    font-size: 18px;
+    letter-spacing: 0.05em;
+    font-weight: 100;
+    font-family: Georgia, times, serif;
+  }
+}
+
+@media (min-width: @screen-sm) {
+
+  .uni-logo {
+    margin: 10px 30px 10px 10px;
+    border-right: 1px solid #fff;
+    padding: 10px 30px 10px 10px;
+  }
+
+  .department {
+
+    margin-top: 40px;
+    margin-left: 15px !important;
+    margin-bottom: 0;
+    width: 500px;
+  }
+}
+
+
+#main-content {
+  .container {
+    padding: 20px;
+    background-color: #bbb;
+    .container-inner {
+      background-color: @gray-light;
+      padding: 20px;
+      border-radius: 6px;
+    }
+  }
+}
+
+.table-condensed {
+  width: 100%;
+}
+
+.table-condensed>thead>tr>th,
+.table-condensed>tbody>tr>th,
+.table-condensed>tfoot>tr>th,
+.table-condensed>thead>tr>td,
+.table-condensed>tbody>tr>td,
+.table-condensed>tfoot>tr>td{
+  padding: 5px;
+}
