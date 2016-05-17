@@ -1,30 +1,10 @@
-@font-face {
-  font-family: 'vufind-hds';
-  src: url('../font/vufind-hds.eot?45523202');
-  src: url('../font/vufind-hds.eot?45523202#iefix') format('embedded-opentype'),
-  url('../font/vufind-hds.woff2?45523202') format('woff2'),
-  url('../font/vufind-hds.woff?45523202') format('woff'),
-  url('../font/vufind-hds.ttf?45523202') format('truetype'),
-  url('../font/vufind-hds.svg?45523202#vufind-hds') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
-/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
-/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
-
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-  @font-face {
-    font-family: 'vufind-hds';
-    src: url('../font/vufind-hds.svg?45523202#vufind-hds') format('svg');
-  }
-}
+@import "animation";
 
 [class^="hds-icon-"]:before, [class*=" hds-icon-"]:before {
   font-family: "vufind-hds";
   font-style: normal;
   font-weight: normal;
   speak: none;
-
   display: inline-block;
   text-decoration: inherit;
   width: 1em;

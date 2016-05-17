@@ -1,6 +1,6 @@
 <!-- <table class="table-condensed" style="width:100%"> -->
     <tr class="<?= $this->driver->supportsAjaxStatus() ? 'ajaxItem ' : '' ?>">
-        <td class="col-sm-3 text-center" style="overflow: hidden;">
+        <td class="text-center">
             <input type="hidden" value="<?= $this->escapeHtmlAttr($this->driver->getUniqueID()) ?>" class="hiddenId"/>
             <input type="hidden" value="<?= $this->escapeHtmlAttr($this->driver->getResourceSource()) ?>"
                    class="hiddenSource"/>
@@ -15,7 +15,7 @@
                 <? endif; ?>
             </a>
         </td>
-        <td class="col-sm-6">
+        <td class="">
             <div>
                 <a href="<?= $this->recordLink()->getUrl($this->driver) ?>" class="title">
                     <?

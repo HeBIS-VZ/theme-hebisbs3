@@ -3,7 +3,6 @@ return [
     "extends" => "bootstrap3",
     "css" => [
         'compiled.css',
-        'custom.css',
         'icons.css'
     ],
     'js' => [

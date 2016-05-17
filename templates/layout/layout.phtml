@@ -9,6 +9,28 @@
 
     <?= $this->headMeta() ?>
     <?= $this->headTitle() ?>
+    <style media="screen" type="text/css">
+        @font-face {
+            font-family: 'vufind-hds';
+            src: url('<?= $this->basePath() ?>/themes/hebisbs3/font/vufind-hds.eot?45523202');
+            src: url('<?= $this->basePath() ?>/themes/hebisbs3/font/vufind-hds.eot?45523202#iefix') format('embedded-opentype'),
+            url('<?= $this->basePath() ?>/themes/hebisbs3/font/vufind-hds.woff2?45523202') format('woff2'),
+            url('<?= $this->basePath() ?>/themes/hebisbs3/font/vufind-hds.woff?45523202') format('woff'),
+            url('<?= $this->basePath() ?>/themes/hebisbs3/font/vufind-hds.ttf?45523202') format('truetype'),
+            url('<?= $this->basePath() ?>/themes/hebisbs3/font/vufind-hds.svg?45523202#vufind-hds') format('svg');
+            font-weight: normal;
+            font-style: normal;
+        }
+        /* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+        /* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+
+        @media screen and (-webkit-min-device-pixel-ratio:0) {
+            @font-face {
+                font-family: 'vufind-hds';
+                src: url('<?= $this->basePath() ?>/font/vufind-hds.svg?45523202#vufind-hds') format('svg');
+            }
+        }
+    </style>
     <?
     // Set up OpenSearch link:
     $this->headLink(
@@ -89,18 +111,7 @@ if (!isset($this->layout()->searchbox)) {
 
     <div class="container header-main">
         <div class="row">
-            <div class="col-sm-10">
-                <!-- logo -->
-                <div class="uni-logo pull-left hidden-xs">
-                    <a href="http://www.uni-frankfurt.de/">
-                        <img src="<?= $this->basePath()."/themes/hebisbs3/images/GU-Logo-weiss.svg"?>" height="80" alt="Logo: Goethe-Universität Frankfurt am Main">
-                    </a>
-                </div>
-                <div class="department clearfix">
-                    <span class="departmentName"><a href="<?=$this->basePath()?>">Suchportal Frankfurt am Main<br>Universitätsbibliothek</a></span>
-                    <span class="departmentNumber">UB</span>
-                </div>
-            </div>
+            <?= $this->render('logo.phtml') ?>
             <div class="col-sm-2">
                 <!-- language -->
             </div>

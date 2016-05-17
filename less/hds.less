@@ -1,0 +1,239 @@
+
+@import "animation";
+a {}
+/* --- Bootstrap MODS ---*/
+
+
+/** NAVBAR */
+.ddm() when (@dropDown) {
+  > li > .dropdown-menu {
+    background-color: @bgDefault;
+    > li {
+      > a {
+        color: @colDefault;
+        &:hover,  &:focus {
+          color: @colHighlight;
+          background-color: @bgHighlight; }}
+      > .divider {
+        background-color: @bgHighlight;}}}
+  .open .dropdown-menu > .active {
+    > a, > a:hover, > a:focus {
+      color: @colHighlight;
+      background-color: @bgHighlight; }}}
+.navbar-collapse {
+  border-top: 1px solid @bgHighlight;
+  background-color: @bgDefault;
+  border-color: @bgHighlight;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+  .navbar-brand {
+    color: @colDefault;
+    &:hover, &:focus {
+      background: @bgHighlight;
+      color: @colHighlight; }}
+  .navbar-text {
+    color: @colDefault; }
+  .navbar-nav {
+    > li {
+      > a {
+        color: @colDefault;
+        &:hover,  &:focus {
+          background: @bgHighlight;
+          color: @colHighlight; }}}
+    .ddm;
+    > .active {
+      > a, > a:hover, > a:focus {
+        color: @colHighlight;
+        background-color: @bgHighlight; }}
+    > .open {
+      > a, > a:hover, > a:focus {
+        color: @colHighlight;
+        background-color: @bgHighlight; }}}
+  .navbar-toggle {
+    border-color: @bgHighlight;
+    &:hover, &:focus {
+      background-color: @bgHighlight; }
+    .icon-bar {
+      background-color: @colDefault; }}
+  .navbar-collapse,
+  .navbar-form {
+    border-color: @colDefault; }
+  .navbar-link {
+    color: @colDefault;
+    &:hover {
+      background: @bgHighlight;
+      color: @colHighlight; }}}
+@media (max-width: 767px) {
+  .navbar-collapse .navbar-nav .open .dropdown-menu {
+    > li > a {
+      color: @colDefault;
+      &:hover, &:focus {
+        background: @bgHighlight;
+        color: @colHighlight; }}
+    > .active {
+      > a, > a:hover, > a:focus {
+        color: @colHighlight;
+        background-color: @bgHighlight; }}}
+  .container.navbar {
+    border: none;
+    background-color: @bgDefault;
+  }
+}
+
+@media (min-width: 768px) {
+  .container.navbar {
+    border: none;
+    padding: 0;
+  }
+}
+
+.container.navbar {
+  margin-bottom: 0;
+}
+
+.breadcrumb {
+  margin-bottom: 0;
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  a {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  a, .active {
+    color: #fff;
+  }
+  .active {
+    font-style: italic;
+  }
+}
+
+.bs-callout {
+  padding: 10px 20px;
+  margin: 10px 0;
+  border: 1px solid @gray-light;
+  border-left-width: 5px;
+  border-radius: 3px;
+}
+.bs-callout table {
+  margin-bottom: 0;
+}
+.bs-callout-info {
+  border-left-color: @brand-info;
+}
+
+
+/* logo */
+
+.department {
+  color: #fff;
+  display: block;
+  font-family: Georgia, times, serif;
+  font-size: 18px;
+  font-weight: normal;
+  padding-left: 20px;
+  line-height: 16px;
+  margin: 20px 0;
+
+  a {
+    color: #fff;
+  }
+  .departmentNumber {
+    font-size: 36px;
+    padding-left: 8px;
+    position: relative;
+    top: 12px;
+  }
+  .departmentName {
+    font-size: 36px;
+    letter-spacing: 0.05em;
+    font-weight: 100;
+    font-family: Georgia, times, serif;
+    small {
+      font-size: 14px;
+    }
+  }
+}
+
+@media (min-width: @screen-sm) {
+
+  .uni-logo {
+    margin: 10px 30px 10px 10px;
+    border-right: 1px solid #fff;
+    padding: 10px 30px 10px 10px;
+  }
+
+  .department {
+
+    margin-top: 40px;
+    margin-left: 15px !important;
+    margin-bottom: 0;
+    width: 500px;
+  }
+}
+
+
+#main-content {
+  .container {
+    padding: 20px;
+    background-color: #bbb;
+    .container-inner {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 6px;
+    }
+  }
+}
+
+.nav.nav-tabs {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+
+.table-condensed {
+  width: 100%;
+}
+
+.table-condensed>thead>tr>th,
+.table-condensed>tbody>tr>th,
+.table-condensed>tfoot>tr>th,
+.table-condensed>thead>tr>td,
+.table-condensed>tbody>tr>td,
+.table-condensed>tfoot>tr>td{
+  padding: 5px;
+}
+
+.table-condensed tr {
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  border-bottom: 1px solid #bbb;
+}
+
+img.recordcover {
+  max-width: 70px;
+}
+
+.tab-content {
+  padding-top: 15px;
+}
+
+.search-controls {
+  line-height: 36px;
+  padding-left: 15px;
+  padding-top: 3px;
+  margin-left: 0;
+  font-size: 90%;
+  margin-right: 0;
+}
+
+.search-controls > .col-sm-6:first-child {
+  padding-left: 0;
+}
+.search-controls > .col-sm-6:last-child {
+
+}
+
+.collapsed {
+
+}
