@@ -1,4 +1,6 @@
 <h4><?=$this->transEsc('Similar Items')?></h4>
+<?= $this->bibTip($this->driver); ?>
+
 <? $similarRecords = $this->tab->getResults(); ?>
 <? if (!empty($similarRecords)): ?>
   <? $perPage = 4 ?>

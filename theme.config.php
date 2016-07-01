@@ -6,7 +6,8 @@ return [
         'icons.css'
     ],
     'js' => [
-        'vendor/bootstrap.min.js'
+        'vendor/bootstrap.min.js',
+        'vendor/bootstrap-accessibility.min.js',
     ],
     /*
     "less" => [

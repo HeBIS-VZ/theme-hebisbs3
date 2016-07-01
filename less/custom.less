@@ -46,9 +46,28 @@
 /* header container */
 
 .header-main {
-  background: linear-gradient(top, @bgHighlight, @bgDefault);
-  background: -webkit-linear-gradient(top, @bgHighlight, @bgDefault); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(top, @bgHighlight, @bgDefault); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(top, @bgHighlight, @bgDefault); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(top, @bgHighlight, @bgDefault); /* Standard syntax */
+  //background: -webkit-linear-gradient(top, @bgHighlight, @bgDefault); /* For Safari 5.1 to 6.0 */
+  //background: -o-linear-gradient(top, @bgHighlight, @bgDefault); /* For Opera 11.1 to 12.0 */
+  //background: -moz-linear-gradient(top, @bgHighlight, @bgDefault); /* For Firefox 3.6 to 15 */
+  //background: linear-gradient(top, @bgHighlight, @bgDefault); /* Standard syntax */
+  background: url("../images/header_background.jpg") transparent right top no-repeat;
+}
+
+
+.uni-logo {
+  border-right: 1px solid @gray;
+}
+
+.department {
+  margin-top: 60px
+}
+
+.departmentName a {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: @brand-primary;
+  font-weight: normal;
+}
+
+.departmentName a:hover {
+  text-decoration: none;
 }
