@@ -1,0 +1,40 @@
+<?php
+
+function getMaxCount($tagList)
+{
+    /** @var \Zend\Db\ResultSet\ResultSet $tagList */
+    usort($tagList, function($a, $b) {
+        return $a["cnt"] > $b["cnt"] ? -1 : 1;
+    });
+
+    return intval($tagList[0]['cnt']);
+}
+
+?>
+
+<div class="tagList<?= $loggedin ? ' loggedin' : '' ?>">
+
+    <?
+    /** @var \Zend\Db\ResultSet\ResultSet $tagList */
+    if (count($tagList) > 0):
+
+        $maxCount = getMaxCount($tagList->toArray());
+
+        foreach ($tagList as $tag) :
+            $maxSize = 1.5;
+            $minSize = 0.5;
+            $count = intval($tag['cnt']);
+
+            $size = ($count / $maxCount) * ($maxSize - $minSize) + $minSize; ?>
+
+            <? $is_me = isset($tag['is_me']) && !is_null($tag['is_me']) ? $tag['is_me'] : false; ?>
+            <span style="display: inline-block; " class="label label-info tag<?= $is_me ? ' selected' : '' ?>">
+                <a style="color: #fff; font-size: <?= number_format($size, 2, ".", "") ?>em;" href="<?= $this->url('tag-home') ?>?lookfor=<?= urlencode($tag['tag']) ?>"><?= $this->escapeHtml($tag['tag']) ?></a>
+                <span>(<?= $tag['cnt'] ?>)</span>
+            </span>
+        <? endforeach; ?>
+    <? else: ?>
+        <?= $this->transEsc('No Tags') ?>, <?= $this->transEsc('Be the first to tag this record') ?>!
+    <? endif; ?>
+</div>
+
