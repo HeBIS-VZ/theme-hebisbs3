@@ -1,7 +1,30 @@
 
 @import "animation";
+@import "variables";
+
 a {}
 /* --- Bootstrap MODS ---*/
+
+
+/** body Container */
+
+.container.header-main {
+    border: 1px solid lighten(@gray-dark, 50%);
+    border-bottom-width: 0;
+}
+
+.container.navbar {
+  border-style: solid !important;
+  border-color: lighten(@gray-dark, 50%) !important;
+  border-width: 0 1px !important;
+}
+
+#main-content {
+  .container {
+    border: 1px solid lighten(@gray-dark, 50%);
+    border-top-width: 0;
+  }
+}
 
 
 /** NAVBAR */
