@@ -8,6 +8,7 @@ return [
     'js' => [
         'vendor/bootstrap.min.js',
         'vendor/bootstrap-accessibility.min.js',
+        'hds_common.js'
     ],
     /*
     "less" => [
