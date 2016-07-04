@@ -16,4 +16,5 @@ return [
         "compiled.less"
     ],
     */
+    'favicon' => 'hds-favicon.ico',
 ];
