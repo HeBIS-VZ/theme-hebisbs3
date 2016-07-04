@@ -1,6 +1,6 @@
 <!-- <table class="table-condensed" style="width:100%"> -->
     <tr class="<?= $this->driver->supportsAjaxStatus() ? 'ajaxItem ' : '' ?>">
-        <td class="text-center">
+        <td class="text-center title-thumb">
             <input type="hidden" value="<?= $this->escapeHtmlAttr($this->driver->getUniqueID()) ?>" class="hiddenId"/>
             <input type="hidden" value="<?= $this->escapeHtmlAttr($this->driver->getResourceSource()) ?>"
                    class="hiddenSource"/>
@@ -15,16 +15,24 @@
                 <? endif; ?>
             </a>
         </td>
-        <td class="">
+        <td class="title">
             <div>
                 <a href="<?= $this->recordLink()->getUrl($this->driver) ?>" class="title">
                     <?
+                    /*
                     $summHighlightedTitle = $this->driver->getHighlightedTitle();
                     $summTitle = $this->driver->getTitle();
                     if (!empty($summHighlightedTitle)) {
                         echo $this->highlight($this->addEllipsis($summHighlightedTitle, $summTitle));
                     } else if (!empty($summTitle)) {
                         echo $this->escapeHtml($this->truncate($summTitle, 180));
+                    } else {
+                        echo $this->transEsc('Title not available');
+                    }*/
+
+                    $title = $this->resultListTitleStatement($this->driver);
+                    if (!empty($title)) {
+                        echo $title;
                     } else {
                         echo $this->transEsc('Title not available');
                     }
