@@ -11,7 +11,7 @@ if($loggedin = $this->auth()->isLoggedIn()) {
     <div class="col-sm-12">
         <h3 property="name">
             <? //$this->escapeHtml($this->driver->getShortTitle() . ' ' . $this->driver->getSubtitle() . ' ' . $this->driver->getTitleSection())?>
-            <?= $this->escapeHtml($this->driver->getTitle()) ?>
+            <?= $this->escapeHtml($this->singleRecordTitleStatementHeadline($this->driver)) ?>
         </h3>
     </div>
 </div>
@@ -43,32 +43,29 @@ if($loggedin = $this->auth()->isLoggedIn()) {
             <!-- Titel -->
             <? $title = $this->singleRecordTitleStatement($this->driver); ?>
             <tr>
-                <th><?= $this->transEsc('Title Statement') ?>:</th>
+                <th><?= $this->transEsc('Titel') ?>:</th>
                 <td>
                     <?= $title ?>
                 </td>
             </tr>
             <!-- Unterreihe -->
-            <? if ($this->driver->getMarcRecord()->getLeader()[19] == " ") : ?>
-
-                <?$sectionOfWork = $this->singleRecordTitleStatementSectionOfWork($this->driver); ?>
-                <? if ($sectionOfWork) : ?>
-                    <tr>
-                        <th><?= $this->transEsc('Title Statement Section of Work'); ?>:</th>
-                        <td><?= $sectionOfWork ?></td>
-                    </tr>
-                <? endif; ?>
-
+            <?$sectionOfWork = $this->singleRecordTitleStatementSectionOfWork($this->driver); ?>
+            <? if ($sectionOfWork) : ?>
+                <tr>
+                    <th><?= $this->transEsc('Unterreihe'); ?>:</th>
+                    <td><?= $sectionOfWork ?></td>
+                </tr>
             <? endif; ?>
+
 
             <!-- Autor -->
             <? $authors = $this->singleRecordMainEntryPersonalName($this->driver); ?>
             <? if (!empty($authors)) : ?>
                 <tr>
-                    <th><?=$this->transEsc('Main Entry Personal Name')?>: </th>
+                    <th><?=$this->transEsc('Autor')?>: </th>
                     <td property="author">
-                        <?=  $authors ?><br />
-                        <a href="<?//$this->record($this->driver)->getLink('author', $authors['main'])?>"><?//$this->escapeHtml($authors['main'])?></a>
+
+                        <a href="<?$this->record($this->driver)->getLink('author', "")?>"><?= $authors ?></a>
                     </td>
                 </tr>
             <? endif; ?>
@@ -77,16 +74,23 @@ if($loggedin = $this->auth()->isLoggedIn()) {
             <? $addedEntryPersons = $this->singleRecordAddedEntryPersonalName($this->driver); ?>
             <? if ( !empty($addedEntryPersons)) : ?>
                 <tr>
-                    <th><?= $this->transEsc('Added Entry Personal Name'); ?>:</th>
+                    <th><?= $this->transEsc('Beteiligt'); ?>:</th>
                     <td property="creator"><?= $addedEntryPersons ?></td>
                 </tr>
             <? endif; ?>
 
+            <? $datesOfPublication = $this->singleRecordDatesOfPublicationSequentialDesignation($this->driver); ?>
+            <? if (!empty($datesOfPublication)) : ?>
+                <tr>
+                    <th><?= $this->transEsc('Erscheinungsverlauf'); ?></th>
+                    <td><?= $datesOfPublication ?></td>
+                </tr>
+            <? endif; ?>
             <!-- Festschrift für -->
             <? $festschrift = $this->singleRecordFestschrift($this->driver); ?>
             <? if (!empty($festschrift)) : ?>
                 <tr>
-                    <th><?= $this->transEsc('Festschrift for'); ?></th>
+                    <th><?= $this->transEsc('Festschrift für'); ?></th>
                     <td><?= $festschrift ?></td>
                 </tr>
             <? endif; ?>
@@ -101,15 +105,14 @@ if($loggedin = $this->auth()->isLoggedIn()) {
             <? endif; ?>
 
             <!-- Published in -->
-            <? if ($this->driver->getMarcRecord()->getLeader()[19] == ' ') : ?>
-                <? $marcJournal = $this->singleRecordMarcJournal($this->driver); ?>
-                <? if ($marcJournal) : ?>
-                    <tr>
-                        <th><?= $this->transEsc('Marc Journal') ?>:</th>
-                        <td><?= $marcJournal ?></td>
-                    </tr>
-                <? endif; ?>
+            <? $marcJournal = $this->singleRecordMarcJournal($this->driver); ?>
+            <? if ($marcJournal) : ?>
+                <tr>
+                    <th><?= $this->transEsc('Marc Journal') ?>:</th>
+                    <td><?= $marcJournal ?></td>
+                </tr>
             <? endif; ?>
+
 
             <!-- Veröffentlicht -->
             <? $publicationDistribution = $this->singleRecordPublicationDistribution($this->driver); ?>
@@ -133,7 +136,7 @@ if($loggedin = $this->auth()->isLoggedIn()) {
             <? $dissertationNote = $this->singleRecordDissertationNote($this->driver) ?>
             <? if (!empty($dissertationNote)) : ?>
                 <tr>
-                    <th><?=$this->transEsc('Dissertation Note')?>:</th>
+                    <th><?=$this->transEsc('Hochschulschrift')?>:</th>
                     <td><?= $dissertationNote ?></td>
                 </tr>
             <? endif; ?>
@@ -171,7 +174,7 @@ if($loggedin = $this->auth()->isLoggedIn()) {
             <? endif; ?>
 
             <!-- Schlagworte -->
-            <? $keywords = $this->singleRecordSubjectAddedKeywords($this->driver) ?>
+            <? //$keywords = $this->singleRecordSubjectAddedKeywords($this->driver) ?>
             <? if (!empty($keywords)) : ?>
                 <tr>
                     <th><?=$this->transEsc('Subject Added Keywords');?></th>
