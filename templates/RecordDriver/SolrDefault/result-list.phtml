@@ -39,15 +39,38 @@
                     ?>
                 </a>
             </div>
-            <div class="author">
-                <? $author = $this->resultListMainEntryPersonalName($this->driver); ?>
-                <? if (!empty($author)) : ?>
+            <? $author = $this->resultListPersonalName($this->driver); ?>
+            <? if (!empty($author)) : ?>
+                <div class="author">
                     <?= $author ?>
-                <? else : ?>
-                    <? $addedPerson = $this->resultListAddedEntryPersonalName($this->driver); ?>
-                    <?= $addedPerson ?>
-                <? endif; ?>
+                </div>
+            <? endif; ?>
+            <? $corporation = $this->resultListCorporateName($this->driver); ?>
+            <div class="author">
+                <?= $corporation ?>
             </div>
+            <?php
+                $edition = $this->resultListEditionStatement($this->driver);
+                $hostItem = $this->resultListHostItemEntry($this->driver);
+                $publicationDistribution = $this->resultListPublicationDistribution($this->driver);
+            ?>
+
+            <? if (!empty($edition)) : ?>
+                <div class="edition">
+                    <?= $edition ?>
+                </div>
+            <? endif; ?>
+            <?  if (!empty($hostItem)) : ?>
+                <div class="host-item">
+                    <?= $hostItem ?>
+                </div>
+            <? endif; ?>
+            <? if (!empty($publicationDistribution)) : ?>
+                <div class="distribution">
+                    <?= $publicationDistribution ?>
+                </div>
+            <? endif; ?>
+            <!--
             <div>
                 <? if ($this->driver->isCollection()): ?>
                     <?= implode('<br>', array_map(array($this, 'escapeHtml'), $this->driver->getSummary())); ?>
@@ -141,7 +164,7 @@
                 } ?>
                 </div>
             <? endif; ?>
-
+            -->
             <!--  -Call Number and Loading-
       <div class="callnumAndLocation ajax-availability hidden">
         <? if ($this->driver->supportsAjaxStatus()): ?>
@@ -172,17 +195,20 @@
             $urls = $this->record($this->driver)->getLinkDetails();
             if (!empty($urls)): ?>
                 <? if (!is_array($urls)) $urls = array();
+                $i = 0;
                 if (!$this->driver->isCollection()):
                     foreach ($urls as $current): ?>
-                        <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($current['url'])) ?>" class="fulltext"
-                           target="new"><i
-                                class="fa fa-external-link"></i> <?= ($current['url'] == $current['desc']) ? $this->transEsc('Get full text') : $this->escapeHtml($current['desc']) ?>
-                        </a><br/>
+                        <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($current['url'])) ?>" class="fulltext" target="new">
+                            <span class="fa fa-external-link"></span>
+                            <?= ($current['url'] == $current['desc']) ? $this->transEsc('Get full text') : $this->escapeHtml($current['desc']) ?>
+                        </a>
+                        <? if ($i++ < count($urls)-1) { echo "; "; } ?>
                     <? endforeach; ?>
+                    <br/>
                 <? endif; ?>
             <? endif; ?>
-
-            <?= str_replace('class="', 'class="label label-info ', $this->record($this->driver)->getFormatList()) ?>
+            <? $physType = $this->physicalDescription($this->driver); ?>
+            <span class="label label-info"><span class="icon hds-icon-<?=$physType?>"><!-- --></span> <?=$this->transEsc($physType);?></span>
 
             <?
             /*

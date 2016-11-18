@@ -1,0 +1,7 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine Off
+</IfModule>
+
+AddType application/vnd.ms-fontobject eot
+AddType font/truetype ttf
+AddType application/x-font-woff woff
