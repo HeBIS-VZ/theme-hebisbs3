@@ -49,7 +49,7 @@ if($loggedin = $this->auth()->isLoggedIn()) {
                 </td>
             </tr>
             <!-- Unterreihe -->
-            <?$sectionOfWork = $this->singleRecordTitleStatementSectionOfWork($this->driver); ?>
+            <?$sectionOfWork = $this->singleRecordSectionOfAWork($this->driver); ?>
             <? if ($sectionOfWork) : ?>
                 <tr>
                     <th><?= $this->transEsc('Unterreihe'); ?>:</th>
@@ -59,23 +59,14 @@ if($loggedin = $this->auth()->isLoggedIn()) {
 
 
             <!-- Autor -->
-            <? $authors = $this->singleRecordMainEntryPersonalName($this->driver); ?>
+            <? $authors = $this->singleRecordPersonalName($this->driver); ?>
             <? if (!empty($authors)) : ?>
                 <tr>
-                    <th><?=$this->transEsc('Autor')?>: </th>
+                    <th><?=$this->transEsc('Verantwortlich')?>: </th>
                     <td property="author">
 
                         <a href="<?$this->record($this->driver)->getLink('author', "")?>"><?= $authors ?></a>
                     </td>
-                </tr>
-            <? endif; ?>
-
-            <!-- Beteiligt -->
-            <? $addedEntryPersons = $this->singleRecordAddedEntryPersonalName($this->driver); ?>
-            <? if ( !empty($addedEntryPersons)) : ?>
-                <tr>
-                    <th><?= $this->transEsc('Beteiligt'); ?>:</th>
-                    <td property="creator"><?= $addedEntryPersons ?></td>
                 </tr>
             <? endif; ?>
 
@@ -86,33 +77,17 @@ if($loggedin = $this->auth()->isLoggedIn()) {
                     <td><?= $datesOfPublication ?></td>
                 </tr>
             <? endif; ?>
-            <!-- Festschrift für -->
-            <? $festschrift = $this->singleRecordFestschrift($this->driver); ?>
-            <? if (!empty($festschrift)) : ?>
-                <tr>
-                    <th><?= $this->transEsc('Festschrift für'); ?></th>
-                    <td><?= $festschrift ?></td>
-                </tr>
-            <? endif; ?>
 
-            <!-- Interpret(en) -->
-            <? $interpreter = $this->singleRecordInterpreter($this->driver); ?>
-            <? if (!empty($interpreter)) : ?>
-                <tr>
-                    <th><?= $this->transEsc('Interpreter'); ?>:</th>
-                    <td><?= $this->singleRecordInterpreter($this->driver) ?></td>
-                </tr>
-            <? endif; ?>
 
-            <!-- Published in -->
-            <? $marcJournal = $this->singleRecordMarcJournal($this->driver); ?>
+            <!-- Published in
+            <? //$marcJournal = $this->singleRecordMarcJournal($this->driver); ?>
             <? if ($marcJournal) : ?>
                 <tr>
                     <th><?= $this->transEsc('Marc Journal') ?>:</th>
                     <td><?= $marcJournal ?></td>
                 </tr>
             <? endif; ?>
-
+            -->
 
             <!-- Veröffentlicht -->
             <? $publicationDistribution = $this->singleRecordPublicationDistribution($this->driver); ?>
@@ -183,7 +158,7 @@ if($loggedin = $this->auth()->isLoggedIn()) {
             <? endif; ?>
 
             <!-- auch als -->
-            <? $additionalPhysical = $this->singleRecordAdditionalPhysicalFormAvailableNote($this->driver); ?>
+            <? $additionalPhysical = $this->singleRecordAdditionalPhysicalFromAvailableNote($this->driver); ?>
             <? if (!empty($additionalPhysical)) : ?>
                 <tr>
                     <th><?=$this->transEsc('Additional Physical Form Available Note')?></th>
