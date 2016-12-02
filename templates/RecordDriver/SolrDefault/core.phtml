@@ -7,10 +7,13 @@ if($loggedin = $this->auth()->isLoggedIn()) {
 }
 ?>
 
+<? $format = $this->physicalDescription($this->driver);//$this->driver->getFormats(); if (!empty($formats)): ?>
+
 <div class="row">
     <div class="col-sm-12">
         <h3 property="name">
             <? //$this->escapeHtml($this->driver->getShortTitle() . ' ' . $this->driver->getSubtitle() . ' ' . $this->driver->getTitleSection())?>
+            <span class="hds-icon-<?=$format?>"></span>
             <?= $this->escapeHtml($this->singleRecordTitleStatementHeadline($this->driver)) ?>
         </h3>
     </div>
@@ -58,7 +61,7 @@ if($loggedin = $this->auth()->isLoggedIn()) {
             <? endif; ?>
 
 
-            <!-- Autor -->
+            <!-- Verantwortlich -->
             <? $authors = $this->singleRecordPersonalName($this->driver); ?>
             <? if (!empty($authors)) : ?>
                 <tr>
@@ -66,6 +69,16 @@ if($loggedin = $this->auth()->isLoggedIn()) {
                     <td property="author">
 
                         <a href="<?$this->record($this->driver)->getLink('author', "")?>"><?= $authors ?></a>
+                    </td>
+                </tr>
+            <? endif; ?>
+
+            <? $hostItem = $this->singleRecordHostItemEntry($this->driver); ?>
+            <? if (!empty($hostItem)) : ?>
+                <tr>
+                    <th><?=$this->transEsc('Published in')?>: </th>
+                    <td>
+                        <?= $this->singleRecordHostItemEntry($this->driver); ?>
                     </td>
                 </tr>
             <? endif; ?>
@@ -102,7 +115,7 @@ if($loggedin = $this->auth()->isLoggedIn()) {
             <? $uniformTitle = $this->singleRecordUniformTitle($this->driver); ?>
             <? if (!empty($uniformTitle)) : ?>
                 <tr>
-                    <th><?=$this->transEsc('Uniform Title')?>:</th>
+                    <th><?=$this->transEsc('Werktitel')?>:</th>
                     <td><?=$uniformTitle?></td>
                 </tr>
             <? endif; ?>
@@ -139,12 +152,38 @@ if($loggedin = $this->auth()->isLoggedIn()) {
                 </tr>
             <? endif; ?>
 
-            <!-- auch als -->
+            <!-- Other Edition Entry-->
             <? $otherEditionEntry = $this->singleRecordOtherEditionEntry($this->driver); ?>
             <? if (!empty($otherEditionEntry)) : ?>
                 <tr>
                     <th><?=$this->transEsc('Other Edition Entry')?>:</th>
                     <td><?=$otherEditionEntry?></td>
+                </tr>
+            <? endif; ?>
+
+            <!-- Ausgabe -->
+            <? $edition = $this->driver->getEdition(); if (!empty($edition)): ?>
+                <tr>
+                    <th><?=$this->transEsc('Edition')?>: </th>
+                    <td property="bookEdition"><?=$this->escapeHtml($edition)?></td>
+                </tr>
+            <? endif; ?>
+
+            <!-- Title Contains -->
+            <? $titleContains = $this->singleRecordTitleContains($this->driver); ?>
+            <? if (!empty($titleContains)) : ?>
+                <tr>
+                    <th><?=$this->transEsc('Darin enthalten');?>:</th>
+                    <td><?=$titleContains?></td>
+                </tr>
+            <? endif; ?>
+
+            <!-- Production Publication / Distribution Manufacture / Copyright Notice -->
+            <? $production = $this->singleRecordProduction($this->driver); ?>
+            <? if (!empty($production)) : ?>
+                <tr>
+                    <th><?= $this->transEsc('Entstehung'); ?></th>
+                    <td><?= $production ?></td>
                 </tr>
             <? endif; ?>
 
@@ -161,7 +200,7 @@ if($loggedin = $this->auth()->isLoggedIn()) {
             <? $additionalPhysical = $this->singleRecordAdditionalPhysicalFromAvailableNote($this->driver); ?>
             <? if (!empty($additionalPhysical)) : ?>
                 <tr>
-                    <th><?=$this->transEsc('Additional Physical Form Available Note')?></th>
+                    <th><?=$this->transEsc('Auch als')?></th>
                     <td><?=$additionalPhysical?></td>
                 </tr>
             <? endif; ?>
@@ -184,48 +223,56 @@ if($loggedin = $this->auth()->isLoggedIn()) {
                 </tr>
             <? endif; ?>
 
-            <? $formats = $this->driver->getFormats(); if (!empty($formats)): ?>
+            <!-- ISMN -->
+            <? $ismn = $this->singleRecordInternationalStandardMusicNumber($this->driver); ?>
+            <? if (!empty($ismn)) : ?>
+                <tr>
+                    <th><?=$this->transEsc('ISMN')?>:</th>
+                    <td><?=$ismn?></td>
+                </tr>
+            <? endif; ?>
+
+            <? if (!empty($format)) : ?>
                 <tr>
                     <th><?=$this->transEsc('Format')?>: </th>
-                    <td><?=$this->record($this->driver)->getFormatList()?></td>
+                    <td><span class="label label-info hds-icon-<?=$format?>">
+                            <?= $this->transEsc($format); ?>
+                        </span></td>
                 </tr>
             <? endif; ?>
 
             <? $langs = $this->driver->getLanguages(); if (!empty($langs)): ?>
                 <tr>
                     <th><?=$this->transEsc('Language')?>: </th>
-                    <td><? foreach ($langs as $lang): ?><?= $this->escapeHtml($lang)?><br/><? endforeach; ?></td>
+                    <td><? foreach ($langs as $lang): ?><?= $this->transEsc($lang)?><br/><? endforeach; ?></td>
                 </tr>
             <? endif; ?>
 
-            <? $edition = $this->driver->getEdition(); if (!empty($edition)): ?>
+            <!-- Preceding Entry / Succeeding Entry -->
+            <? $precedingSucceeding = $this->singleRecordPrecedingSucceedingEntry($this->driver); ?>
+            <? if (!empty($precedingSucceeding)) : ?>
                 <tr>
-                    <th><?=$this->transEsc('Edition')?>: </th>
-                    <td property="bookEdition"><?=$this->escapeHtml($edition)?></td>
+                    <th><?=$this->transEsc('Frühere/spätere Titel')?>: </th>
+                    <td><?= $precedingSucceeding ?></td>
                 </tr>
             <? endif; ?>
 
             <?/* Display series section if at least one series exists. */?>
-            <? $series = $this->driver->getSeries(); if (!empty($series)): ?>
+            <? $series = $this->singleRecordSeriesStatementAddedEntry($this->driver); ?>
+            <? if (!empty($series)) : ?>
                 <tr>
                     <th><?=$this->transEsc('Series')?>: </th>
+                    <td><?=$series?></td>
+                </tr>
+            <? endif; ?>
+
+            <!-- Zielgruppe -->
+            <? $targetAudience = $this->singleRecordTargetAudienceNote($this->driver); ?>
+            <? if (!empty($targetAudience)) : ?>
+                <tr>
+                    <th><?=$this->transEsc('Zielgruppe')?>: </th>
                     <td>
-                        <? foreach ($series as $field): ?>
-                            <?/* Depending on the record driver, $field may either be an array with
-               "name" and "number" keys or a flat string containing only the series
-               name.  We should account for both cases to maximize compatibility. */?>
-                            <? if (is_array($field)): ?>
-                                <? if (!empty($field['name'])): ?>
-                                    <a href="<?=$this->record($this->driver)->getLink('series', $field['name'])?>"><?=$this->escapeHtml($field['name'])?></a>
-                                    <? if (!empty($field['number'])): ?>
-                                        <?=$this->escapeHtml($field['number'])?>
-                                    <? endif; ?>
-                                    <br/>
-                                <? endif; ?>
-                            <? else: ?>
-                                <a href="<?=$this->record($this->driver)->getLink('series', $field)?>"><?=$this->escapeHtml($field)?></a><br/>
-                            <? endif; ?>
-                        <? endforeach; ?>
+                        <?=$targetAudience?>
                     </td>
                 </tr>
             <? endif; ?>
@@ -257,6 +304,7 @@ if($loggedin = $this->auth()->isLoggedIn()) {
                     </td>
                 </tr>
             <? endif; ?>
+
 
             <?
             //$openUrl = $this->driver->openURLActive('record') ? $this->driver->getOpenURL() : false;
