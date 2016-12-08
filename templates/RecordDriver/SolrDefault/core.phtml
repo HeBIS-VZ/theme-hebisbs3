@@ -7,7 +7,7 @@ if($loggedin = $this->auth()->isLoggedIn()) {
 }
 ?>
 
-<? $format = $this->physicalDescription($this->driver);//$this->driver->getFormats(); if (!empty($formats)): ?>
+<? $format = $this->physicalDescriptionFormat($this->driver);//$this->driver->getFormats(); if (!empty($formats)): ?>
 
 <div class="row">
     <div class="col-sm-12">
@@ -55,23 +55,40 @@ if($loggedin = $this->auth()->isLoggedIn()) {
             <?$sectionOfWork = $this->singleRecordSectionOfAWork($this->driver); ?>
             <? if ($sectionOfWork) : ?>
                 <tr>
-                    <th><?= $this->transEsc('Unterreihe'); ?>:</th>
+                    <th><?= $this->transEsc('Section of a work'); ?>:</th>
                     <td><?= $sectionOfWork ?></td>
                 </tr>
             <? endif; ?>
 
+            <!-- Teil -->
+            <?$partOfWork = $this->singleRecordPartOfAWork($this->driver); ?>
+            <? if ($partOfWork) : ?>
+                <tr>
+                    <th><?= $this->transEsc('Part of a work'); ?>:</th>
+                    <td><?= $partOfWork ?></td>
+                </tr>
+            <? endif; ?>
 
             <!-- Verantwortlich -->
-            <? $authors = $this->singleRecordPersonalName($this->driver); ?>
+            <? $authors = $this->singleRecordPersonalName($this->driver, false); ?>
             <? if (!empty($authors)) : ?>
                 <tr>
                     <th><?=$this->transEsc('Verantwortlich')?>: </th>
                     <td property="author">
-
-                        <a href="<?$this->record($this->driver)->getLink('author', "")?>"><?= $authors ?></a>
+                        <?= $authors ?>
                     </td>
                 </tr>
             <? endif; ?>
+
+            <!-- Körperschaft -->
+            <? $corporate = $this->singleRecordCorporateName($this->driver); ?>
+            <? if (!empty($corporate)) : ?>
+                <tr>
+                    <th><?=$this->transEsc('Corporate')?>: </th>
+                    <td property="author"><?= $corporate ?></td>
+                </tr>
+            <? endif; ?>
+
 
             <? $hostItem = $this->singleRecordHostItemEntry($this->driver); ?>
             <? if (!empty($hostItem)) : ?>
@@ -86,7 +103,7 @@ if($loggedin = $this->auth()->isLoggedIn()) {
             <? $datesOfPublication = $this->singleRecordDatesOfPublicationSequentialDesignation($this->driver); ?>
             <? if (!empty($datesOfPublication)) : ?>
                 <tr>
-                    <th><?= $this->transEsc('Erscheinungsverlauf'); ?></th>
+                    <th><?= $this->transEsc('Erscheinungsverlauf'); ?>: </th>
                     <td><?= $datesOfPublication ?></td>
                 </tr>
             <? endif; ?>
@@ -102,8 +119,17 @@ if($loggedin = $this->auth()->isLoggedIn()) {
             <? endif; ?>
             -->
 
-            <!-- Veröffentlicht -->
-            <? $publicationDistribution = $this->singleRecordPublicationDistribution($this->driver); ?>
+            <!-- Manufacture / Entstehung-->
+            <? $manufacture = $this->singleRecordManufacture($this->driver); ?>
+            <? if (!empty($manufacture)) : ?>
+                <tr>
+                    <th><?= $this->transEsc('Entstehung'); ?></th>
+                    <td><?= $manufacture ?></td>
+                </tr>
+            <? endif; ?>
+
+            <!-- Publication / Veröffentlicht -->
+            <? $publicationDistribution = $this->singleRecordPublication($this->driver); ?>
             <? if (!empty($publicationDistribution)) : ?>
                 <tr>
                     <th><?=$this->transEsc('Publication Distribution')?>:</th>
@@ -111,12 +137,40 @@ if($loggedin = $this->auth()->isLoggedIn()) {
                 </tr>
             <? endif; ?>
 
+            <!-- Production / Herstellung -->
+            <? $production = $this->singleRecordProduction($this->driver); ?>
+            <? if (!empty($production)) : ?>
+                <tr>
+                    <th><?=$this->transEsc('Production')?>:</th>
+                    <td><?=$production?></td>
+                </tr>
+            <? endif; ?>
+
+            <!-- Distribution / Vertrieb -->
+            <? $distribution = $this->singleRecordDistribution($this->driver); ?>
+            <? if (!empty($distribution)) : ?>
+                <tr>
+                    <th><?=$this->transEsc('Distribution')?>:</th>
+                    <td><?=$distribution?></td>
+                </tr>
+            <? endif; ?>
+
+
             <!-- Einheitssachtitel -->
             <? $uniformTitle = $this->singleRecordUniformTitle($this->driver); ?>
             <? if (!empty($uniformTitle)) : ?>
                 <tr>
                     <th><?=$this->transEsc('Werktitel')?>:</th>
                     <td><?=$uniformTitle?></td>
+                </tr>
+            <? endif; ?>
+
+            <!-- auch als -->
+            <? $additionalPhysical = $this->singleRecordAdditionalPhysicalFromAvailableNote($this->driver); ?>
+            <? if (!empty($additionalPhysical)) : ?>
+                <tr>
+                    <th><?=$this->transEsc('Auch als')?></th>
+                    <td><?=$additionalPhysical?></td>
                 </tr>
             <? endif; ?>
 
@@ -178,33 +232,6 @@ if($loggedin = $this->auth()->isLoggedIn()) {
                 </tr>
             <? endif; ?>
 
-            <!-- Production Publication / Distribution Manufacture / Copyright Notice -->
-            <? $production = $this->singleRecordProduction($this->driver); ?>
-            <? if (!empty($production)) : ?>
-                <tr>
-                    <th><?= $this->transEsc('Entstehung'); ?></th>
-                    <td><?= $production ?></td>
-                </tr>
-            <? endif; ?>
-
-            <!-- Schlagworte -->
-            <? //$keywords = $this->singleRecordSubjectAddedKeywords($this->driver) ?>
-            <? if (!empty($keywords)) : ?>
-                <tr>
-                    <th><?=$this->transEsc('Subject Added Keywords');?></th>
-                    <td><?=$keywords?></td>
-                </tr>
-            <? endif; ?>
-
-            <!-- auch als -->
-            <? $additionalPhysical = $this->singleRecordAdditionalPhysicalFromAvailableNote($this->driver); ?>
-            <? if (!empty($additionalPhysical)) : ?>
-                <tr>
-                    <th><?=$this->transEsc('Auch als')?></th>
-                    <td><?=$additionalPhysical?></td>
-                </tr>
-            <? endif; ?>
-
             <!-- ISBN -->
             <? $isbn = $this->singleRecordInternationalStandardBookNumber($this->driver); ?>
             <? if (!empty($isbn)) : ?>
@@ -218,7 +245,7 @@ if($loggedin = $this->auth()->isLoggedIn()) {
             <? $issn = $this->singleRecordInternationalStandardSerialNumber($this->driver); ?>
             <? if (!empty($issn)) : ?>
                 <tr>
-                    <th><?=$this->transEsc('ISBN')?>:</th>
+                    <th><?=$this->transEsc('ISSN')?>:</th>
                     <td><?=$issn?></td>
                 </tr>
             <? endif; ?>
@@ -229,6 +256,15 @@ if($loggedin = $this->auth()->isLoggedIn()) {
                 <tr>
                     <th><?=$this->transEsc('ISMN')?>:</th>
                     <td><?=$ismn?></td>
+                </tr>
+            <? endif; ?>
+
+            <!-- Physical Description / Umfang -->
+            <? $physicalDescription = $this->singleRecordPhysicalDescription($this->driver); ?>
+            <? if (!empty($physicalDescription)) : ?>
+                <tr>
+                    <th><?=$this->transEsc('Physical description scale')?>:</th>
+                    <td><?=$physicalDescription?></td>
                 </tr>
             <? endif; ?>
 
@@ -245,6 +281,25 @@ if($loggedin = $this->auth()->isLoggedIn()) {
                 <tr>
                     <th><?=$this->transEsc('Language')?>: </th>
                     <td><? foreach ($langs as $lang): ?><?= $this->transEsc($lang)?><br/><? endforeach; ?></td>
+                </tr>
+            <? endif; ?>
+
+            <!-- RVK -->
+            <? $rvk = $this->singleRecordOtherClassificationNumber($this->driver) ?>
+            <? if (!empty($rvk)) : ?>
+                <tr>
+                    <th><?=$this->transEsc('RVK-Notation');?>:</th>
+                    <td><?=$rvk?></td>
+                </tr>
+            <? endif; ?>
+
+
+            <!-- Schlagworte -->
+            <? $keywords = $this->singleRecordSubjectAccessFieldsGeneralInformation($this->driver) ?>
+            <? if (!empty($keywords)) : ?>
+                <tr>
+                    <th><?=$this->transEsc('Subject Added Keywords');?></th>
+                    <td><?=$keywords?></td>
                 </tr>
             <? endif; ?>
 
