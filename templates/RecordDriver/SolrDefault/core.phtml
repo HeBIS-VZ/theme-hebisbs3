@@ -73,7 +73,7 @@ if($loggedin = $this->auth()->isLoggedIn()) {
             <? $authors = $this->singleRecordPersonalName($this->driver, false); ?>
             <? if (!empty($authors)) : ?>
                 <tr>
-                    <th><?=$this->transEsc('Verantwortlich')?>: </th>
+                    <th><?=$this->transEsc('Author/editor-in-chief')?>: </th>
                     <td property="author">
                         <?= $authors ?>
                     </td>
@@ -160,7 +160,7 @@ if($loggedin = $this->auth()->isLoggedIn()) {
             <? $uniformTitle = $this->singleRecordUniformTitle($this->driver); ?>
             <? if (!empty($uniformTitle)) : ?>
                 <tr>
-                    <th><?=$this->transEsc('Werktitel')?>:</th>
+                    <th><?=$this->transEsc('Uniform title')?>:</th>
                     <td><?=$uniformTitle?></td>
                 </tr>
             <? endif; ?>
@@ -171,6 +171,15 @@ if($loggedin = $this->auth()->isLoggedIn()) {
                 <tr>
                     <th><?=$this->transEsc('Auch als')?></th>
                     <td><?=$additionalPhysical?></td>
+                </tr>
+            <? endif; ?>
+
+            <!-- auch als -->
+            <? $reproduction = $this->singleRecordReproductionNote($this->driver); ?>
+            <? if (!empty($reproduction)) : ?>
+                <tr>
+                    <th><?=$this->transEsc('Available edition')?></th>
+                    <td><?=$reproduction?></td>
                 </tr>
             <? endif; ?>
 
@@ -285,11 +294,36 @@ if($loggedin = $this->auth()->isLoggedIn()) {
             <? endif; ?>
 
             <!-- RVK -->
-            <? $rvk = $this->singleRecordOtherClassificationNumber($this->driver) ?>
+            <? $rvk = $this->singleRecordOtherClassificationNumber($this->driver, true) ?>
             <? if (!empty($rvk)) : ?>
                 <tr>
                     <th><?=$this->transEsc('RVK-Notation');?>:</th>
-                    <td><?=$rvk?></td>
+                    <td>
+                        <script type="text/javascript">
+                            //<![[
+                            /* in order to keep an eye on performance, the popup javascript just will be used when required
+                            */
+                            $(function () {
+                                var baseUrl = "https://resolver.hebis.de/rvkffm/";
+
+                                $('.rvk-info .label').hover(function(e) {
+                                    var $popup = $(this);
+                                    $popup.off('hover');
+                                    var id = $popup.data('id');
+                                    var parts = id.split(' ');
+                                    var url = baseUrl + parts[0] + '/' + parts[1];
+                                    $.get(url, function (d) {
+                                        var str = eval(d+"RVK;");
+                                        $popup.popover({content: "<small>"+str.replaceAll("/", " / ")+"</small>", html:true}).popover('toggle');
+                                    });
+                                });
+                            });
+                            //]]>
+                        </script>
+                        <? foreach ($rvk as $r) : ?>
+                            <span class="rvk-info"><a class="rvk-link" href="<?= $this->basePath() ?>/Search/Results?lookfor=rvk_full%3A%22<?=$this->transEsc($r)?>%22&type=allfields"><?=$this->transEsc($r)?></a>&nbsp;<span style="padding-bottom: 1px; font-size: 80%; font-weight: lighter; cursor: pointer" data-toggle="popover" data-id="<?= $r ?>" data-container="body" data-placement="auto" class="label label-info">rvk</span></span>&nbsp;&nbsp;
+                        <? endforeach; ?>
+                    </td>
                 </tr>
             <? endif; ?>
 

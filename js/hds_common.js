@@ -2,8 +2,13 @@
  * Created by sebastian on 04.07.16.
  */
 
-$(document).ready(function() {
+userIsLoggedIn = false;
 
+$(document).ready(function() {
+    String.prototype.replaceAll = function(search, replacement) {
+        var target = this;
+        return target.split(search).join(replacement);
+    };
     /** language switch */
     $('.lang-switch').click(function(event){
         event.preventDefault();
