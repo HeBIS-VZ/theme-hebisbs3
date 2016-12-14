@@ -333,7 +333,18 @@ if($loggedin = $this->auth()->isLoggedIn()) {
             <? if (!empty($keywords)) : ?>
                 <tr>
                     <th><?=$this->transEsc('Subject Added Keywords');?></th>
-                    <td><?=$keywords?></td>
+                    <td>
+                        <div class="keywords">
+                            <form method="get" action="<?= $this->basePath()?>/Search/Results" id="searchForm" name="searchForm" class="search">
+                            <input type="hidden" name="bool" value="AND" />
+                        <?= str_replace("<br />", " ", $keywords); ?>
+                            <button type="submit" class="btn btn-default btn-xs">
+                                <span class="hds-icon-search"></span>
+                            </button>
+                            </form>
+                        </div>
+                    </td>
+
                 </tr>
             <? endif; ?>
 
@@ -362,25 +373,6 @@ if($loggedin = $this->auth()->isLoggedIn()) {
                     <th><?=$this->transEsc('Zielgruppe')?>: </th>
                     <td>
                         <?=$targetAudience?>
-                    </td>
-                </tr>
-            <? endif; ?>
-
-            <? $subjects = $this->driver->getAllSubjectHeadings(); if (!empty($subjects)): ?>
-                <tr>
-                    <th><?=$this->transEsc('Subjects')?>: </th>
-                    <td>
-                        <? foreach ($subjects as $field): ?>
-                            <div class="subjectLine" property="keywords">
-                                <? $subject = ''; ?>
-                                <? if(count($field) == 1) $field = explode('--', $field[0]); ?>
-                                <? $i = 0; foreach ($field as $subfield): ?>
-                                    <?=($i++ == 0) ? '' : ' &gt; '?>
-                                    <? $subject = trim($subject . ' ' . $subfield); ?>
-                                    <a class="backlink" title="<?=$this->escapeHtmlAttr($subject)?>" href="<?=$this->record($this->driver)->getLink('subject', $subject)?>"><?=trim($this->escapeHtml($subfield))?></a>
-                                <? endforeach; ?>
-                            </div>
-                        <? endforeach; ?>
                     </td>
                 </tr>
             <? endif; ?>
