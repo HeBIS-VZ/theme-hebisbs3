@@ -49,7 +49,7 @@ $advSearch = $options->getAdvancedSearchAction();
             <!-- </div> -->
             <div class="input-group input-group-lg" style="margin:1em 0;">
                 <div class="input-group-addon hidden-sm hidden-md hidden-lg">
-                    <img class="img" src="/vufind2/themes/ubffm/images/uni-logo-klein.svg" alt="Universität Frankfurt" />
+                    <a title="<?=$this->transEsc("Home"); ?>" href="<?=$this->config()->homeUrl()?>"><img class="img" src="<?=$this->basePath().$this->config()->themePath()?>/images/uni-logo-klein.svg" alt="<?= $this->config()->title()?>" /></a>
                 </div>
             <!-- <? if ($this->searchbox()->autocompleteEnabled($this->searchClassId)): ?> autocomplete searcher:<?= $this->escapeHtmlAttr($this->searchClassId) ?><? endif ?> -->
                 <input class="form-control search-query" id="searchForm_lookfor" type="text" name="lookfor" placeholder="<?= $this->translate('Search') ?>" value="<?= $this->escapeHtmlAttr($this->lookfor) ?>"/>
@@ -166,3 +166,4 @@ $advSearch = $options->getAdvancedSearchAction();
         $("#searchForm_lookfor").focus()
     </script>
 <? endif; ?>
+

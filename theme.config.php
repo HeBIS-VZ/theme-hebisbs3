@@ -17,4 +17,12 @@ return [
     ],
     */
     'favicon' => 'hds-favicon.ico',
+
+    'helpers' => [
+        'factories' => [
+            'config' => function($sm) {
+                return new Hebis\View\Helper\Hebisbs3\Options($sm);
+            }
+        ]
+    ]
 ];
