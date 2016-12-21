@@ -1,6 +1,6 @@
 <!-- <table class="table-condensed" style="width:100%"> -->
-    <tr class="<?= $this->driver->supportsAjaxStatus() ? 'ajaxItem ' : '' ?>">
-        <td class="text-center title-thumb">
+    <div class="row result-list-item <?= $this->driver->supportsAjaxStatus() ? 'ajaxItem ' : '' ?>">
+        <div class="hidden-xs col-md-2 text-center title-thumb">
             <input type="hidden" value="<?= $this->escapeHtmlAttr($this->driver->getUniqueID()) ?>" class="hiddenId"/>
             <input type="hidden" value="<?= $this->escapeHtmlAttr($this->driver->getResourceSource()) ?>"
                    class="hiddenSource"/>
@@ -14,8 +14,8 @@
                          src="<?= $this->url('cover-unavailable') ?>" alt="<?= $this->transEsc('No Cover Image') ?>"/>
                 <? endif; ?>
             </a>
-        </td>
-        <td class="title">
+        </div>
+        <div class="col-md-7 title">
             <div>
                 <a href="<?= $this->recordLink()->getUrl($this->driver) ?>" class="title">
                     <?
@@ -219,8 +219,8 @@
             <? endif;
             */ ?>
             <?= $this->record($this->driver)->getPreviews() ?>
-        </td>
-        <td class="col-sm-3 hidden-print">
+        </div>
+        <div class="col-sm-3 hidden-print">
             <? /* Display qrcode if appropriate: */ ?>
             <? if ($QRCode = $this->record($this->driver)->getQRCode("results")): ?>
                 <?
@@ -266,6 +266,6 @@
                 <? endforeach; ?>
             <? endif; ?>
 
-        </td>
-    </tr>
+        </div>
+    </div>
 <!-- </table> -->

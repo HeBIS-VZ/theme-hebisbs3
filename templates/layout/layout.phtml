@@ -107,58 +107,116 @@ if (!isset($this->layout()->searchbox)) {
     $this->layout()->searchbox = $this->render('search/searchbox.phtml');
 }
 ?>
-<header role="banner" class="hidden-print">
-
-    <div class="container header-main">
+<header role="banner" class="header hidden-print">
+    <div class="container nav-bar">
         <div class="row">
-            <?= $this->render('logo.phtml') ?>
-            <div class="col-sm-2">
-                <!-- language -->
+            <div class="col-sm-12 menu-bar">
+
+                <div class="collapse navbar-collapse" id="header-collapse">
+
+                    <ul role="navigation" class="nav navbar-nav navbar-right">
+
+                        <li class="logoutOptions hidden">
+                            <a href="/MyResearch/Home?redirect=0" class="modal-link" title="My swissbib"><i class="fa fa-user"></i>My swissbib:               </a>
+                        </li>
+                        <li class="logoutOptions hidden">
+                            <a href="/MyResearch/Logout" class="modal-link" title="Abmelden"><i class="fa fa-sign-out"></i>Abmelden</a>
+                        </li>
+                        <li id="loginOptions">
+                            <a href="https://www.swissbib.ch/MyResearch/UserLogin?target=https%3A%2F%2Fwww.swissbib.ch%2FMyResearch%2FHome%3Fauth_method%3DShibboleth"><i class="fa fa-sign-in"></i>Anmeldung über Ihre Einrichtung</a>
+                        </li>
+
+
+                        <li class="dropdown">
+                            <form method="post" name="langForm" action="" id="langForm">
+                                <input type="hidden" name="mylang">
+                            </form>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sprache <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li class="active">
+                                    <a href="#" onclick="document.langForm.mylang.value='de';document.langForm.submit()">
+                                        <span class="visible-xs">Deutsch</span>
+                                        <span class="hidden-xs">DE</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="document.langForm.mylang.value='fr';document.langForm.submit()">
+                                        <span class="visible-xs">Français</span>
+                                        <span class="hidden-xs">FR</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="document.langForm.mylang.value='it';document.langForm.submit()">
+                                        <span class="visible-xs">Italiano</span>
+                                        <span class="hidden-xs">IT</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="document.langForm.mylang.value='en';document.langForm.submit()">
+                                        <span class="visible-xs">English</span>
+                                        <span class="hidden-xs">EN</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
+
+            <div class="navbar-header col-sm-4 col-xs-10 col-md-2">
+                <?= $this->render('logo.phtml') ?>
+            </div>
+            <section class="searchbox col-sm-8 col-xs-12 col-md-10">
+                <?=$this->layout()->searchbox ?>
+            </section>
         </div>
 
-        <? if ((!isset($this->layout()->showBreadcrumbs) || $this->layout()->showBreadcrumbs == true)
-            && !empty($this->layout()->breadcrumbs)
-        ): ?>
-            <ul class="breadcrumb hidden-print hidden-xs hidden-xs">
-                <li>
-                    <a href="<?= $this->basePath() ?>"><span class="hds-icon-home"><!-- --></span></a>
-                </li>
-                <? if (is_array($this->layout()->breadcrumbs)): ?>
-                    <? if (count($this->layout()->breadcrumbs) > 1): ?>
-                        <?= $this->render('breadcrumbs/multi.phtml', array(
-                            'parents' => $this->layout()->breadcrumbs,
-                            'title' => $this->layout()->title,
-                            'end' => $this->layout()->breadcrumbEnd,
-                            'from' => $this->layout()->from
-                        )) ?>
-                    <? else: ?>
-                        <?= $this->render('breadcrumbs/default.phtml', array(
-                            'parents' => $this->layout()->breadcrumbs,
-                            'title' => $this->layout()->title
-                        )) ?>
-                    <? endif; ?>
-                <? else: ?>
-                    <?= $this->layout()->breadcrumbs ?>
-                <? endif; ?>
-            </ul>
-        <? endif; ?>
     </div>
+    <!--
     <div class="container navbar">
         <a class="sr-only" href="#content"><?= $this->transEsc('Skip to content') ?></a>
-        <?= $this->render('header.phtml') ?>
+        <? // echo $this->render('header.phtml') ?>
     </div>
+    -->
 </header>
 <div id="main-content" role="main" class="main template-dir-<?= $this->templateDir ?> template-name-<?= $this->templateName ?>">
 
     <div class="container">
 
         <div class="container-inner">
-            <? if ($this->layout()->searchbox !== false): ?>
+
+            <? if ((!isset($this->layout()->showBreadcrumbs) || $this->layout()->showBreadcrumbs == true)
+                && !empty($this->layout()->breadcrumbs)
+            ): ?>
+                <ul class="breadcrumb hidden-print hidden-xs hidden-xs">
+                    <li>
+                        <a href="<?= $this->basePath() ?>"><span class="hds-icon-home"><!-- --></span></a>
+                    </li>
+                    <? if (is_array($this->layout()->breadcrumbs)): ?>
+                        <? if (count($this->layout()->breadcrumbs) > 1): ?>
+                            <?= $this->render('breadcrumbs/multi.phtml', array(
+                                'parents' => $this->layout()->breadcrumbs,
+                                'title' => $this->layout()->title,
+                                'end' => $this->layout()->breadcrumbEnd,
+                                'from' => $this->layout()->from
+                            )) ?>
+                        <? else: ?>
+                            <?= $this->render('breadcrumbs/default.phtml', array(
+                                'parents' => $this->layout()->breadcrumbs,
+                                'title' => $this->layout()->title
+                            )) ?>
+                        <? endif; ?>
+                    <? else: ?>
+                        <?= $this->layout()->breadcrumbs ?>
+                    <? endif; ?>
+                </ul>
+            <? endif; ?>
+
+            <? /*if ($this->layout()->searchbox !== false): ?>
                 <section class="search-box">
                     <?=$this->layout()->searchbox ?>
                 </section>
-            <? endif; ?>
+            <? endif; */?>
 
 
             <section class="content">

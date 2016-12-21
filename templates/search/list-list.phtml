@@ -3,8 +3,8 @@
     || (isset($this->showBulkOptions) && $this->showBulkOptions); ?>
 <? $i = $this->indexStart; ?>
 
-<table class="table-condensed">
-    <tbody>
+<div class="result-list">
+
     <? foreach ($this->results->getResults() as $current): ?>
 
         <?= $this->record($current)->getSearchResult('list') ?>
@@ -27,5 +27,5 @@
         */ ?>
         -->
     <? endforeach; ?>
-    </tbody>
-</table>
+
+</div>

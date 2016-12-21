@@ -53,7 +53,7 @@
         <? endif; ?>
         <?=$this->flashmessages()?>
         <div class="hidden-print search-controls row">
-          <div class="col-sm-6">
+          <div class="hidden-xs col-sm-6">
             <? if ($recordTotal > 0): ?>
               <?=$this->transEsc("Showing")?>
               <strong><?=$this->localizedNumber($this->results->getStartRecord())?></strong> - <strong><?=$this->localizedNumber($this->results->getEndRecord())?></strong>
@@ -63,9 +63,10 @@
               <? if (isset($this->overrideSearchHeading)): ?>
                 <?=$this->overrideSearchHeading?>
               <? elseif ($this->params->getSearchType() == 'basic'): ?>
-                <?=$this->transEsc('for search')?>: <strong>'<?=$this->escapeHtml($lookfor)?>'</strong>,
+                <?=$this->transEsc('for search')?>: <strong>'<?=$this->escapeHtml($lookfor)?>'</strong>
               <? endif; ?>
               <? if ($qtime = $this->results->getQuerySpeed()): ?>
+                  <br />
                 <?=$this->transEsc('query time')?>: <?=$this->localizedNumber($qtime, 2).$this->transEsc('seconds_abbrev')?>
               <? endif; ?>
             <? else: ?>
@@ -74,10 +75,12 @@
           </div>
 
           <? if ($recordTotal > 0): ?>
-            <div class="col-sm-6 text-right">
+            <div class="col-xs-12 col-sm-6 text-right control-input">
+              <div style="display:inline-block;">
               <?=$this->render('search/controls/limit.phtml')?>
               <?=$this->render('search/controls/sort.phtml')?>
               <?=$this->render('search/controls/view.phtml')?>
+              </div>
             </div>
           <? endif; ?>
         </div>

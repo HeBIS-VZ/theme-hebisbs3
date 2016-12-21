@@ -44,9 +44,9 @@ a {}
       color: @colHighlight;
       background-color: @bgHighlight; }}}
 .navbar-collapse {
-  border-top: 1px solid @bgHighlight;
-  background-color: @bgDefault;
-  border-color: @bgHighlight;
+  //border-top: 1px solid @bgHighlight;
+  //background-color: @bgDefault;
+  //border-color: @bgHighlight;
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
   .navbar-brand {
     color: @colDefault;
@@ -102,6 +102,11 @@ a {}
   }
 }
 
+header {
+  background: @bgDefault;
+}
+
+
 @media (min-width: 768px) {
   .container.navbar {
     border: none;
@@ -117,6 +122,7 @@ a {}
   margin-bottom: 0;
   background-color: transparent;
   border: none;
+  /*
   color: @brand-primary;
   a {
     &:hover {
@@ -129,6 +135,7 @@ a {}
   .active {
     font-style: italic;
   }
+  */
 }
 
 .bs-callout {
@@ -182,16 +189,25 @@ a {}
 
   .uni-logo {
     margin: 5px 30px 5px 10px;
-    border-right: 1px solid #fff;
+    //border-right: 1px solid #fff;
     padding: 0 30px 0 10px;
   }
+  .link-adv-search {
+    line-height: 24px;
+    padding: 8px 0;
+    margin: 10px 0;
+    text-align: left;
+    color: #fff;
+    a {
+      color: #fff;
+    }
+  }
+}
 
-  .department {
-
-    margin-top: 40px;
-    margin-left: 15px !important;
-    margin-bottom: 0;
-    width: 500px;
+.link-adv-search {
+  color: #fff;
+  a {
+    color: #fff;
   }
 }
 
@@ -241,13 +257,33 @@ img.recordcover {
   padding-top: 15px;
 }
 
+#searchForm {
+  .input-group-addon {
+    background: transparent;
+    border: none;
+    padding: 2px;
+
+    img {
+      width: 36px;
+      height: 36px;
+      margin-right: 1em;
+    }
+  }
+}
+
 .search-controls {
-  line-height: 36px;
-  padding-left: 15px;
-  padding-top: 3px;
+
+  padding: 1em;
   margin-left: 0;
   font-size: 90%;
   margin-right: 0;
+
+  .control-input {
+    padding-top: 0;
+  }
+  .form-group {
+    margin-bottom: 0 !important;
+  }
 }
 
 .search-controls > .col-sm-6:first-child {
@@ -259,4 +295,82 @@ img.recordcover {
 
 .keywords nobr {
   padding: 0 0 0 10px;
+}
+
+.keywords nobr {
+  padding: 0 0 0 10px;
+}
+
+.record-details {
+  .row {
+    padding: 0.5em 0;
+    border-bottom: 1px solid @table-border-color;
+    margin-left: 0;
+    margin-right: 0;
+
+    &:nth-child(odd) {
+      background-color: @table-bg-accent;
+    }
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+  .bold {
+    font-weight: bold;
+    display: table-cell;
+    vertical-align: baseline;
+  }
+}
+
+.result-list {
+
+  padding: 0 1em;
+
+  .result-list-item {
+    background: @gray-lighter;
+    padding: 0.5em 0;
+    border-bottom: 1px solid lighten(@gray, 30%);
+    &:nth-child(odd) {
+      background-color: transparent;
+    }
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+.tab-description {
+  margin-top: 2em;
+  .tab-content {
+    border-left: 1px solid @nav-tabs-border-color;
+    border-right: 1px solid @nav-tabs-border-color;
+    border-bottom: 1px solid @nav-tabs-border-color;
+    padding: 1em;
+  }
+  .nav-tabs {
+    padding: 0;
+    li {
+      background: lighten(@nav-tabs-border-color, 10%);
+      border-bottom: 1px solid @nav-tabs-border-color;
+      a {
+        border-bottom: none;
+      }
+    }
+    li.active {
+      background: #fff;
+      border-bottom: none !important;
+      a {
+        border-bottom: none !important;
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+/** sticky navbar */
+.sticky {
+  position:fixed;
+  width: 100%;
+  top:0;
+  z-index: 999999;
 }

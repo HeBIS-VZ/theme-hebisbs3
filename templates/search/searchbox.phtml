@@ -34,69 +34,75 @@ $advSearch = $options->getAdvancedSearchAction();
     </div>
 <? else: ?>
     <form role="search" class="" method="get" action="<?= $this->url($basicSearch) ?>"
-          name="searchForm" id="searchForm" autocomplete="off">
+          name="searchForm" id="searchForm" autocomplete="off" style="">
 
-        <!-- <div class="search-field-container"> -->
+        <!-- <div class="search-field-container"> --
             <div class="row">
                 <div class="col-md-offset-2 col-md-8">
-                    <div class="input-group input-group-lg">
-                        <!-- <? if ($this->searchbox()->autocompleteEnabled($this->searchClassId)): ?> autocomplete searcher:<?= $this->escapeHtmlAttr($this->searchClassId) ?><? endif ?> -->
-                        <input
-                            class="form-control search-query"
-                            id="searchForm_lookfor"
-                            type="text"
-                            name="lookfor"
-                            placeholder="<?= $this->translate('Search')?>"
-                            value="<?= $this->escapeHtmlAttr($this->lookfor) ?>"/>
+                    -->
 
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
-                            <ul class="dropdown-menu dropdown-menu-right">
-                                <? foreach ($handlers as $handler): ?>
-                                    <li>
-                                        <a href="#" data-value="<?= $this->escapeHtmlAttr($handler['value']) ?>"><?= $handler['indent'] ? '-- ' : '' ?><?= $this->transEsc($handler['label']) ?></a>
-                                        <!--
-                                        value="<?= $this->escapeHtmlAttr($handler['value']) ?>"<?= $handler['selected'] ? ' selected="selected"' : '' ?>><?= $handler['indent'] ? '-- ' : '' ?><?= $this->transEsc($handler['label']) ?>
-                                        -->
-                                    </li>
-                                <? endforeach; ?>
+        <!-- </div>
+        </div> <!-- ./row -->
+        <div class="col-xs-12 col-sm-9 col-md-10">
+            <!-- <div class="col-sm-2 hidden-md"> -->
+
+            <!-- </div> -->
+            <div class="input-group input-group-lg" style="margin:1em 0;">
+                <div class="input-group-addon hidden-sm hidden-md hidden-lg">
+                    <img class="img" src="/vufind2/themes/ubffm/images/uni-logo-klein.svg" alt="Universität Frankfurt" />
+                </div>
+            <!-- <? if ($this->searchbox()->autocompleteEnabled($this->searchClassId)): ?> autocomplete searcher:<?= $this->escapeHtmlAttr($this->searchClassId) ?><? endif ?> -->
+                <input class="form-control search-query" id="searchForm_lookfor" type="text" name="lookfor" placeholder="<?= $this->translate('Search') ?>" value="<?= $this->escapeHtmlAttr($this->lookfor) ?>"/>
+
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <? foreach ($handlers as $handler): ?>
+                            <li>
+                                <a href="#"
+                                   data-value="<?= $this->escapeHtmlAttr($handler['value']) ?>"><?= $handler['indent'] ? '-- ' : '' ?><?= $this->transEsc($handler['label']) ?></a>
                                 <!--
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else here</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="#">Separated link</a></li>
+                                value="<?= $this->escapeHtmlAttr($handler['value']) ?>"<?= $handler['selected'] ? ' selected="selected"' : '' ?>><?= $handler['indent'] ? '-- ' : '' ?><?= $this->transEsc($handler['label']) ?>
                                 -->
-                            </ul>
-                            <button type="submit" class="btn btn-primary"><span class="hds-icon-search"></span> <span class="hide"><?= $this->transEsc("Find") ?></span></button>
-                        </span>
-                    </div>
-                </div>
-            </div> <!-- ./row -->
-            <div class="row">
-                <div class="col-md-offset-2 col-md-8">
+                            </li>
+                        <? endforeach; ?>
+                                    <!--
+                                    <li><a href="#">Action</a></li>
+                                    <li><a href="#">Another action</a></li>
+                                    <li><a href="#">Something else here</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="#">Separated link</a></li>
+                                    -->
+                    </ul>
+                    <button type="submit" class="btn btn-primary">
+                        <span class="hds-icon-search"></span>
+                        <span class="sr-only"><?= $this->transEsc("Find") ?></span>
+                    </button>
+                </span>
+        </div>
+            <input type="hidden" name="type" value="AllFields"/>
+        </div>
+        <div class="col-xs-12 col-sm-3 col-md-2 link-adv-search">
+        <? if ($advSearch): ?>
+            <a href="<?= $this->url($advSearch) ?>" class="btn btn-link"><span class="hds-icon-zoom-in"></span><?= $this->transEsc("Advanced") ?></a>
+        <? endif; ?>
+        </div>
+        <? /*
+        <? if ($handlerCount > 1): ?>
+            <!--
+            <select class="form-control" id="searchForm_type" name="type" data-native-menu="false">
+                <? foreach ($handlers as $handler): ?>
+                    <option
+                        value="<?= $this->escapeHtmlAttr($handler['value']) ?>"<?= $handler['selected'] ? ' selected="selected"' : '' ?>><?= $handler['indent'] ? '-- ' : '' ?><?= $this->transEsc($handler['label']) ?></option>
+                <? endforeach; ?>
+            </select>
+            -->
+        <? elseif ($handlerCount == 1): ?>
+            <input type="hidden" name="type" value="<?= $this->escapeHtmlAttr($handlers[0]['value']) ?>"/>
+        <? endif; */ ?>
 
-                    <input type="hidden" name="type" value="AllFields" />
-                        <? /*
-                        <? if ($handlerCount > 1): ?>
-                            <!--
-                            <select class="form-control" id="searchForm_type" name="type" data-native-menu="false">
-                                <? foreach ($handlers as $handler): ?>
-                                    <option
-                                        value="<?= $this->escapeHtmlAttr($handler['value']) ?>"<?= $handler['selected'] ? ' selected="selected"' : '' ?>><?= $handler['indent'] ? '-- ' : '' ?><?= $this->transEsc($handler['label']) ?></option>
-                                <? endforeach; ?>
-                            </select>
-                            -->
-                        <? elseif ($handlerCount == 1): ?>
-                            <input type="hidden" name="type" value="<?= $this->escapeHtmlAttr($handlers[0]['value']) ?>"/>
-                        <? endif; */?>
-
-                    <? if ($advSearch): ?>
-                        <a href="<?= $this->url($advSearch) ?>" class="btn btn-link"><?= $this->transEsc("Advanced") ?></a>
-                    <? endif; ?>
-                </div>
-            </div> <!-- ./row -->
-            
 
         <? $shards = $options->getShards();
         if ($options->showShardCheckboxes() && !empty($shards)): ?>

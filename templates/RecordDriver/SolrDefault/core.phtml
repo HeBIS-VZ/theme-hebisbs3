@@ -1,5 +1,5 @@
 <?
-if($loggedin = $this->auth()->isLoggedIn()) {
+if ($loggedin = $this->auth()->isLoggedIn()) {
     $user_id = $loggedin->id;
     $loggedin = true;
 } else {
@@ -7,471 +7,583 @@ if($loggedin = $this->auth()->isLoggedIn()) {
 }
 ?>
 
-<? $format = $this->physicalDescriptionFormat($this->driver);//$this->driver->getFormats(); if (!empty($formats)): ?>
-
 <div class="row">
-    <div class="col-sm-12">
-        <h3 property="name">
-            <? //$this->escapeHtml($this->driver->getShortTitle() . ' ' . $this->driver->getSubtitle() . ' ' . $this->driver->getTitleSection())?>
-            <span class="hds-icon-<?=$format?>"></span>
-            <?= $this->escapeHtml($this->singleRecordTitleStatementHeadline($this->driver)) ?>
-        </h3>
-    </div>
-</div>
 
-<div class="row" vocab="http://schema.org/" resource="#record" typeof="<?=$this->driver->getSchemaOrgFormats()?> Product">
+    <div class="col-md-9<?// $this->layoutClass('mainbody') ?>">
 
-    <div class="col-sm-9">
+        <? $format = $this->physicalDescriptionFormat($this->driver);//$this->driver->getFormats(); if (!empty($formats)): ?>
+        <div vocab="http://schema.org/" resource="#record" typeof="<?= $this->driver->getSchemaOrgFormats() ?> Product">
 
+            <div class="row">
+                <div class="col-sm-3 hidden-xs">
+                    <h3>&nbsp;</h3>
+                    <div class="text-center">
+                        <? /* Display thumbnail if appropriate: */ ?>
+                        <? $mediumThumb = $this->record($this->driver)->getThumbnail('medium');
+                        $largeThumb = $this->record($this->driver)->getThumbnail('large'); ?>
+                        <? if ($mediumThumb): ?>
+                            <? if ($largeThumb): ?><a href="<?= $this->escapeHtmlAttr($largeThumb) ?>"><? endif; ?>
+                            <img alt="<?= $this->transEsc('Cover Image') ?>" class="img-thumbnail img-responsive"
+                                 src="<?= $this->escapeHtmlAttr($mediumThumb); ?>"/>
+                            <? if ($largeThumb): ?></a><? endif; ?>
+                        <? else: ?>
+                            <img src="<?= $this->url('cover-unavailable') ?>" class="img-responsive"
+                                 alt="<?= $this->transEsc('No Cover Image') ?>"/>
+                        <? endif; ?>
+                    </div>
+                </div>
+                <div class="col-sm-9">
+                    <h3 property="name">
+                        <? //$this->escapeHtml($this->driver->getShortTitle() . ' ' . $this->driver->getSubtitle() . ' ' . $this->driver->getTitleSection())?>
+                        <span class="hds-icon-<?= $format ?>"></span>
+                        <?= $this->escapeHtml($this->singleRecordTitleStatementHeadline($this->driver)) ?>
+                    </h3>
 
-        <? $summary = $this->driver->getSummary(); $summary = isset($summary[0]) ? $this->escapeHtml($summary[0]) : false; ?>
-        <? if ($summary): ?>
-            <p><?=$this->truncate($summary, 300)?></p>
+                    <? $summary = $this->driver->getSummary();
+                    $summary = isset($summary[0]) ? $this->escapeHtml($summary[0]) : false; ?>
+                    <? if ($summary): ?>
+                        <p><?= $this->truncate($summary, 300) ?></p>
 
-            <? if(strlen($summary) > 300): ?>
-                <p><a href='<?=$this->recordLink()->getTabUrl($this->driver, 'Description')?>#tabnav'><?=$this->transEsc('Full description')?></a></p>
-            <? endif; ?>
-        <? endif; ?>
+                        <? if (strlen($summary) > 300): ?>
+                            <p>
+                                <a href='<?= $this->recordLink()->getTabUrl($this->driver, 'Description') ?>#tabnav'><?= $this->transEsc('Full description') ?></a>
+                            </p>
+                        <? endif; ?>
+                    <? endif; ?>
 
-        <? if ($this->userlist()->getMode() !== 'disabled'): ?>
-            <? /* Display the lists that this record is saved to */ ?>
-            <div class="savedLists hidden alert alert-info" id="savedLists">
-                <strong><?=$this->transEsc("Saved in")?>:</strong>
-            </div>
-        <? endif; ?>
-
-        <?/* Display Main Details */?>
-        <table class="table table-striped" summary="<?=$this->transEsc('Bibliographic Details')?>">
-
-            <!-- Titel -->
-            <? $title = $this->singleRecordTitleStatement($this->driver); ?>
-            <tr>
-                <th><?= $this->transEsc('Titel') ?>:</th>
-                <td>
-                    <?= $title ?>
-                </td>
-            </tr>
-            <!-- Unterreihe -->
-            <?$sectionOfWork = $this->singleRecordSectionOfAWork($this->driver); ?>
-            <? if ($sectionOfWork) : ?>
-                <tr>
-                    <th><?= $this->transEsc('Section of a work'); ?>:</th>
-                    <td><?= $sectionOfWork ?></td>
-                </tr>
-            <? endif; ?>
-
-            <!-- Teil -->
-            <?$partOfWork = $this->singleRecordPartOfAWork($this->driver); ?>
-            <? if ($partOfWork) : ?>
-                <tr>
-                    <th><?= $this->transEsc('Part of a work'); ?>:</th>
-                    <td><?= $partOfWork ?></td>
-                </tr>
-            <? endif; ?>
-
-            <!-- Verantwortlich -->
-            <? $authors = $this->singleRecordPersonalName($this->driver, false); ?>
-            <? if (!empty($authors)) : ?>
-                <tr>
-                    <th><?=$this->transEsc('Author/editor-in-chief')?>: </th>
-                    <td property="author">
-                        <?= $authors ?>
-                    </td>
-                </tr>
-            <? endif; ?>
-
-            <!-- Körperschaft -->
-            <? $corporate = $this->singleRecordCorporateName($this->driver); ?>
-            <? if (!empty($corporate)) : ?>
-                <tr>
-                    <th><?=$this->transEsc('Corporate')?>: </th>
-                    <td property="author"><?= $corporate ?></td>
-                </tr>
-            <? endif; ?>
-
-
-            <? $hostItem = $this->singleRecordHostItemEntry($this->driver); ?>
-            <? if (!empty($hostItem)) : ?>
-                <tr>
-                    <th><?=$this->transEsc('Published in')?>: </th>
-                    <td>
-                        <?= $this->singleRecordHostItemEntry($this->driver); ?>
-                    </td>
-                </tr>
-            <? endif; ?>
-
-            <? $datesOfPublication = $this->singleRecordDatesOfPublicationSequentialDesignation($this->driver); ?>
-            <? if (!empty($datesOfPublication)) : ?>
-                <tr>
-                    <th><?= $this->transEsc('Erscheinungsverlauf'); ?>: </th>
-                    <td><?= $datesOfPublication ?></td>
-                </tr>
-            <? endif; ?>
-
-
-            <!-- Published in
-            <? //$marcJournal = $this->singleRecordMarcJournal($this->driver); ?>
-            <? if ($marcJournal) : ?>
-                <tr>
-                    <th><?= $this->transEsc('Marc Journal') ?>:</th>
-                    <td><?= $marcJournal ?></td>
-                </tr>
-            <? endif; ?>
-            -->
-
-            <!-- Manufacture / Entstehung-->
-            <? $manufacture = $this->singleRecordManufacture($this->driver); ?>
-            <? if (!empty($manufacture)) : ?>
-                <tr>
-                    <th><?= $this->transEsc('Entstehung'); ?></th>
-                    <td><?= $manufacture ?></td>
-                </tr>
-            <? endif; ?>
-
-            <!-- Publication / Veröffentlicht -->
-            <? $publicationDistribution = $this->singleRecordPublication($this->driver); ?>
-            <? if (!empty($publicationDistribution)) : ?>
-                <tr>
-                    <th><?=$this->transEsc('Publication Distribution')?>:</th>
-                    <td><?=$publicationDistribution?></td>
-                </tr>
-            <? endif; ?>
-
-            <!-- Production / Herstellung -->
-            <? $production = $this->singleRecordProduction($this->driver); ?>
-            <? if (!empty($production)) : ?>
-                <tr>
-                    <th><?=$this->transEsc('Production')?>:</th>
-                    <td><?=$production?></td>
-                </tr>
-            <? endif; ?>
-
-            <!-- Distribution / Vertrieb -->
-            <? $distribution = $this->singleRecordDistribution($this->driver); ?>
-            <? if (!empty($distribution)) : ?>
-                <tr>
-                    <th><?=$this->transEsc('Distribution')?>:</th>
-                    <td><?=$distribution?></td>
-                </tr>
-            <? endif; ?>
-
-
-            <!-- Einheitssachtitel -->
-            <? $uniformTitle = $this->singleRecordUniformTitle($this->driver); ?>
-            <? if (!empty($uniformTitle)) : ?>
-                <tr>
-                    <th><?=$this->transEsc('Uniform title')?>:</th>
-                    <td><?=$uniformTitle?></td>
-                </tr>
-            <? endif; ?>
-
-            <!-- auch als -->
-            <? $additionalPhysical = $this->singleRecordAdditionalPhysicalFromAvailableNote($this->driver); ?>
-            <? if (!empty($additionalPhysical)) : ?>
-                <tr>
-                    <th><?=$this->transEsc('Auch als')?></th>
-                    <td><?=$additionalPhysical?></td>
-                </tr>
-            <? endif; ?>
-
-            <!-- auch als -->
-            <? $reproduction = $this->singleRecordReproductionNote($this->driver); ?>
-            <? if (!empty($reproduction)) : ?>
-                <tr>
-                    <th><?=$this->transEsc('Available edition')?></th>
-                    <td><?=$reproduction?></td>
-                </tr>
-            <? endif; ?>
-
-            <!-- Hochschulschrift -->
-            <? $dissertationNote = $this->singleRecordDissertationNote($this->driver) ?>
-            <? if (!empty($dissertationNote)) : ?>
-                <tr>
-                    <th><?=$this->transEsc('Hochschulschrift')?>:</th>
-                    <td><?= $dissertationNote ?></td>
-                </tr>
-            <? endif; ?>
-
-            <? $nextTitles = $this->driver->getNewerTitles(); $prevTitles = $this->driver->getPreviousTitles(); ?>
-            <? if (!empty($nextTitles)): ?>
-                <tr>
-                    <th><?=$this->transEsc('New Title')?>: </th>
-                    <td>
-                        <? foreach($nextTitles as $field): ?>
-                            <a href="<?=$this->record($this->driver)->getLink('title', $field)?>"><?=$this->escapeHtml($field)?></a><br/>
-                        <? endforeach; ?>
-                    </td>
-                </tr>
-            <? endif; ?>
-
-            <? if (!empty($prevTitles)): ?>
-                <tr>
-                    <th><?=$this->transEsc('Previous Title')?>: </th>
-                    <td>
-                        <? foreach($prevTitles as $field): ?>
-                            <a href="<?=$this->record($this->driver)->getLink('title', $field)?>"><?=$this->escapeHtml($field)?></a><br/>
-                        <? endforeach; ?>
-                    </td>
-                </tr>
-            <? endif; ?>
-
-            <!-- Other Edition Entry-->
-            <? $otherEditionEntry = $this->singleRecordOtherEditionEntry($this->driver); ?>
-            <? if (!empty($otherEditionEntry)) : ?>
-                <tr>
-                    <th><?=$this->transEsc('Other Edition Entry')?>:</th>
-                    <td><?=$otherEditionEntry?></td>
-                </tr>
-            <? endif; ?>
-
-            <!-- Ausgabe -->
-            <? $edition = $this->driver->getEdition(); if (!empty($edition)): ?>
-                <tr>
-                    <th><?=$this->transEsc('Edition')?>: </th>
-                    <td property="bookEdition"><?=$this->escapeHtml($edition)?></td>
-                </tr>
-            <? endif; ?>
-
-            <!-- Title Contains -->
-            <? $titleContains = $this->singleRecordTitleContains($this->driver); ?>
-            <? if (!empty($titleContains)) : ?>
-                <tr>
-                    <th><?=$this->transEsc('Darin enthalten');?>:</th>
-                    <td><?=$titleContains?></td>
-                </tr>
-            <? endif; ?>
-
-            <!-- ISBN -->
-            <? $isbn = $this->singleRecordInternationalStandardBookNumber($this->driver); ?>
-            <? if (!empty($isbn)) : ?>
-                <tr>
-                    <th><?=$this->transEsc('ISBN')?>:</th>
-                    <td><?=$isbn?></td>
-                </tr>
-            <? endif; ?>
-
-            <!-- ISSN -->
-            <? $issn = $this->singleRecordInternationalStandardSerialNumber($this->driver); ?>
-            <? if (!empty($issn)) : ?>
-                <tr>
-                    <th><?=$this->transEsc('ISSN')?>:</th>
-                    <td><?=$issn?></td>
-                </tr>
-            <? endif; ?>
-
-            <!-- ISMN -->
-            <? $ismn = $this->singleRecordInternationalStandardMusicNumber($this->driver); ?>
-            <? if (!empty($ismn)) : ?>
-                <tr>
-                    <th><?=$this->transEsc('ISMN')?>:</th>
-                    <td><?=$ismn?></td>
-                </tr>
-            <? endif; ?>
-
-            <!-- Physical Description / Umfang -->
-            <? $physicalDescription = $this->singleRecordPhysicalDescription($this->driver); ?>
-            <? if (!empty($physicalDescription)) : ?>
-                <tr>
-                    <th><?=$this->transEsc('Physical description scale')?>:</th>
-                    <td><?=$physicalDescription?></td>
-                </tr>
-            <? endif; ?>
-
-            <? if (!empty($format)) : ?>
-                <tr>
-                    <th><?=$this->transEsc('Format')?>: </th>
-                    <td><span class="label label-info hds-icon-<?=$format?>">
-                            <?= $this->transEsc($format); ?>
-                        </span></td>
-                </tr>
-            <? endif; ?>
-
-            <? $langs = $this->driver->getLanguages(); if (!empty($langs)): ?>
-                <tr>
-                    <th><?=$this->transEsc('Language')?>: </th>
-                    <td><? foreach ($langs as $lang): ?><?= $this->transEsc($lang)?><br/><? endforeach; ?></td>
-                </tr>
-            <? endif; ?>
-
-            <!-- RVK -->
-            <? $rvk = $this->singleRecordOtherClassificationNumber($this->driver, true) ?>
-            <? if (!empty($rvk)) : ?>
-                <tr>
-                    <th><?=$this->transEsc('RVK-Notation');?>:</th>
-                    <td>
-                        <script type="text/javascript">
-                            //<![[
-                            /* in order to keep an eye on performance, the popup javascript just will be used when required
-                            */
-                            $(function () {
-                                var baseUrl = "https://resolver.hebis.de/rvkffm/";
-
-                                $('.rvk-info .label').hover(function(e) {
-                                    var $popup = $(this);
-                                    $popup.off('hover');
-                                    var id = $popup.data('id');
-                                    var parts = id.split(' ');
-                                    var url = baseUrl + parts[0] + '/' + parts[1];
-                                    $.get(url, function (d) {
-                                        var str = eval(d+"RVK;");
-                                        $popup.popover({content: "<small>"+str.replaceAll("/", " / ")+"</small>", html:true}).popover('toggle');
-                                    });
-                                });
-                            });
-                            //]]>
-                        </script>
-                        <? foreach ($rvk as $r) : ?>
-                            <span class="rvk-info"><a class="rvk-link" href="<?= $this->basePath() ?>/Search/Results?lookfor=rvk_full%3A%22<?=$this->transEsc($r)?>%22&type=allfields"><?=$this->transEsc($r)?></a>&nbsp;<span style="padding-bottom: 1px; font-size: 80%; font-weight: lighter; cursor: pointer" data-toggle="popover" data-id="<?= $r ?>" data-container="body" data-placement="auto" class="label label-info">rvk</span></span>&nbsp;&nbsp;
-                        <? endforeach; ?>
-                    </td>
-                </tr>
-            <? endif; ?>
-
-
-            <!-- Schlagworte -->
-            <? $keywords = $this->singleRecordSubjectAccessFieldsGeneralInformation($this->driver) ?>
-            <? if (!empty($keywords)) : ?>
-                <tr>
-                    <th><?=$this->transEsc('Subject Added Keywords');?></th>
-                    <td>
-                        <div class="keywords">
-                            <form method="get" action="<?= $this->basePath()?>/Search/Results" id="searchForm" name="searchForm" class="search">
-                            <input type="hidden" name="bool" value="AND" />
-                        <?= str_replace("<br />", " ", $keywords); ?>
-                            <button type="submit" class="btn btn-default btn-xs">
-                                <span class="hds-icon-search"></span>
-                            </button>
-                            </form>
+                    <? if ($this->userlist()->getMode() !== 'disabled'): ?>
+                        <? /* Display the lists that this record is saved to */ ?>
+                        <div class="savedLists hidden alert alert-info" id="savedLists">
+                            <strong><?= $this->transEsc("Saved in") ?>:</strong>
                         </div>
-                    </td>
+                    <? endif; ?>
 
-                </tr>
-            <? endif; ?>
+                    <? /* Display Main Details */ ?>
+                    <div class="record-details">
 
-            <!-- Preceding Entry / Succeeding Entry -->
-            <? $precedingSucceeding = $this->singleRecordPrecedingSucceedingEntry($this->driver); ?>
-            <? if (!empty($precedingSucceeding)) : ?>
-                <tr>
-                    <th><?=$this->transEsc('Frühere/spätere Titel')?>: </th>
-                    <td><?= $precedingSucceeding ?></td>
-                </tr>
-            <? endif; ?>
+                        <!-- Titel -->
+                        <? $title = $this->singleRecordTitleStatement($this->driver); ?>
+                        <div class="row">
+                            <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Titel') ?>:</div>
+                            <div class="col-sm-12 col-md-9 col-lg-10"><?= $title ?></div>
+                        </div>
 
-            <?/* Display series section if at least one series exists. */?>
-            <? $series = $this->singleRecordSeriesStatementAddedEntry($this->driver); ?>
-            <? if (!empty($series)) : ?>
-                <tr>
-                    <th><?=$this->transEsc('Series')?>: </th>
-                    <td><?=$series?></td>
-                </tr>
-            <? endif; ?>
-
-            <!-- Zielgruppe -->
-            <? $targetAudience = $this->singleRecordTargetAudienceNote($this->driver); ?>
-            <? if (!empty($targetAudience)) : ?>
-                <tr>
-                    <th><?=$this->transEsc('Zielgruppe')?>: </th>
-                    <td>
-                        <?=$targetAudience?>
-                    </td>
-                </tr>
-            <? endif; ?>
-
-            <? $childRecordCount = $this->driver->tryMethod('getChildRecordCount'); if ($childRecordCount): ?>
-                <tr>
-                    <th><?=$this->transEsc('child_records')?>: </th>
-                    <td>
-                        <a href="<?=$this->recordLink()->getChildRecordSearchUrl($this->driver)?>"><?=$this->transEsc('child_record_count', array('%%count%%' => $childRecordCount))?></a>
-                    </td>
-                </tr>
-            <? endif; ?>
-
-
-            <?
-            //$openUrl = $this->driver->openURLActive('record') ? $this->driver->getOpenURL() : false;
-            // Account for replace_other_urls setting
-            $urls = $this->record($this->driver)->getLinkDetails();
-            ?>
-            <? if (!empty($urls)): ?>
-                <tr>
-                    <th><?=$this->transEsc('Online Access')?>: </th>
-                    <td>
-                        <? foreach ($urls as $current): ?>
-                            <a href="<?=$this->escapeHtmlAttr($this->proxyUrl($current['url']))?>"><?=$this->escapeHtml($current['desc'])?></a><br/>
-                        <? endforeach; ?>
-                    </td>
-                </tr>
-            <? endif; ?>
-
-            <? $recordLinks = $this->driver->getAllRecordLinks(); ?>
-            <? if(!empty($recordLinks)): ?>
-                <tr>
-                    <th><?=$this->transEsc('Related Items')?>:</th>
-                    <td>
-                        <? foreach ($recordLinks as $recordLink): ?>
-                            <?=$this->transEsc($recordLink['title'])?>:
-                            <a href="<?=$this->recordLink()->related($recordLink['link'])?>"><?=$this->escapeHtml($recordLink['value'])?></a><br />
-                        <? endforeach; ?>
-                        <? /* if we have record links, display relevant explanatory notes */
-                        $related = $this->driver->getRelationshipNotes();
-                        if (!empty($related)): ?>
-                            <? foreach ($related as $field): ?>
-                                <?=$this->escapeHtml($field)?><br/>
-                            <? endforeach; ?>
+                        <!-- Unterreihe -->
+                        <? $sectionOfWork = $this->singleRecordSectionOfAWork($this->driver); ?>
+                        <? if ($sectionOfWork) : ?>
+                            <div class="row">
+                                <div
+                                    class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Section of a work'); ?>
+                                    :
+                                </div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $sectionOfWork ?></div>
+                            </div>
                         <? endif; ?>
 
-                        <?= $this->bibTip($this->driver); ?>
-                    </td>
-                </tr>
+                        <!-- Teil -->
+                        <? $partOfWork = $this->singleRecordPartOfAWork($this->driver); ?>
+                        <? if ($partOfWork) : ?>
+                            <div class="row">
+                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Part of a work'); ?>
+                                    :
+                                </div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $partOfWork ?></div>
+                            </div>
+                        <? endif; ?>
+
+                        <!-- Verantwortlich -->
+                        <? $authors = $this->singleRecordPersonalName($this->driver, false); ?>
+                        <? if (!empty($authors)) : ?>
+                            <div class="row">
+                                <div
+                                    class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Author/editor-in-chief') ?>:
+                                </div>
+                                <div class="col-sm-12 col-md-9 col-lg-10" property="author">
+                                    <?= $authors ?>
+                                </div>
+                            </div>
+                        <? endif; ?>
+
+                        <!-- Körperschaft -->
+                        <? $corporate = $this->singleRecordCorporateName($this->driver); ?>
+                        <? if (!empty($corporate)) : ?>
+                            <div class="row">
+                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Corporate') ?>:</div>
+                                <div class="col-sm-12 col-md-9 col-lg-10" property="author"><?= $corporate ?></div>
+                            </div>
+                        <? endif; ?>
+
+
+                        <? $hostItem = $this->singleRecordHostItemEntry($this->driver); ?>
+                        <? if (!empty($hostItem)) : ?>
+                            <div class="row">
+                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Published in') ?>:
+                                </div>
+                                <div class="col-sm-12 col-md-9 col-lg-10">
+                                    <?= $this->singleRecordHostItemEntry($this->driver); ?>
+                                </div>
+                            </div>
+                        <? endif; ?>
+
+                        <? $datesOfPublication = $this->singleRecordDatesOfPublicationSequentialDesignation($this->driver); ?>
+                        <? if (!empty($datesOfPublication)) : ?>
+                            <div class="row">
+                                <div
+                                    class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Erscheinungsverlauf'); ?>
+                                    :
+                                </div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $datesOfPublication ?></div>
+                            </div>
+                        <? endif; ?>
+
+
+                        <!-- Published in
+                    <? //$marcJournal = $this->singleRecordMarcJournal($this->driver); ?>
+                    <? if ($marcJournal) : ?>
+                        <div class="row">
+                            <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Marc Journal') ?>:</div>
+                            <div class="col-sm-12 col-md-9 col-lg-10"><?= $marcJournal ?></div>
+                        </div>
+                    <? endif; ?>
+                    -->
+
+                        <!-- Manufacture / Entstehung-->
+                        <? $manufacture = $this->singleRecordManufacture($this->driver); ?>
+                        <? if (!empty($manufacture)) : ?>
+                            <div class="row">
+                                <div
+                                    class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Entstehung'); ?></div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $manufacture ?></div>
+                            </div>
+                        <? endif; ?>
+
+
+                        <!-- Publication / Veröffentlicht -->
+                        <? $publicationDistribution = $this->singleRecordPublication($this->driver); ?>
+                        <? if (!empty($publicationDistribution)) : ?>
+                            <div class="row">
+                                <div
+                                    class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Publication Distribution') ?>
+                                    :
+                                </div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $publicationDistribution ?></div>
+                            </div>
+                        <? endif; ?>
+
+                        <!-- Production / Herstellung -->
+                        <? $production = $this->singleRecordProduction($this->driver); ?>
+                        <? if (!empty($production)) : ?>
+                            <div class="row">
+                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Production') ?>:
+                                </div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $production ?></div>
+                            </div>
+                        <? endif; ?>
+
+                        <!-- Distribution / Vertrieb -->
+                        <? $distribution = $this->singleRecordDistribution($this->driver); ?>
+                        <? if (!empty($distribution)) : ?>
+                            <div class="row">
+                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Distribution') ?>:
+                                </div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $distribution ?></div>
+                            </div>
+                        <? endif; ?>
+
+                        <!-- Einheitssachtitel -->
+                        <? $uniformTitle = $this->singleRecordUniformTitle($this->driver); ?>
+                        <? if (!empty($uniformTitle)) : ?>
+                            <div class="row">
+                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Uniform title') ?>:
+                                </div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $uniformTitle ?></div>
+                            </div>
+                        <? endif; ?>
+
+                        <!-- auch als -->
+                        <? $additionalPhysical = $this->singleRecordAdditionalPhysicalFromAvailableNote($this->driver); ?>
+                        <? if (!empty($additionalPhysical)) : ?>
+                            <div class="row">
+                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Auch als') ?></div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $additionalPhysical ?></div>
+                            </div>
+                        <? endif; ?>
+
+                        <!-- auch als -->
+                        <? $reproduction = $this->singleRecordReproductionNote($this->driver); ?>
+                        <? if (!empty($reproduction)) : ?>
+                            <div class="row">
+                                <div
+                                    class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Available edition') ?></div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $reproduction ?></div>
+                            </div>
+                        <? endif; ?>
+
+                        <!-- Hochschulschrift -->
+                        <? $dissertationNote = $this->singleRecordDissertationNote($this->driver) ?>
+                        <? if (!empty($dissertationNote)) : ?>
+                            <div class="row">
+                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Hochschulschrift') ?>
+                                    :
+                                </div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $dissertationNote ?></div>
+                            </div>
+                        <? endif; ?>
+
+                        <? $nextTitles = $this->driver->getNewerTitles();
+                        $prevTitles = $this->driver->getPreviousTitles(); ?>
+                        <? if (!empty($nextTitles)): ?>
+                            <div class="row">
+                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('New Title') ?>:</div>
+                                <div class="col-sm-12 col-md-9 col-lg-10">
+                                    <? foreach ($nextTitles as $field): ?>
+                                        <a href="<?= $this->record($this->driver)->getLink('title', $field) ?>"><?= $this->escapeHtml($field) ?></a>
+                                        <br/>
+                                    <? endforeach; ?>
+                                </div>
+                            </div>
+                        <? endif; ?>
+
+                        <? if (!empty($prevTitles)): ?>
+                            <div class="row">
+                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Previous Title') ?>
+                                    :
+                                </div>
+                                <div class="col-sm-12 col-md-9 col-lg-10">
+                                    <? foreach ($prevTitles as $field): ?>
+                                        <a href="<?= $this->record($this->driver)->getLink('title', $field) ?>"><?= $this->escapeHtml($field) ?></a>
+                                        <br/>
+                                    <? endforeach; ?>
+                                </div>
+                            </div>
+                        <? endif; ?>
+
+                        <!-- Other Edition Entry-->
+                        <? $otherEditionEntry = $this->singleRecordOtherEditionEntry($this->driver); ?>
+                        <? if (!empty($otherEditionEntry)) : ?>
+                            <div class="row">
+                                <div
+                                    class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Other Edition Entry') ?>
+                                    :
+                                </div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $otherEditionEntry ?></div>
+                            </div>
+                        <? endif; ?>
+
+                        <!-- Ausgabe -->
+                        <? $edition = $this->driver->getEdition();
+                        if (!empty($edition)): ?>
+                            <div class="row">
+                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Edition') ?>:</div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"
+                                     property="bookEdition"><?= $this->escapeHtml($edition) ?></div>
+                            </div>
+                        <? endif; ?>
+
+                        <!-- Title Contains -->
+                        <? $titleContains = $this->singleRecordTitleContains($this->driver); ?>
+                        <? if (!empty($titleContains)) : ?>
+                            <div class="row">
+                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Darin enthalten'); ?>
+                                    :
+                                </div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $titleContains ?></div>
+                            </div>
+                        <? endif; ?>
+
+                        <!-- ISBN -->
+                        <? $isbn = $this->singleRecordInternationalStandardBookNumber($this->driver); ?>
+                        <? if (!empty($isbn)) : ?>
+                            <div class="row">
+                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('ISBN') ?>:</div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $isbn ?></div>
+                            </div>
+                        <? endif; ?>
+
+                        <!-- ISSN -->
+                        <? $issn = $this->singleRecordInternationalStandardSerialNumber($this->driver); ?>
+                        <? if (!empty($issn)) : ?>
+                            <div class="row">
+                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('ISSN') ?>:</div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $issn ?></div>
+                            </div>
+                        <? endif; ?>
+
+                        <!-- ISMN -->
+                        <? $ismn = $this->singleRecordInternationalStandardMusicNumber($this->driver); ?>
+                        <? if (!empty($ismn)) : ?>
+                            <div class="row">
+                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('ISMN') ?>:</div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $ismn ?></div>
+                            </div>
+                        <? endif; ?>
+
+                        <!-- Physical Description / Umfang -->
+                        <? $physicalDescription = $this->singleRecordPhysicalDescription($this->driver); ?>
+                        <? if (!empty($physicalDescription)) : ?>
+                            <div class="row">
+                                <div
+                                    class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Physical description scale') ?>
+                                    :
+                                </div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $physicalDescription ?></div>
+                            </div>
+                        <? endif; ?>
+
+                        <? if (!empty($format)) : ?>
+                            <div class="row">
+                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Format') ?>:</div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><span
+                                        class="label label-info hds-icon-<?= $format ?>">
+                                    <?= $this->transEsc($format); ?>
+                                </span></div>
+                            </div>
+                        <? endif; ?>
+
+                        <? $langs = $this->driver->getLanguages();
+                        if (!empty($langs)): ?>
+                            <div class="row">
+                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Language') ?>:</div>
+                                <div
+                                    class="col-sm-12 col-md-9 col-lg-10"><? foreach ($langs as $lang): ?><?= $this->transEsc($lang) ?>
+                                        <br/><? endforeach; ?></div>
+                            </div>
+                        <? endif; ?>
+
+                        <!-- RVK -->
+                        <? $rvk = $this->singleRecordOtherClassificationNumber($this->driver, true) ?>
+                        <? if (!empty($rvk)) : ?>
+                            <div class="row">
+                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('RVK-Notation'); ?>:
+                                </div>
+                                <div class="col-sm-12 col-md-9 col-lg-10">
+                                    <script type="text/javascript">
+                                        //<![[
+                                        /* in order to keep an eye on performance, the popup javascript just will be used when required
+                                         */
+                                        $(function () {
+                                            var baseUrl = "https://resolver.hebis.de/rvkffm/";
+
+                                            $('.rvk-info .label').hover(function (e) {
+                                                var $popup = $(this);
+                                                $popup.off('hover');
+                                                var id = $popup.data('id');
+                                                var parts = id.split(' ');
+                                                var url = baseUrl + parts[0] + '/' + parts[1];
+                                                $.get(url, function (d) {
+                                                    var str = eval(d + "RVK;");
+                                                    $popup.popover({
+                                                        content: "<small>" + str.replaceAll("/", " / ") + "</small>",
+                                                        html: true
+                                                    }).popover('toggle');
+                                                });
+                                            });
+                                        });
+                                        //]]>
+                                    </script>
+                                    <? foreach ($rvk as $r) : ?>
+                                        <span class="rvk-info"><a class="rvk-link"
+                                                                  href="<?= $this->basePath() ?>/Search/Results?lookfor=rvk_full%3A%22<?= $this->transEsc($r) ?>%22&type=allfields"><?= $this->transEsc($r) ?></a>&nbsp;<span
+                                                style="padding-bottom: 1px; font-size: 80%; font-weight: lighter; cursor: pointer"
+                                                data-toggle="popover" data-id="<?= $r ?>" data-container="body"
+                                                data-placement="auto"
+                                                class="label label-info">rvk</span></span>&nbsp;&nbsp;
+                                    <? endforeach; ?>
+                                </div>
+                            </div>
+                        <? endif; ?>
+
+
+                        <!-- Schlagworte -->
+                        <? $keywords = $this->singleRecordSubjectAccessFieldsGeneralInformation($this->driver) ?>
+                        <? if (!empty($keywords)) : ?>
+                            <div class="row">
+                                <div
+                                    class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Subject Added Keywords'); ?></div>
+                                <div class="col-sm-12 col-md-9 col-lg-10">
+                                    <div class="keywords">
+                                        <form method="get" action="<?= $this->basePath() ?>/Search/Results"
+                                              id="searchForm" name="searchForm" class="search">
+                                            <input type="hidden" name="bool" value="AND"/>
+                                            <?= str_replace("<br />", " ", $keywords); ?>
+                                            <button type="submit" class="btn btn-default btn-xs">
+                                                <span class="hds-icon-search"></span>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+                        <? endif; ?>
+
+                        <!-- Preceding Entry / Succeeding Entry -->
+                        <? $precedingSucceeding = $this->singleRecordPrecedingSucceedingEntry($this->driver); ?>
+                        <? if (!empty($precedingSucceeding)) : ?>
+                            <div class="row">
+                                <div
+                                    class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Frühere/spätere Titel') ?>
+                                    :
+                                </div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $precedingSucceeding ?></div>
+                            </div>
+                        <? endif; ?>
+
+                        <? /* Display series section if at least one series exists. */ ?>
+                        <? $series = $this->singleRecordSeriesStatementAddedEntry($this->driver); ?>
+                        <? if (!empty($series)) : ?>
+                            <div class="row">
+                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Series') ?>:</div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $series ?></div>
+                            </div>
+                        <? endif; ?>
+
+                        <!-- Zielgruppe -->
+                        <? $targetAudience = $this->singleRecordTargetAudienceNote($this->driver); ?>
+                        <? if (!empty($targetAudience)) : ?>
+                            <div class="row">
+                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Zielgruppe') ?>:
+                                </div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $targetAudience ?></div>
+                            </div>
+                        <? endif; ?>
+                    </div> <!-- /.record-details -->
+                    <table>
+
+                        <? $childRecordCount = $this->driver->tryMethod('getChildRecordCount');
+                        if ($childRecordCount): ?>
+                            <tr>
+                                <th><?= $this->transEsc('child_records') ?>:</th>
+                                <td>
+                                    <a href="<?= $this->recordLink()->getChildRecordSearchUrl($this->driver) ?>"><?= $this->transEsc('child_record_count', array('%%count%%' => $childRecordCount)) ?></a>
+                                </td>
+                            </tr>
+                        <? endif; ?>
+
+
+                        <?
+                        //$openUrl = $this->driver->openURLActive('record') ? $this->driver->getOpenURL() : false;
+                        // Account for replace_other_urls setting
+                        $urls = $this->record($this->driver)->getLinkDetails();
+                        ?>
+                        <? if (!empty($urls)): ?>
+                            <tr>
+                                <th><?= $this->transEsc('Online Access') ?>:</th>
+                                <td>
+                                    <? foreach ($urls as $current): ?>
+                                        <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($current['url'])) ?>"><?= $this->escapeHtml($current['desc']) ?></a>
+                                        <br/>
+                                    <? endforeach; ?>
+                                </td>
+                            </tr>
+                        <? endif; ?>
+
+                        <? $recordLinks = $this->driver->getAllRecordLinks(); ?>
+                        <? if (!empty($recordLinks)): ?>
+                            <tr>
+                                <th><?= $this->transEsc('Related Items') ?>:</th>
+                                <td>
+                                    <? foreach ($recordLinks as $recordLink): ?>
+                                        <?= $this->transEsc($recordLink['title']) ?>:
+                                        <a href="<?= $this->recordLink()->related($recordLink['link']) ?>"><?= $this->escapeHtml($recordLink['value']) ?></a>
+                                        <br/>
+                                    <? endforeach; ?>
+                                    <? /* if we have record links, display relevant explanatory notes */
+                                    $related = $this->driver->getRelationshipNotes();
+                                    if (!empty($related)): ?>
+                                        <? foreach ($related as $field): ?>
+                                            <?= $this->escapeHtml($field) ?><br/>
+                                        <? endforeach; ?>
+                                    <? endif; ?>
+
+                                    <?= $this->bibTip($this->driver); ?>
+                                </td>
+                            </tr>
+                        <? endif; ?>
+
+                        <? if ($this->usertags()->getMode() !== 'disabled'): ?>
+                            <? $tagList = $this->driver->getTags(); ?>
+                            <tr>
+                                <th><?= $this->transEsc('Tags') ?>:</th>
+                                <td>
+                                    <a class="tag-record btn btn-link pull-right flip"
+                                       href="<?= $this->recordLink()->getActionUrl($this->driver, 'AddTag') ?>"
+                                       data-lightbox>
+                                        <i class="fa fa-plus"></i> <?= $this->transEsc('Add Tag') ?>
+                                    </a>
+                                    <!--
+                                    <span class="pull-right">
+                                        <i class="fa fa-plus"></i> <a id="tagRecord" class="modal-link" href="<?= $this->recordLink()->getActionUrl($this->driver, 'AddTag') ?>" title="<?= $this->transEsc('Add Tag') ?>"><?= $this->transEsc('Add Tag') ?></a>
+                                    </span>
+                                -->
+                                    <?= $this->context($this)->renderInContext('record/tagcloud', array('tagList' => $tagList, 'loggedin' => $loggedin)) ?>
+                                    <!--
+                                <div id="tagList">
+                                    <? if (count($tagList) > 0): ?>
+                                        <? $i = 0;
+                                        foreach ($tagList as $tag): ?><?= ($i++ == 0) ? '' : ', ' ?><a href="<?= $this->url('tag-home') ?>?lookfor=<?= urlencode($tag->tag) ?>"><?= $this->escapeHtml($tag->tag) ?></a> (<?= $this->escapeHtml($tag->cnt) ?>)<? endforeach; ?>
+                                    <? else: ?>
+                                        <?= $this->transEsc('No Tags') ?>, <?= $this->transEsc('Be the first to tag this record') ?>!
+                                    <? endif; ?>
+                                </div>
+                                -->
+                                </td>
+                            </tr>
+                        <? endif; ?>
+                    </table>
+                    <? /* End Main Details */ ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-description">
+            <? if (count($this->tabs) > 0): ?>
+                <a name="tabnav"></a>
+                <ul class="recordTabs nav nav-tabs nav-justified">
+                    <? foreach ($this->tabs as $tab => $obj): ?>
+                        <? // add current tab to breadcrumbs if applicable:
+                        $desc = $obj->getDescription();
+                        $tab_classes = array();
+                        if (0 === strcasecmp($this->activeTab, $tab)) {
+                            $tab_classes[] = 'active';
+                            $this->layout()->breadcrumbs .= '<li class="active">' . $this->transEsc($desc) . '</li>';
+                            $activeTabObj = $obj;
+                        }
+                        if (!$obj->isVisible()) {
+                            $tab_classes[] = 'hidden';
+                        }
+                        if (!$obj->supportsAjax()) {
+                            $tab_classes[] = 'noajax';
+                        }
+                        ?>
+                        <li<?= count($tab_classes) > 0 ? ' class="' . implode(' ', $tab_classes) . '"' : '' ?>>
+                            <a id="<?= strtolower($tab) ?>"
+                               href="<?= $this->recordLink()->getTabUrl($this->driver, $tab) ?>#tabnav"><?= $this->transEsc($desc) ?></a>
+                        </li>
+                    <? endforeach; ?>
+                </ul>
             <? endif; ?>
 
-            <? if ($this->usertags()->getMode() !== 'disabled'): ?>
-                <? $tagList = $this->driver->getTags(); ?>
-                <tr>
-                    <th><?=$this->transEsc('Tags')?>: </th>
-                    <td>
-                        <a class="tag-record btn btn-link pull-right flip" href="<?=$this->recordLink()->getActionUrl($this->driver, 'AddTag')?>" data-lightbox>
-                            <i class="fa fa-plus"></i> <?=$this->transEsc('Add Tag')?>
-                        </a>
-                        <!--
-                            <span class="pull-right">
-                                <i class="fa fa-plus"></i> <a id="tagRecord" class="modal-link" href="<?=$this->recordLink()->getActionUrl($this->driver, 'AddTag')?>" title="<?=$this->transEsc('Add Tag')?>"><?=$this->transEsc('Add Tag')?></a>
-                            </span>
-                        -->
-                        <?=$this->context($this)->renderInContext('record/tagcloud', array('tagList'=>$tagList, 'loggedin'=>$loggedin)) ?>
-                        <!--
-                        <div id="tagList">
-                            <? if (count($tagList) > 0): ?>
-                                <? $i = 0; foreach ($tagList as $tag): ?><?=($i++ == 0)?'':', '?><a href="<?=$this->url('tag-home')?>?lookfor=<?=urlencode($tag->tag)?>"><?=$this->escapeHtml($tag->tag)?></a> (<?=$this->escapeHtml($tag->cnt)?>)<? endforeach; ?>
-                            <? else: ?>
-                                <?=$this->transEsc('No Tags')?>, <?=$this->transEsc('Be the first to tag this record')?>!
-                            <? endif; ?>
-                        </div>
-                        -->
-                    </td>
-                </tr>
-            <? endif; ?>
-        </table>
-        <?/* End Main Details */?>
+            <div class="tab-content" id="record-tabs">
+                <div class="tab-pane active" id="<?= $this->activeTab ?>-tab">
+                    <?= isset($activeTabObj) ? $this->record($this->driver)->getTab($activeTabObj) : '' ?>
+                </div>
+            </div>
+        </div>
+
+        <span class="Z3988" title="<?= $this->escapeHtmlAttr($this->driver->getOpenURL()) ?>"></span>
     </div>
-    <div class="col-sm-3">
+    <div class="col-md-3<? //$this->layoutClass('sidebar') ?>">
+
         <div class="text-center">
-            <? /* Display thumbnail if appropriate: */ ?>
-            <? $mediumThumb = $this->record($this->driver)->getThumbnail('medium'); $largeThumb = $this->record($this->driver)->getThumbnail('large'); ?>
-            <? if ($mediumThumb): ?>
-                <? if ($largeThumb): ?><a href="<?=$this->escapeHtmlAttr($largeThumb)?>"><? endif; ?>
-                <img alt="<?=$this->transEsc('Cover Image')?>" class="recordcover" src="<?=$this->escapeHtmlAttr($mediumThumb);?>"/>
-                <? if ($largeThumb): ?></a><? endif; ?>
-            <? else: ?>
-                <img src="<?=$this->url('cover-unavailable')?>" class="recordcover" alt="<?=$this->transEsc('No Cover Image')?>"/>
-            <? endif; ?>
+
 
             <? /* Display qrcode if appropriate: */ ?>
             <? $QRCode = $this->record($this->driver)->getQRCode("core"); ?>
-            <? if($QRCode): ?>
+            <? if ($QRCode): ?>
                 <span class="hidden-xs">
-          <br/><img alt="<?=$this->transEsc('QR Code')?>" class="qrcode" src="<?=$this->escapeHtmlAttr($QRCode);?>"/>
-        </span>
+                  <br/><img alt="<?= $this->transEsc('QR Code') ?>" class="qrcode"
+                            src="<?= $this->escapeHtmlAttr($QRCode); ?>"/>
+                </span>
             <? endif; ?>
         </div>
 
@@ -479,10 +591,10 @@ if($loggedin = $this->auth()->isLoggedIn()) {
         // from this area of the record view, this can be split into
         // getPreviewData() (should stay here) and
         // getPreviewLink() (can go in your desired tab) ?>
-        <?=$this->record($this->driver)->getPreviews()?>
-        <hr />
-        <?=$this->record($this->driver)->getToolbar()?>
-        <hr />
+        <?= $this->record($this->driver)->getPreviews() ?>
+        <hr/>
+        <?= $this->record($this->driver)->getToolbar() ?>
+        <hr/>
         <? foreach ($this->related()->getList($this->driver) as $current): ?>
             <?= $this->related()->render($current) ?>
         <? endforeach; ?>
