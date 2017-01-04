@@ -47,51 +47,58 @@ $(document).ready(function () {
 
     processWikipediaLinks();
 
-    $('.wiki-gnd-popover').hover(function(){
-        $(this).popover('toggle');
-    });
 });
 
 
 function processWikipediaLinks() {
 
-    var baseUrl = 'https://resolver.hebis.de/wikimedia/';
+    var baseUrl = 'https://resolver.hebis.de/t2/HebisResolver/wikimedia/';
 
-    $(".wiki-gnd-popover").each(function (e) {
+    $(".wiki-gnd-popover").click(function(e) {
+        e.preventDefault();
+        var $popup = $(this);
+        $popup.popover('show');
+        return false;
+    });
+
+    $(".wiki-gnd-popover").each(function(e) {
         var $popup = $(this);
         var gndId = $(this).data('id');
-        var url = baseUrl + gndId + '/intro/json/de/gnd';
-
+        var url = baseUrl + 'gnd/intro/json/' + gndId;
 
         $.get(url, function (result) {
-            var d = jQuery.parseJSON(result);
-            $popup.popover({
-                html: true,
-                content: function () {
-                    var content = $(this).attr("data-popover-content");
-                    return $(content).children(".popover-body").html('<p>'+d.extract+'&nbsp;<a href="'+d.location+'"><span class="hds-icon-link-ext"></span></a></p>').html();
-                },
-                title: function () {
-                    var title = $(this).attr("data-popover-content");
-                    return $(title).children(".popover-heading").html(d.title).html();
-                }
-            });
-            $popup.attr('href', d.location);
-
+            setPopup($popup, gndId, eval(result));
         }).fail(function (e) {
-            $popup.popover({
-                html: true,
-                content: function () {
-                    var content = $(this).attr("data-popover-content");
-                    var x = $(content).children(".popover-body").html("<p>ERROR 404</p>").html();
-                    return x;
-                },
-                title: function () {
-                    var title = $(this).attr("data-popover-content");
-                    var x = $(title).children(".popover-heading").html("ERROR").html();
-                    return x;
-                }
-            })
+            setPopup($popup, gndId, {"title":"Error", "extract":"Something gone wrong!"});
         });
     });
+
+    function setPopup($popup, gndId, data) {
+        $popup.popover({
+            html: true,
+            trigger: 'manual',
+            placement: 'auto',
+            content: function () {
+                var contentDiv = $(this).attr("data-popover-content");
+                var content = '<p>'+data.extract;
+                if (data.title !== "Error") {
+                    content += '&nbsp;<a href="'+data.location+'"><span class="hds-icon-link-ext"></span>more</a>';
+                }
+                content += '</p>';
+                return $(contentDiv).children(".popover-body").html(content).html();
+            },
+            title: function () {
+                var title = $(this).attr("data-popover-content");
+                var $header = $(title).children(".popover-heading");
+                $header.html(data.title + '<a data-id="'+gndId+'" class="close" role="button">&times;</a>');
+                return $header.html();
+            }
+        }).on('shown.bs.popover', function (eventShown) {
+            var $pop = $('#' + $(eventShown.target).attr('aria-describedby'));
+            $pop.find('a.close').click(function (e) {
+                e.preventDefault();
+                $pop.popover('hide');
+            });
+        });
+    }
 }
