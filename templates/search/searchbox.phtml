@@ -43,11 +43,11 @@ $advSearch = $options->getAdvancedSearchAction();
 
         <!-- </div>
         </div> <!-- ./row -->
-        <div class="col-xs-12 col-sm-9 col-md-10">
+        <div class="col-xs-12">
             <!-- <div class="col-sm-2 hidden-md"> -->
 
             <!-- </div> -->
-            <div class="input-group input-group-lg" style="margin:1em 0;">
+            <div class="input-group input-group-lg" style="margin:1em 0 0 0;">
                 <div class="input-group-addon hidden-sm hidden-md hidden-lg">
                     <a title="<?=$this->transEsc("Home"); ?>" href="<?=$this->config()->homeUrl()?>"><img class="img" src="<?=$this->basePath().$this->config()->themePath()?>/images/uni-logo-klein.svg" alt="<?= $this->config()->title()?>" /></a>
                 </div>
@@ -58,16 +58,25 @@ $advSearch = $options->getAdvancedSearchAction();
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="caret"></span>
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-right">
-                        <? foreach ($handlers as $handler): ?>
-                            <li>
-                                <a href="#"
-                                   data-value="<?= $this->escapeHtmlAttr($handler['value']) ?>"><?= $handler['indent'] ? '-- ' : '' ?><?= $this->transEsc($handler['label']) ?></a>
-                                <!--
-                                value="<?= $this->escapeHtmlAttr($handler['value']) ?>"<?= $handler['selected'] ? ' selected="selected"' : '' ?>><?= $handler['indent'] ? '-- ' : '' ?><?= $this->transEsc($handler['label']) ?>
-                                -->
-                            </li>
-                        <? endforeach; ?>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <div style="padding: 0 1em 0.5em 1em">
+                            <? foreach ($handlers as $handler): ?>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="type" id="search-option-<?= $this->escapeHtmlAttr($handler['value']) ?>" value="<?= $this->escapeHtmlAttr($handler['value']) ?>"<?= $handler['selected'] ? ' checked="checked"' : '' ?>/>
+                                        <?= $this->transEsc($handler['label']) ?>
+                                    </label>
+                                        <!-- <a href="#"
+                                       data-value="<?= $this->escapeHtmlAttr($handler['value']) ?>"><?= $handler['indent'] ? '-- ' : '' ?><?= $this->transEsc($handler['label']) ?></a>
+                                    <!--
+                                    value="<?= $this->escapeHtmlAttr($handler['value']) ?>"<?= $handler['selected'] ? ' selected="selected"' : '' ?>><?= $handler['indent'] ? '-- ' : '' ?><?= $this->transEsc($handler['label']) ?>
+                                    -->
+                                </div>
+                            <? endforeach; ?>
+                            <? if ($advSearch): ?>
+                                <a href="<?= $this->url($advSearch) ?>"><span class="hds-icon-zoom-in"></span><?= $this->transEsc("Advanced") ?></a>
+                            <? endif; ?>
+                        </div>
                                     <!--
                                     <li><a href="#">Action</a></li>
                                     <li><a href="#">Another action</a></li>
@@ -75,20 +84,20 @@ $advSearch = $options->getAdvancedSearchAction();
                                     <li role="separator" class="divider"></li>
                                     <li><a href="#">Separated link</a></li>
                                     -->
-                    </ul>
+                    </div>
                     <button type="submit" class="btn btn-primary">
                         <span class="hds-icon-search"></span>
                         <span class="sr-only"><?= $this->transEsc("Find") ?></span>
                     </button>
                 </span>
-        </div>
-            <input type="hidden" name="type" value="AllFields"/>
-        </div>
+            </div>
+            <!-- <input type="hidden" name="type" value="AllFields"/> -->
+
+        <? /*if ($advSearch): ?>
         <div class="col-xs-12 col-sm-3 col-md-2 link-adv-search">
-        <? if ($advSearch): ?>
             <a href="<?= $this->url($advSearch) ?>" class="btn btn-link"><span class="hds-icon-zoom-in"></span><?= $this->transEsc("Advanced") ?></a>
-        <? endif; ?>
         </div>
+        <? endif; */?>
         <? /*
         <? if ($handlerCount > 1): ?>
             <!--
@@ -124,28 +133,32 @@ $advSearch = $options->getAdvancedSearchAction();
         );
         ?>
         <? if ((isset($hasDefaultsApplied) && $hasDefaultsApplied) || !empty($filterDetails)): ?>
-            <? $defaultFilterState = $options->getRetainFilterSetting() ? ' checked="checked"' : ''; ?>
-            <div class="checkbox">
-                <label>
-                    <input onChange="$('.applied-filter').click()" type="checkbox"<?= $defaultFilterState ?>
-                           id="searchFormKeepFilters"/>
-                    <?= $this->transEsc("basic_search_keep_filters") ?>
-                </label>
-            </div>
-            <div class="hidden">
-                <? foreach ($filterDetails as $current): ?>
-                    <input class="applied-filter" id="<?= $this->escapeHtmlAttr($current['id']) ?>"
-                           type="checkbox"<?= $defaultFilterState ?> name="filter[]"
-                           value="<?= $this->escapeHtmlAttr($current['value']) ?>"/>
-                    <label
-                        for="<?= $this->escapeHtmlAttr($current['id']) ?>"><?= $this->escapeHtml($current['value']) ?></label>
-                <? endforeach; ?>
-                <? if (isset($hasDefaultsApplied) && $hasDefaultsApplied): ?>
-                    <!-- this is a hidden element that flags whether or not default filters have been applied;
-                         it is intentionally unlabeled, as users are not meant to manipulate it directly. -->
-                    <input class="applied-filter" id="dfApplied" type="checkbox" name="dfApplied"
-                           value="1"<?= $defaultFilterState ?> />
-                <? endif; ?>
+            <div class="row">
+                <div class="col-xs-12" style="padding-bottom: 0">
+                    <? $defaultFilterState = $options->getRetainFilterSetting() ? ' checked="checked"' : ''; ?>
+                    <div class="checkbox" style="margin-bottom: 0">
+                        <label>
+                            <input onChange="$('.applied-filter').click()" type="checkbox"<?= $defaultFilterState ?>
+                                   id="searchFormKeepFilters"/>
+                            <?= $this->transEsc("basic_search_keep_filters") ?>
+                        </label>
+                    </div>
+                    <div class="hidden">
+                        <? foreach ($filterDetails as $current): ?>
+                            <input class="applied-filter" id="<?= $this->escapeHtmlAttr($current['id']) ?>"
+                                   type="checkbox"<?= $defaultFilterState ?> name="filter[]"
+                                   value="<?= $this->escapeHtmlAttr($current['value']) ?>"/>
+                            <label
+                                for="<?= $this->escapeHtmlAttr($current['id']) ?>"><?= $this->escapeHtml($current['value']) ?></label>
+                        <? endforeach; ?>
+                        <? if (isset($hasDefaultsApplied) && $hasDefaultsApplied): ?>
+                            <!-- this is a hidden element that flags whether or not default filters have been applied;
+                                 it is intentionally unlabeled, as users are not meant to manipulate it directly. -->
+                            <input class="applied-filter" id="dfApplied" type="checkbox" name="dfApplied"
+                                   value="1"<?= $defaultFilterState ?> />
+                        <? endif; ?>
+                    </div>
+                </div>
             </div>
         <? endif; ?>
         <?
@@ -165,5 +178,6 @@ $advSearch = $options->getAdvancedSearchAction();
     <script type="text/javascript">
         $("#searchForm_lookfor").focus()
     </script>
+    </div>
 <? endif; ?>
 
