@@ -16,8 +16,30 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
 
             <div class="row">
                 <div class="col-sm-3 hidden-xs">
-                    <h3>&nbsp;</h3>
+                    <? if (isset($this->scrollData) && ($this->scrollData['previousRecord'] || $this->scrollData['nextRecord'])): ?>
+                        <ul class="pager hidden-print hidden-xs hidden-sm">
+                            <? if ($this->scrollData['previousRecord']): ?>
+                                <li>
+                                    <a href="<?= $this->recordLink()->getUrl($this->scrollData['previousRecord']) ?>"
+                                       title="<?= $this->transEsc('Previous Search Result') ?>"><span class="hds-icon-left-open"><!-- --> </span><span class="sr-only"><?= $this->transEsc('Prev') ?></span></a>
+                                </li>
+                            <? else: ?>
+                                <li class="disabled"><span class="hds-icon-left-open"><!-- --> </span><span class="sr-only"><?= $this->transEsc('Prev') ?></span></li>
+                            <? endif; ?>
+                            <li><span><?= $this->localizedNumber($this->scrollData['currentPosition']) . ' / ' . $this->localizedNumber($this->scrollData['resultTotal']) //' ' . $this->transEsc('results') ?></span></li>
+                            <? if ($this->scrollData['nextRecord']): ?>
+                                <li>
+                                    <a href="<?= $this->recordLink()->getUrl($this->scrollData['nextRecord']) ?>"
+                                       title="<?= $this->transEsc('Next Search Result') ?>"><span class="sr-only"><?= $this->transEsc('Next') ?></span><span class="hds-icon-right-open"> <!-- --></span></a>
+                                </li>
+                            <? else: ?>
+                                <li class="disabled"><span class="sr-only"><?= $this->transEsc('Next') ?></span><span class="hds-icon-right-open"> <!-- --></span></li>
+                            <? endif; ?>
+                        </ul>
+                    <? endif; ?>
                     <div class="text-center">
+                        <? $cached = $this->record($this->driver)->hasThumbnailCachedFile('medium'); ?>
+
                         <? /* Display thumbnail if appropriate: */ ?>
                         <? $mediumThumb = $this->record($this->driver)->getThumbnail('medium');
                         $largeThumb = $this->record($this->driver)->getThumbnail('large'); ?>
@@ -64,7 +86,9 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <!-- Titel -->
                         <? $title = $this->singleRecordTitleStatement($this->driver); ?>
                         <div class="row">
-                            <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Titel') ?>:</div>
+                            <div class="bold col-sm-12 col-md-3 col-lg-2">
+                                <?= $this->transEsc('Title') ?>:
+                            </div>
                             <div class="col-sm-12 col-md-9 col-lg-10"><?= $title ?></div>
                         </div>
 
@@ -72,9 +96,8 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <? $sectionOfWork = $this->singleRecordSectionOfAWork($this->driver); ?>
                         <? if ($sectionOfWork) : ?>
                             <div class="row">
-                                <div
-                                    class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Section of a work'); ?>
-                                    :
+                                <div class="bold col-sm-12 col-md-3 col-lg-2">
+                                    <?= $this->transEsc('Section of a work'); ?>:
                                 </div>
                                 <div class="col-sm-12 col-md-9 col-lg-10"><?= $sectionOfWork ?></div>
                             </div>
@@ -84,8 +107,8 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <? $partOfWork = $this->singleRecordPartOfAWork($this->driver); ?>
                         <? if ($partOfWork) : ?>
                             <div class="row">
-                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Part of a work'); ?>
-                                    :
+                                <div class="bold col-sm-12 col-md-3 col-lg-2">
+                                    <?= $this->transEsc('Part of a work'); ?>:
                                 </div>
                                 <div class="col-sm-12 col-md-9 col-lg-10"><?= $partOfWork ?></div>
                             </div>
@@ -96,7 +119,8 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <? if (!empty($authors)) : ?>
                             <div class="row">
                                 <div
-                                    class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Author/editor-in-chief') ?>:
+                                    class="bold col-sm-12 col-md-3 col-lg-2">
+                                    <?= $this->transEsc('Author/editor-in-chief') ?>:
                                 </div>
                                 <div class="col-sm-12 col-md-9 col-lg-10" property="author">
                                     <?= $authors ?>
@@ -108,7 +132,9 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <? $corporate = $this->singleRecordCorporateName($this->driver); ?>
                         <? if (!empty($corporate)) : ?>
                             <div class="row">
-                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Corporate') ?>:</div>
+                                <div class="bold col-sm-12 col-md-3 col-lg-2">
+                                    <?= $this->transEsc('Corporate') ?>:
+                                </div>
                                 <div class="col-sm-12 col-md-9 col-lg-10" property="author"><?= $corporate ?></div>
                             </div>
                         <? endif; ?>
@@ -117,7 +143,8 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <? $hostItem = $this->singleRecordHostItemEntry($this->driver); ?>
                         <? if (!empty($hostItem)) : ?>
                             <div class="row">
-                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Published in') ?>:
+                                <div class="bold col-sm-12 col-md-3 col-lg-2">
+                                    <?= $this->transEsc('Published in') ?>:
                                 </div>
                                 <div class="col-sm-12 col-md-9 col-lg-10">
                                     <?= $this->singleRecordHostItemEntry($this->driver); ?>
@@ -128,9 +155,8 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <? $datesOfPublication = $this->singleRecordDatesOfPublicationSequentialDesignation($this->driver); ?>
                         <? if (!empty($datesOfPublication)) : ?>
                             <div class="row">
-                                <div
-                                    class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Erscheinungsverlauf'); ?>
-                                    :
+                                <div class="bold col-sm-12 col-md-3 col-lg-2">
+                                    <?= $this->transEsc('Dates of publication/Sequential designation'); ?>:
                                 </div>
                                 <div class="col-sm-12 col-md-9 col-lg-10"><?= $datesOfPublication ?></div>
                             </div>
@@ -152,7 +178,9 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <? if (!empty($manufacture)) : ?>
                             <div class="row">
                                 <div
-                                    class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Entstehung'); ?></div>
+                                    class="bold col-sm-12 col-md-3 col-lg-2">
+                                    <?= $this->transEsc('Manufacture'); ?>:
+                                </div>
                                 <div class="col-sm-12 col-md-9 col-lg-10"><?= $manufacture ?></div>
                             </div>
                         <? endif; ?>
@@ -162,9 +190,8 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <? $publicationDistribution = $this->singleRecordPublication($this->driver); ?>
                         <? if (!empty($publicationDistribution)) : ?>
                             <div class="row">
-                                <div
-                                    class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Publication Distribution') ?>
-                                    :
+                                <div class="bold col-sm-12 col-md-3 col-lg-2">
+                                    <?= $this->transEsc('Publication') ?>:
                                 </div>
                                 <div class="col-sm-12 col-md-9 col-lg-10"><?= $publicationDistribution ?></div>
                             </div>
@@ -174,7 +201,8 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <? $production = $this->singleRecordProduction($this->driver); ?>
                         <? if (!empty($production)) : ?>
                             <div class="row">
-                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Production') ?>:
+                                <div class="bold col-sm-12 col-md-3 col-lg-2">
+                                    <?= $this->transEsc('Production') ?>:
                                 </div>
                                 <div class="col-sm-12 col-md-9 col-lg-10"><?= $production ?></div>
                             </div>
@@ -184,7 +212,8 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <? $distribution = $this->singleRecordDistribution($this->driver); ?>
                         <? if (!empty($distribution)) : ?>
                             <div class="row">
-                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Distribution') ?>:
+                                <div class="bold col-sm-12 col-md-3 col-lg-2">
+                                    <?= $this->transEsc('Distribution') ?>:
                                 </div>
                                 <div class="col-sm-12 col-md-9 col-lg-10"><?= $distribution ?></div>
                             </div>
@@ -194,7 +223,8 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <? $uniformTitle = $this->singleRecordUniformTitle($this->driver); ?>
                         <? if (!empty($uniformTitle)) : ?>
                             <div class="row">
-                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Uniform title') ?>:
+                                <div class="bold col-sm-12 col-md-3 col-lg-2">
+                                    <?= $this->transEsc('Uniform title') ?>:
                                 </div>
                                 <div class="col-sm-12 col-md-9 col-lg-10"><?= $uniformTitle ?></div>
                             </div>
@@ -204,17 +234,17 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <? $additionalPhysical = $this->singleRecordAdditionalPhysicalFromAvailableNote($this->driver); ?>
                         <? if (!empty($additionalPhysical)) : ?>
                             <div class="row">
-                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Auch als') ?></div>
+                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Additional physical from available note') ?>:</div>
                                 <div class="col-sm-12 col-md-9 col-lg-10"><?= $additionalPhysical ?></div>
                             </div>
                         <? endif; ?>
 
-                        <!-- auch als -->
+                        <!-- Reproduction note / Vorliegende Ausgabe -->
                         <? $reproduction = $this->singleRecordReproductionNote($this->driver); ?>
                         <? if (!empty($reproduction)) : ?>
                             <div class="row">
                                 <div
-                                    class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Available edition') ?></div>
+                                    class="bold col-sm-12 col-md-3 col-lg-2" property="bookEdition"><?= $this->transEsc('Reproduction note') ?>:</div>
                                 <div class="col-sm-12 col-md-9 col-lg-10"><?= $reproduction ?></div>
                             </div>
                         <? endif; ?>
@@ -223,8 +253,8 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <? $dissertationNote = $this->singleRecordDissertationNote($this->driver) ?>
                         <? if (!empty($dissertationNote)) : ?>
                             <div class="row">
-                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Hochschulschrift') ?>
-                                    :
+                                <div class="bold col-sm-12 col-md-3 col-lg-2">
+                                    <?= $this->transEsc('Dissertation note') ?>:
                                 </div>
                                 <div class="col-sm-12 col-md-9 col-lg-10"><?= $dissertationNote ?></div>
                             </div>
@@ -246,8 +276,8 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
 
                         <? if (!empty($prevTitles)): ?>
                             <div class="row">
-                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Previous Title') ?>
-                                    :
+                                <div class="bold col-sm-12 col-md-3 col-lg-2">
+                                    <?= $this->transEsc('Previous Title') ?>:
                                 </div>
                                 <div class="col-sm-12 col-md-9 col-lg-10">
                                     <? foreach ($prevTitles as $field): ?>
@@ -262,15 +292,14 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <? $otherEditionEntry = $this->singleRecordOtherEditionEntry($this->driver); ?>
                         <? if (!empty($otherEditionEntry)) : ?>
                             <div class="row">
-                                <div
-                                    class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Other Edition Entry') ?>
-                                    :
+                                <div class="bold col-sm-12 col-md-3 col-lg-2">
+                                    <?= $this->transEsc('Other edition entry') ?>:
                                 </div>
                                 <div class="col-sm-12 col-md-9 col-lg-10"><?= $otherEditionEntry ?></div>
                             </div>
                         <? endif; ?>
 
-                        <!-- Ausgabe -->
+                        <!-- Ausgabe
                         <? $edition = $this->driver->getEdition();
                         if (!empty($edition)): ?>
                             <div class="row">
@@ -279,13 +308,13 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                      property="bookEdition"><?= $this->escapeHtml($edition) ?></div>
                             </div>
                         <? endif; ?>
-
+                        -->
                         <!-- Title Contains -->
                         <? $titleContains = $this->singleRecordTitleContains($this->driver); ?>
                         <? if (!empty($titleContains)) : ?>
                             <div class="row">
-                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Darin enthalten'); ?>
-                                    :
+                                <div class="bold col-sm-12 col-md-3 col-lg-2">
+                                    <?= $this->transEsc('Title contains'); ?>:
                                 </div>
                                 <div class="col-sm-12 col-md-9 col-lg-10"><?= $titleContains ?></div>
                             </div>
@@ -322,9 +351,8 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <? $physicalDescription = $this->singleRecordPhysicalDescription($this->driver); ?>
                         <? if (!empty($physicalDescription)) : ?>
                             <div class="row">
-                                <div
-                                    class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Physical description scale') ?>
-                                    :
+                                <div class="bold col-sm-12 col-md-3 col-lg-2">
+                                    <?= $this->transEsc('Physical description scale') ?>:
                                 </div>
                                 <div class="col-sm-12 col-md-9 col-lg-10"><?= $physicalDescription ?></div>
                             </div>
@@ -420,9 +448,8 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <? $precedingSucceeding = $this->singleRecordPrecedingSucceedingEntry($this->driver); ?>
                         <? if (!empty($precedingSucceeding)) : ?>
                             <div class="row">
-                                <div
-                                    class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Frühere/spätere Titel') ?>
-                                    :
+                                <div class="bold col-sm-12 col-md-3 col-lg-2">
+                                    <?= $this->transEsc('Preceding entry/Succeeding entry') ?>:
                                 </div>
                                 <div class="col-sm-12 col-md-9 col-lg-10"><?= $precedingSucceeding ?></div>
                             </div>

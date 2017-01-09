@@ -367,10 +367,28 @@ img.recordcover {
   }
 }
 
-/** sticky navbar */
-.sticky {
-  position:fixed;
-  width: 100%;
-  top:0;
-  z-index: 999999;
+/** sticky navbar not for smart phones */
+@media (min-width: @screen-xs-max) {
+  /** sticky navbar */
+  .sticky {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 999999;
+  }
+}
+
+.pager {
+
+  li > span,
+  li > a {
+    border-radius: 0;
+    border-width: 1px;
+    margin: 0;
+    padding: 5px;
+  }
+
+  li:nth-child(2) > span {
+
+  }
 }

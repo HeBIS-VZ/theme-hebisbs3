@@ -46,7 +46,7 @@
     <?= $this->headStyle() ?>
     <?
     // Set global path for Javascript code:
-    $this->headScript()->prependScript("path = '" . rtrim($this->url('home'), '/') . "';");
+    $this->headScript()->prependScript("path = '" . rtrim($this->url('home'), '/') . "';\n\tlang = '" .trim($this->layout()->userLang) ."';");
 
     // Deal with cart stuff:
     if (!isset($this->renderingError)) {
