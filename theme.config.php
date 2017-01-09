@@ -1,4 +1,6 @@
 <?php
+use Zend\ServiceManager\ServiceManager;
+
 return [
     "extends" => "bootstrap3",
     "css" => [
@@ -22,7 +24,10 @@ return [
         'factories' => [
             'config' => function($sm) {
                 return new Hebis\View\Helper\Hebisbs3\Options($sm);
-            }
+            },
+            'record' => function(ServiceManager $sm) {
+                return new Hebis\View\Helper\Root\Record($sm->getServiceLocator()->get('VuFind\Config')->get('config'));
+            },
         ]
     ]
 ];
