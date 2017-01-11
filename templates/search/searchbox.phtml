@@ -43,17 +43,19 @@ $advSearch = $options->getAdvancedSearchAction();
 
         <!-- </div>
         </div> <!-- ./row -->
+
         <div class="col-xs-12">
             <!-- <div class="col-sm-2 hidden-md"> -->
 
             <!-- </div> -->
+
             <div class="input-group input-group-lg" style="margin:1em 0 0 0;">
                 <div class="input-group-addon hidden-sm hidden-md hidden-lg">
                     <a title="<?=$this->transEsc("Home"); ?>" href="<?=$this->config()->homeUrl()?>"><img class="img" src="<?=$this->basePath().$this->config()->themePath()?>/images/uni-logo-klein.svg" alt="<?= $this->config()->title()?>" /></a>
                 </div>
             <!-- <? if ($this->searchbox()->autocompleteEnabled($this->searchClassId)): ?> autocomplete searcher:<?= $this->escapeHtmlAttr($this->searchClassId) ?><? endif ?> -->
                 <input class="form-control search-query<? if($this->searchbox()->autocompleteEnabled($this->searchClassId)):?> autocomplete searcher:<?=$this->escapeHtmlAttr($this->searchClassId) ?><? endif ?>" id="searchForm_lookfor" type="text" name="lookfor" placeholder="<?= $this->translate('Search') ?>" value="<?= $this->escapeHtmlAttr($this->lookfor) ?>"/>
-
+                <div class="autocomplete-results"><!-- --></div>
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="caret"></span>
@@ -91,6 +93,7 @@ $advSearch = $options->getAdvancedSearchAction();
                     </button>
                 </span>
             </div>
+
             <!-- <input type="hidden" name="type" value="AllFields"/> -->
 
         <? /*if ($advSearch): ?>

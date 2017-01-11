@@ -104,7 +104,6 @@ function processWikipediaLinks() {
     }
 }
 
-
 function setupAutocomplete() {
     // Search autocomplete
     $('.autocomplete').each(function (i, op) {

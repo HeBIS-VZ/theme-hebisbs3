@@ -392,3 +392,25 @@ img.recordcover {
 
   }
 }
+
+.autocomplete-results {
+
+  position: absolute;
+  left: 0 !important;
+  top: 48px !important;
+  z-index: 1000;
+
+  > div {
+    background-color: #fff;
+    border: 1px solid @nav-tabs-border-color;
+    padding: 1em;
+  }
+
+  .item {
+    line-height: 1.5;
+    padding: 0 0.5em;
+  }
+  .item.selected {
+    background-color: lightgoldenrodyellow;
+  }
+}
