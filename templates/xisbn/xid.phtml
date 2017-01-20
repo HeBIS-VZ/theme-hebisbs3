@@ -1,0 +1,26 @@
+<div class="result-list">
+
+    <? foreach ($this->results->getResults() as $current): ?>
+
+        <?= $this->record($current)->getSearchResult('other-edition') ?>
+        <!--
+        <? /*
+        $recordNumber = $this->results->getStartRecord() + $i - $this->indexStart; ?>
+                <tr id="row result<?= $i++ ?>" class="result">
+                    <td class="hidden-xs col-sm-1 record-number hidden-print<? if ($showCheckboxes): ?> checkbox<? endif; ?>">
+                        <label>
+                            <? if ($showCheckboxes): ?>
+                                <?= $this->record($current)->getCheckbox() ?>
+                            <? endif; ?>
+                            <?= $recordNumber ?>
+                        </label>
+                    </td>
+                    <td class="col-xs-12 col-sm-11">
+
+                    </td>
+                </tr>
+        */ ?>
+        -->
+    <? endforeach; ?>
+
+</div>

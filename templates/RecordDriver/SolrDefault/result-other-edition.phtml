@@ -1,0 +1,6 @@
+<p>
+    <? $format = $this->physicalDescriptionFormat($this->driver);//$this->driver->getFormats(); if (!empty($formats)): ?>
+    <span class="hds-icon-<?= $format ?>" title="<?= $this->transEsc($format); ?>"><!-- --></span>
+    <a href="<?= $this->recordLink()->getUrl($this->driver) ?>" class="title"><?= $this->otherEditionTitleStatement($this->driver); ?></a><br />
+    <?= $this->otherEditionEditionStatement($this->driver); ?> (<?= $this->otherEditionPublication($this->driver); ?>)
+</p>

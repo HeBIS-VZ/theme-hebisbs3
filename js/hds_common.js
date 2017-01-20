@@ -46,7 +46,7 @@ $(document).ready(function () {
     document.onscroll = scroll;
 
     processWikipediaLinks();
-
+    processOtherEditions();
 });
 
 
@@ -147,5 +147,19 @@ function setupAutocomplete() {
         var $lookfor = $(this).closest('.searchForm').find('.searchForm_lookfor[name]');
         $lookfor.autocomplete('clear cache');
         $lookfor.focus();
+    });
+}
+
+function processOtherEditions() {
+    $("#other-editions").each(function(e) {
+        var $otherEditionsContainer = $(this);
+        var xid = $(this).data('xid');
+        var url = path + "/xisbn/xid?isbn="+xid;
+
+        $.get(url, function (result) {
+            $otherEditionsContainer.append(result);
+        }).fail(function (e) {
+            $(this).hide();
+        });
     });
 }

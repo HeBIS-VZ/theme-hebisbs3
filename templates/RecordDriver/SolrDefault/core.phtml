@@ -622,6 +622,17 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
         <hr/>
         <?= $this->record($this->driver)->getToolbar() ?>
         <hr/>
+
+        <? $isbns = $this->singleRecordInternationalStandardBookNumber($this->driver, true); ?>
+        <? if (!empty($isbns)) : ?>
+            <h4><?=$this->transEsc('Other Editions'); ?></h4>
+            <div id="other-editions" data-xid="<?=$isbns['0']?>">
+
+            </div>
+            <hr />
+        <? endif;?>
+
+
         <? foreach ($this->related()->getList($this->driver) as $current): ?>
             <?= $this->related()->render($current) ?>
         <? endforeach; ?>
