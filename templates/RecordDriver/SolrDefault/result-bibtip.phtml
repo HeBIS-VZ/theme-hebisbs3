@@ -1,0 +1,4 @@
+<div id="bibtip_shorttitle" style="display:none"><?= $this->bibTipTitleStatement($this->driver); ?> / <?= $this->bibTipPersonalName($this->driver); ?> (<?= $this->bibTipPublication($this->driver); ?>)</div>
+<div id="bibtip_id" style="display:none"><?= $this->driver->getPPN(); ?></div>
+<script src="https://recommender.bibtip.de/js/bibtip_ub_f_portal.js<?= $this->bibTipJs ?>" type="text/javascript"></script>
+<div id="bibtip_reclist" style="display:none"><!-- --></div>

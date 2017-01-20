@@ -192,6 +192,7 @@
         $openUrl = $this->driver->getOpenURL();
         $openUrlActive = $this->driver->openURLActive('results');
         */
+            /*
             $urls = $this->record($this->driver)->getLinkDetails();
             if (!empty($urls)): ?>
                 <? if (!is_array($urls)) $urls = array();
@@ -206,7 +207,8 @@
                     <? endforeach; ?>
                     <br/>
                 <? endif; ?>
-            <? endif; ?>
+            <? endif; */?>
+
             <? $physType = $this->physicalDescriptionFormat($this->driver); ?>
             <span class="label label-info"><span class="icon hds-icon-<?=$physType?>"><!-- --></span> <?=$this->transEsc($physType);?></span>
 
