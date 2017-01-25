@@ -47,6 +47,15 @@ $(document).ready(function () {
 
     processWikipediaLinks();
     processOtherEditions();
+
+    // support "jump menu" dropdown boxes
+    $('select.jumpMenu').change(function() {
+        $form = $(this).parent('form');
+        if($form.length < 1) {
+            $form = $(this).parentsUntil('form').parent();
+        }
+        $form.submit();
+    });
 });
 
 
