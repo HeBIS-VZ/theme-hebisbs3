@@ -25,14 +25,17 @@ $(document).ready(function () {
     var origOffsetY = $('.searchbox').offset().top;
     //var origOffsetX = container.left;
     function scroll() {
-        if ($(window).scrollTop() > origOffsetY) {
+        if ($(window).scrollTop() > (origOffsetY)) {
+            $('#height-offset-workaround').height(origOffsetY*2).show();
             navbar.addClass('sticky');
             menu.hide();
             smalllogo.removeClass('hidden-sm').removeClass('hidden-md').removeClass('hidden-lg');
             largelogo.hide();
+
             //$('.main-content').addClass('menu-padding');
             //container.offset({left: origOffsetX});
         } else {
+            //$('#height-offset-workaround').hide();
             navbar.removeClass('sticky');
             menu.show();
             smalllogo.addClass('hidden-sm').addClass('hidden-md').addClass('hidden-lg');
@@ -50,7 +53,9 @@ $(document).ready(function () {
 
     // support "jump menu" dropdown boxes
     $('select.jumpMenu').change(function() {
+
         $form = $(this).parent('form');
+
         if($form.length < 1) {
             $form = $(this).parentsUntil('form').parent();
         }
