@@ -17,7 +17,8 @@ $advSearch = $options->getAdvancedSearchAction();
 //$lastSort = $options->getLastSort(); //not supported since VuFind 3.0.0
 //$lastLimit = $options->getLastLimit(); //not supported since VuFind 3.0.0
 ?>
-<? if ($this->searchType == 'advanced'): ?>
+<? //if ($this->searchType == 'advanced'): ?>
+    <!--
     <div id="searchForm" class="navbar-form navbar-left">
         <? $tabs = $this->render('search/searchTabs'); ?>
         <? if (!empty($tabs)): ?><?= $tabs ?>
@@ -32,7 +33,8 @@ $advSearch = $options->getAdvancedSearchAction();
             </p>
             <? if (!empty($tabs)): ?></div><? endif; ?>
     </div>
-<? else: ?>
+    -->
+<? //else: ?>
     <form role="search" class="" method="get" action="<?= $this->url($basicSearch) ?>"
           name="searchForm" id="searchForm" autocomplete="off" style="">
 
@@ -182,5 +184,5 @@ $advSearch = $options->getAdvancedSearchAction();
         $("#searchForm_lookfor").focus()
     </script>
     </div>
-<? endif; ?>
+<? //endif; ?>
 
