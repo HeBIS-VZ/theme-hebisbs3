@@ -1,3 +1,2 @@
 .DS_Store
-css/compiled.css
-css/hds.css
+css/*\.css
