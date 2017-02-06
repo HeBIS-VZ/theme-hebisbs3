@@ -625,11 +625,9 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
 
         <? $isbns = $this->singleRecordInternationalStandardBookNumber($this->driver, true); ?>
         <? if (!empty($isbns)) : ?>
-            <h4><?=$this->transEsc('Other Editions'); ?></h4>
             <div id="other-editions" data-xid="<?=$isbns['0']?>">
 
             </div>
-            <hr />
         <? endif;?>
         <?= $this->render('RecordDriver/SolrDefault/result-bibtip.phtml'); ?>
         <!--

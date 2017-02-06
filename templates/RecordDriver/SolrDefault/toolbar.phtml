@@ -9,12 +9,15 @@
   $controllerClass = 'controller:' . $this->record($this->driver)->getController();
   $cart = $this->cart();
   $cartId = $this->driver->getSourceIdentifier() . '|' . $id;
+
+  //$formats =
+  //$this->citation($this->record)->getCitationFormats()
 ?>
 <ul class="nav nav-pills hidden-print">
-  <? if (count($this->driver->getCitationFormats()) > 0): ?>
+  <?/* if (count() > 0): */?>
     <li><a class="cite-record <?=$controllerClass?>" data-lightbox href="<?=$this->recordLink()->getActionUrl($this->driver, 'Cite')?>" rel="nofollow"><i class="fa fa-asterisk"></i> <?=$this->transEsc('Cite this')?></a></li>
-  <? endif; ?>
-  <li><a class="sms-record <?=$controllerClass?>" data-lightbox href="<?=$this->recordLink()->getActionUrl($this->driver, 'SMS')?>" rel="nofollow"><i class="fa fa-mobile"></i> <?=$this->transEsc('Text this')?></a></li>
+  <?/* endif; */?>
+  <!--<li><a class="sms-record <?=$controllerClass?>" data-lightbox href="<?=$this->recordLink()->getActionUrl($this->driver, 'SMS')?>" rel="nofollow"><i class="fa fa-mobile"></i> <?=$this->transEsc('Text this')?></a></li>-->
   <li><a class="mail-record <?=$controllerClass?>" data-lightbox href="<?=$this->recordLink()->getActionUrl($this->driver, 'Email')?>" rel="nofollow"><i class="fa fa-envelope"></i> <?=$this->transEsc('Email this')?></a></li>
 
   <? $exportFormats = $this->export()->getFormatsForRecord($this->driver); ?>

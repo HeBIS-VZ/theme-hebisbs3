@@ -22,12 +22,13 @@ return [
 
     'helpers' => [
         'factories' => [
-            'config' => function($sm) {
+            'config' => function(ServiceManager $sm) {
                 return new Hebis\View\Helper\Hebisbs3\Options($sm);
             },
             'record' => function(ServiceManager $sm) {
                 return new Hebis\View\Helper\Root\Record($sm->getServiceLocator()->get('VuFind\Config')->get('config'));
             },
+            'citation' => 'Hebis\View\Helper\Root\Factory::getCitation',
         ]
     ]
 ];
