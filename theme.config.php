@@ -25,9 +25,7 @@ return [
             'config' => function(ServiceManager $sm) {
                 return new Hebis\View\Helper\Hebisbs3\Options($sm);
             },
-            'record' => function(ServiceManager $sm) {
-                return new Hebis\View\Helper\Root\Record($sm->getServiceLocator()->get('VuFind\Config')->get('config'));
-            },
+            'record' => 'Hebis\View\Helper\Root\Factory::getRecord',
             'citation' => 'Hebis\View\Helper\Root\Factory::getCitation',
         ]
     ]
