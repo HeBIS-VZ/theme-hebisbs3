@@ -31,7 +31,7 @@ $(document).ready(function () {
             menu.hide();
             smalllogo.removeClass('hidden-sm').removeClass('hidden-md').removeClass('hidden-lg');
             largelogo.hide();
-
+            $("#main-content").css({marginTop: $("header.header").height()+origOffsetY});
             //$('.main-content').addClass('menu-padding');
             //container.offset({left: origOffsetX});
         } else {
@@ -40,6 +40,7 @@ $(document).ready(function () {
             menu.show();
             smalllogo.addClass('hidden-sm').addClass('hidden-md').addClass('hidden-lg');
             largelogo.show();
+            $("#main-content").css({marginTop: 0});
             //$('.main-content').removeClass('menu-padding');
         }
 
