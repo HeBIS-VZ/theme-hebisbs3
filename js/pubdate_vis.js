@@ -17,6 +17,14 @@ function PadDigits(n, totalDigits)
   return pd + n;
 }
 
+function toIso(n) {
+  if (n <= 0) {
+    n = 1;
+  }
+  n = n.toString();
+  return n + '-01-01T00:00:00Z'
+}
+
 function loadVis(facetFields, searchParams, baseURL, zooming) {
   // options for the graph, TODO: make configurable
   var options = {
@@ -102,7 +110,7 @@ function loadVis(facetFields, searchParams, baseURL, zooming) {
         placeholder.bind("plotselected", function (event, ranges) {
           var from = Math.floor(ranges.xaxis.from);
           var to = Math.ceil(ranges.xaxis.to);
-          location.href = val['removalURL'] + '&daterange[]=' + key + '&' + key + 'to=' + PadDigits(to,4) + '&' + key + 'from=' + PadDigits(from,4);
+          location.href = val['removalURL'] + '&daterange[]=' + key + '&' + key + 'to=' + toIso(to) + '&' + key + 'from=' + toIso(from);
         });
 
         if (hasFilter) {
