@@ -37,7 +37,7 @@ function loadVis(facetFields, searchParams, baseURL, zooming) {
   };
 
   // AJAX call
-  var url = baseURL + '/AJAX/json?method=getVisData&facetFields=' + encodeURIComponent(facetFields) + '&' + searchParams;
+  var url = '/AJAX/json?method=getVisData&facetFields=' + encodeURIComponent(facetFields) + '&' + searchParams;
   $.getJSON(url, function (data) {
     if (data.status == 'OK') {
       $.each(data['data'], function(key, val) {
