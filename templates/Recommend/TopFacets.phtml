@@ -87,7 +87,7 @@
                     </div>
                     <div class="col-sm-8">
 
-                        <ul class="timeline-list">
+                        <ul class="timeline-list clearfix">
                             <?
                                 $yearList = [];
                                 array_walk($sideFacetSet["publish_date"]["list"], function($item) use (&$yearList) {
@@ -100,7 +100,7 @@
                                     }
                                 }
                                 ksort($yearList);
-                                $maxHeight = 40;
+                                $maxHeight = 50;
                                 foreach ($yearList as $year => $item) :
                                     $count = $item["count"];
                                     $height = ($count / $maxCount) * $maxHeight;
@@ -125,7 +125,7 @@
                         <input type="text" class="form-control" name="<?=$this->escapeHtmlAttr($title)?>to" id="<?=$this->escapeHtmlAttr($title)?>to" value="<?=isset($rangeFacets[$title]['values'][1])?$this->escapeHtmlAttr($yearMax):''?>" <?=$extraInputAttribs?>/>
                     </div>
                 </div>
-                <!-- <input class="btn btn-default" type="submit" value="<?=$this->transEsc('Set')?>"/> -->
+                <input class="btn btn-default" type="submit" value="<?=$this->transEsc('Set')?>"/>
             </form>
 
                 <? if ($rangeFacets[$title]['type'] == 'date'): ?>
@@ -139,7 +139,10 @@
                 $reversed = $this->layout()->rtl ? 'true' : 'false';
                 $script = <<<JS
 $(document).ready(function() {
-    $('[data-toggle="tooltip"]').tooltip();
+  function roundUp(num) {
+    return Math.ceil(num * 1000) / 1000;
+  }
+  $('[data-toggle="tooltip"]').tooltip();
   var fillTexts = function() {
   var v = {$this->escapeHtmlAttr($title)}dateSlider.getValue();
   $('#{$this->escapeHtmlAttr($title)}from').val(v[0]);
@@ -147,18 +150,26 @@ $(document).ready(function() {
   };
   console.log($('#{$this->escapeHtmlAttr($title)}dateSlider'));
   var {$this->escapeHtmlAttr($title)}dateSlider = $('#{$this->escapeHtmlAttr($title)}dateSlider')
-  .slider({
-  })
-  .on('slide', fillTexts)
-  .data('slider');
+    .slider({})
+    .on('slide', fillTexts)
+    .data('slider');
   var numItems = $(".timeline-list").children().length;
   var timelineWidth = $(".timeline-list").width();
   var itemWidth = (timelineWidth/numItems)-1;
-  $(".timeline-list li").each(function(idx){
-      $(this).width(itemWidth+1);
-      $(this).children('a').width(itemWidth);
+  $(".timeline-list li").each(function(idx) {
+      $(this).width(roundUp(itemWidth+1));
+      $(this).children('a').width(roundUp(itemWidth));
   });
-  
+  $("#{$this->escapeHtmlAttr($title)}Filter").submit(function(e) {
+      var from = $("#{$this->escapeHtmlAttr($title)}from").val();
+      var to = $("#{$this->escapeHtmlAttr($title)}to").val();
+
+      from = toIso(from);
+      to = toIso(to);
+      $("#{$this->escapeHtmlAttr($title)}from").val(from);
+      $("#{$this->escapeHtmlAttr($title)}to").val(to);
+      //$(this).submit();
+  });
 });
 JS;
                 ?>

@@ -23,7 +23,7 @@
 }
 .slider.slider-horizontal .slider-tick,
 .slider.slider-horizontal .slider-handle {
-  margin-left: -10px;
+  margin-left: -5px;
 }
 .slider.slider-horizontal .slider-tick.triangle,
 .slider.slider-horizontal .slider-handle.triangle {
@@ -280,37 +280,51 @@
 
 }
 
-.slider-handle.round {
-  top: -7px;
-  width: 14px !important;
-  height: 14px !important;
-  background: white !important;
-  border: 3px solid darken(@gray-light, 50%);
+.slider-container {
+  position: relative;
+  top: -24px;
+  bottom: 0;
+  height: 20px !important;
 }
 
+.slider-handle.round {
+  top: -3px;
+  width: 14px !important;
+  height: 14px !important;
+  background: rgba(255,255,255,0.3);
+  border: 2px solid darken(@gray-light, 30%);
+}
+.slider.slider-horizontal .slider-handle {
+  z-index: 101;
+}
 ul.timeline-list {
+  /*margin-left: -5px;*/
   padding: 0;
   display: block;
   list-style: none outside none;
   vertical-align: bottom;
+  z-index: 100;
   li {
     position:relative;
-    line-height: 40px;
-    height: 40px;
+    line-height: 50px;
+    height: 50px;
     float:left;
     display: inline-block !important;
-    padding-left: 0px;
-    padding-right: 0px;
+    padding-left: 0;
+    padding-right: 0;
     a {
       position:absolute;
       bottom:0;
       margin-right: 1px;
-      background: darken(@gray-light, 30%);
-      :hover {
-        background: darken(@gray-light, 50%) !important;
-      }
+      background: darken(@gray-light, 10%);
     }
-
+  }
+  li.in-range,
+  li:hover {
+    a,
+    a:hover {
+      background: darken(@gray-light, 30%) !important;
+    }
   }
 }
 
@@ -318,15 +332,27 @@ ul.timeline-list {
 .slider-track {
   height: 1px !important;
   .slider-track-low {
-    background: darken(@gray-light, 30%);
+    background: darken(@gray-light, 10%);
     height: 1px;
   }
   .slider-selection {
-    background: darken(@gray-light, 50%);
-    height: 1px;
-  }
-  .slider-track-high {
     background: darken(@gray-light, 30%);
     height: 1px;
   }
+  .slider-track-high {
+    background: darken(@gray-light, 10%);
+    height: 1px;
+  }
+  z-index: 99;
+}
+
+.minmax {
+  display: table;
+  width:100%;
+  height: 60px;
+}
+
+.minmax p {
+  display: table-cell;
+  vertical-align: bottom;
 }
