@@ -1,34 +1,167 @@
-
 <? $visFacets = $this->recommend->getVisFacets(); ?>
 <? if ($visFacets): ?>
 <div class="pub-date-vis-ajax">
-  <? /* load jQuery flot */ ?>
-<?$this->headScript()->appendFile('vendor/flot/excanvas.min.js', null, array('conditional' => 'IE'));
-  $this->headScript()->appendFile('vendor/flot/jquery.flot.min.js');
-  $this->headScript()->appendFile('vendor/flot/jquery.flot.resize.min.js');
-  $this->headScript()->appendFile('vendor/flot/jquery.flot.selection.min.js');
-  $this->headScript()->appendFile('bootstrap-slider.min.js');
-  $this->headScript()->appendFile('pubdate_vis.js'); ?>
 
-  <? foreach ($visFacets as $facetField=>$facetRange): ?>
-    <div class="authorbox">
-      <div id="datevis<?=$this->escapeHtml($facetField)?>xWrapper" class="hidden">
-        <strong><?=$this->transEsc($facetRange['label']) ?></strong>
-        <? /* space the flot visualisation */ ?>
-        <div id="datevis<?=$facetField ?>x" style="margin:0 10px;width:auto;height:80px;cursor:crosshair;"></div>
-        <div id="clearButtonText" style="display: none"><?=$this->transEsc('Clear') ?></div>
-      </div>
-    </div>
-  <? endforeach; ?>
-  <div id="dateVisColorSettings"><!-- do not delete! used for passing CSS to Javascript --></div>
-  <?
-    $js = "loadVis('" . $this->recommend->getFacetFields() . "', '"
-        . $this->recommend->getSearchParams() . "', '/', "
-        . $this->recommend->getZooming() . ");\n"
-        . "$(function() { $(\"#slider_publish_date\").slider({}); });";
-    echo $this->inlineScript(\Zend\View\Helper\HeadScript::SCRIPT, $js, 'SET');
-  ?>
+    <? /* load bootstrap slider javascript */ ?>
+    <? $this->headScript()->appendFile('vendor/bootstrap-slider.min.js'); ?>
 
+    <? foreach ($visFacets as $facetField => $facetRange): ?>
+
+        <? $title = $facetField; ?>
+        <? $rangeFacets[$title]['type'] = "date" ?>
+
+
+        <div class="date-slider">
+            <form action="" name="<?= $this->escapeHtmlAttr($title) ?>Filter" id="<?= $this->escapeHtmlAttr($title) ?>Filter">
+
+                <?=$results->getUrlQuery()->asHiddenFields(['page' => "/./", 'filter' => "/^{$title}:.*/"])?>
+                <input type="hidden" name="<?= $this->escapeHtmlAttr($rangeFacets[$title]['type']) ?>range[]"
+                       value="<?= $this->escapeHtmlAttr($title) ?>"/>
+
+                    <? //$arr = []; parse_str($this->recommend->getSearchParams(), $arr); print_r($arr); ?>
+                <div class="row" style="height:60px; ">
+                    <? $extraInputAttribs = ($rangeFacets[$title]['type'] == 'date') ? 'maxlength="4" ' : ''; ?>
+                    <div class="col-sm-1" style="padding-right: 0;">
+                        <div id="min-year" class="minmax text-right"></div>
+                    </div>
+                    <div class="col-sm-10" style="height: 60px;">
+
+                        <ul class="timeline-list clearfix">
+
+                        </ul>
+                        <div class="slider-container">
+
+                            <input type="text" class="hidden" data-slider-handle="round" data-slider-step="1"
+                                   id="<?= $this->escapeHtmlAttr($title) ?><?= $this->escapeHtml($rangeFacets[$title]['type']) ?>Slider"/>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-1" style="padding-left: 0;">
+                        <div id="max-year" class="minmax text-left"></div>
+                    </div>
+                </div>
+                <div class="row move" style="display:none;">
+                    <div class="col-sm-offset-2 col-sm-2">
+                        <label class="sr-only" for="<?= $this->escapeHtmlAttr($title) ?>from">
+                            <?= $this->transEsc('date_from') ?>:
+                        </label>
+                        <input type="text" class="form-control yearRange input-sm" name="<?= $this->escapeHtmlAttr($title) ?>from"
+                               id="<?= $this->escapeHtmlAttr($title) ?>from" value="" <?= $extraInputAttribs ?>/>
+                    </div>
+                    <div class="col-sm-2">
+                        <input class="btn btn-block btn-default btn-sm" type="submit" value="<?= $this->transEsc('Reset') ?>"/>
+                    </div>
+                    <div class="col-sm-2">
+                        <input class="btn btn-block btn-primary btn-sm" type="submit" value="<?= $this->transEsc('Set') ?>"/>
+                    </div>
+                    <div class="col-sm-2">
+                        <label class="sr-only" for="<?= $this->escapeHtmlAttr($title) ?>to">
+                            <?= $this->transEsc('date_to') ?>:
+                        </label>
+                        <input type="text" class="form-control yearRange input-sm" name="<?= $this->escapeHtmlAttr($title) ?>to"
+                               id="<?= $this->escapeHtmlAttr($title) ?>to" value="" <?= $extraInputAttribs ?>/>
+                    </div>
+                </div>
+            </form>
+        </div>
+    <? endforeach; ?>
+    <?php
+    $reversed = $this->layout()->rtl ? 'true' : 'false';
+    $script = <<<JS
+$(document).ready(function() {
+  const BAR_HEIGHT = 50;
+  var facetFields = "{$this->recommend->getFacetFields()}";
+  var searchParams = "{$this->recommend->getSearchParams()}";
+  // AJAX call
+  var url = '/AJAX/json?method=getVisData&facetFields=' + encodeURIComponent(facetFields) + '&' + searchParams;
+  
+  $("#{$this->escapeHtmlAttr($title)}Filter").submit(function(e) {
+        
+        $('#{$this->escapeHtmlAttr($title)}from').val(toIso($('#{$this->escapeHtmlAttr($title)}from').val()));
+        $('#{$this->escapeHtmlAttr($title)}to').val(toIso($('#{$this->escapeHtmlAttr($title)}to').val()));
+        return true;
+  });
+  
+  $.getJSON(url, function (data) {
+    if (data.status == 'OK') {
+      $.each(data['data'], function(key, val_) {
+        //check if there is data to display, if there isn't hide the box
+        //length = val_['data'].length;
+        if (val_['data'] == undefined || val_['data'].length == 0) {
+          return;
+        }
+        var minCount = val_['minCount'];
+        var maxCount = val_['maxCount'];
+        var minYear = val_['minYear'];
+        var maxYear = val_['maxYear'];
+        var rangeFrom = val_['rangeFrom'];
+        var rangeTo = val_['rangeTo'];
+        
+        if (rangeFrom === 0) { rangeFrom = minYear; }
+        if (rangeTo === 0) { rangeTo = maxYear; }
+        if (rangeFrom === rangeTo) { rangeTo++; maxYear++; }
+        $('#min-year').append($('<p>'+minYear+'</p>'));
+        $('#max-year').append($('<p>'+maxYear+'</p>'));
+        for (var i = 0; i < val_['data'].length; i++) {
+            var current = val_['data'][i];
+            var year = current[0];
+            var count = current[1];
+            var applied = year >= rangeFrom && year <= rangeTo;
+            var height = (count * BAR_HEIGHT) / maxCount;
+            if (height < 1) {height = 1;} 
+            var liWidth = ($('.timeline-list').width()-2) / val_['data'].length; 
+            var aWidth = liWidth-1;
+            var inrange = (applied) ? ' in-range' : '';
+            var bar = '<li style="width:'+liWidth+'px;" data-year="'+year+'" class="year-count-bar'+inrange+'"></li>';
+            var a = $('<a href="#" data-toggle="tooltip" data-placement="top" title="'+year+': '+count+'" data-year="'+year+'" data-count="'+count+'" style="height:'+height+'px;width:'+aWidth+'px;"><!-- --></a>').tooltip();
+            
+            $('.timeline-list').append($(bar).append(a));
+            
+        }
+        var fillTexts = function() {
+            var v = {$this->escapeHtmlAttr($title)}dateSlider.getValue();
+            $('#{$this->escapeHtmlAttr($title)}from').val(v[0]);
+            $('#{$this->escapeHtmlAttr($title)}to').val(v[1]);
+            $('.timeline-list li').each(function() {
+                var year = $(this).data("year");
+                if (year >= v[0] && year <= v[1]) {
+                    $(this).addClass("in-range");
+                } else {
+                    $(this).removeClass("in-range");
+                }
+            });
+            if ($('.move').css('display') === 'none') {
+                //$('.move').removeClass('hidden');
+                $('.move').show();
+            }
+        };
+        
+        $('#{$this->escapeHtmlAttr($title)}from').val(rangeFrom);
+        $('#{$this->escapeHtmlAttr($title)}to').val(rangeTo);
+        var {$this->escapeHtmlAttr($title)}dateSlider = $('#{$this->escapeHtmlAttr($title)}dateSlider')
+            .slider({
+                'min':minYear,
+                'max':maxYear,
+                'value':[rangeFrom,rangeTo],
+                'reversed': {$reversed}
+            })
+            .on('slide', fillTexts)
+            .data('slider');
+        });
+    }
+  });
+});
+JS;
+    echo $this->inlineScript(\Zend\View\Helper\HeadScript::SCRIPT, $script, 'SET');
+    ?>
+    <?
+    /*
+      $js = "loadVis('" . $this->recommend->getFacetFields() . "', '"
+          . $this->recommend->getSearchParams() . "', '/', "
+          . $this->recommend->getZooming() . ");\n"
+          . "$(function() { $(\"#slider_publish_date\").slider({}); });";
+      echo $this->inlineScript(\Zend\View\Helper\HeadScript::SCRIPT, $js, 'SET');
+    */
+    ?>
 </div>
 <? endif; ?>
-

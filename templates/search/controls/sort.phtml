@@ -3,7 +3,7 @@ if (!empty($list)): ?>
     <form class="form-horizontal" action="<?= $this->currentPath() ?>" method="get" name="sort">
         <div class="form-group">
             <?= $this->results->getUrlQuery()->asHiddenFields(array('sort' => '/.*/')); ?>
-            <label class="col-md-3 control-label" for="sort_options_1"><?= $this->transEsc('Sort') ?></label>
+            <label class="col-md-3 control-label" for="sort_options_1" style="line-height: 38px;margin: 0;padding: 0;"><?= $this->transEsc('Sort') ?></label>
             <div class="col-md-9">
                 <select id="sort_options_1" name="sort" class="jumpMenu form-control">
                     <? foreach ($list as $sortType => $sortData): ?>

@@ -17,13 +17,6 @@ function PadDigits(n, totalDigits)
   return pd + n;
 }
 
-function toIso(n) {
-  if (n <= 0) {
-    n = 1;
-  }
-  n = n.toString();
-  return n + '-01-01T00:00:00Z'
-}
 
 function loadVis(facetFields, searchParams, baseURL, zooming) {
   // options for the graph, TODO: make configurable

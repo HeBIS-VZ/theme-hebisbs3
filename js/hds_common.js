@@ -178,3 +178,12 @@ function processOtherEditions() {
         });
     });
 }
+
+
+function toIso(n) {
+    if (n <= 0) {
+        n = 1;
+    }
+    n = n.toString();
+    return n + '-01-01T00:00:00Z'
+}
