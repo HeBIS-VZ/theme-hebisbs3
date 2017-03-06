@@ -7,14 +7,30 @@
 ?>
 <table class="table table-striped" summary="<?=$this->transEsc('Description')?>">
     <!-- Bibliographischer Nachweis -->
-    <? $refNote = $this->referenceNote($this->driver); ?>
+    <? $refNote = $this->tabReferenceNote($this->driver); ?>
     <? if (!empty($refNote)): ?>
         <tr>
-            <th><?=$this->transEsc('Reference Note')?>: </th>
+            <th><?=$this->transEsc('tab_description_reference_note')?>: </th>
             <td><?= $refNote ?></td>
         </tr>
     <? endif; ?>
 
+    <? $relationShipEntry = $this->tabRelationshipEntry($this->driver); ?>
+    <? if (!empty($relationShipEntry)): ?>
+        <tr>
+            <th><?= $this->transEsc('tab_description_relationship_entry'); ?></th>
+            <td><?= $relationShipEntry ?></td>
+        </tr>
+    <? endif; ?>
+
+    <? $tabNotes = $this->tabNotes($this->driver); ?>
+    <? if (!empty($tabNotes)): ?>
+        <tr>
+            <th><?= $this->transEsc('tab_description_notes'); ?></th>
+            <td><?= $tabNotes ?></td>
+        </tr>
+    <? endif; ?>
+    <!--
   <? $summ = $this->driver->getSummary(); if (!empty($summ)): ?>
     <? $contentDisplayed = true; ?>
     <tr>
@@ -240,7 +256,7 @@
       </td>
     </tr>
   <? endif; ?>
-
+    -->
   <? if (!isset($contentDisplayed) || !$contentDisplayed): // Avoid errors if there were no rows above ?>
     <tr><td><?=$this->transEsc('no_description')?></td></tr>
   <? endif; ?>
