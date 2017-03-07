@@ -432,7 +432,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                     <div class="keywords">
                                         <form method="get" action="<?= $this->basePath() ?>/Search/Results"
                                               id="searchForm" name="searchForm" class="search">
-                                            <input type="hidden" name="bool" value="AND"/>
+                                            <input type="hidden" name="bool0[]" value="AND"/>
                                             <?= str_replace("<br />", " ", $keywords); ?>
                                             <button type="submit" class="btn btn-default btn-xs">
                                                 <span class="hds-icon-search"></span>
