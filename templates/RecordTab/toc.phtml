@@ -1,0 +1,16 @@
+
+<strong><?=$this->transEsc('Table of Contents')?>: </strong>
+<? $summary = $this->tabTocSummary($this->driver); ?>
+<? if (!empty($summary)) : ?>
+<div class="">
+    <?= $summary ?>
+</div>
+<? else : ?>
+    <?=$this->transEsc("Table of Contents unavailable")?>.
+<? endif; ?>
+<?
+    // Set page title.
+    $this->headTitle($this->translate('Table of Contents') . ': ' . $this->driver->getBreadcrumb());
+
+    $toc = $this->driver->getTOC();
+?>
