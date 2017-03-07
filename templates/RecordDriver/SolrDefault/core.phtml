@@ -566,9 +566,12 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
             <? if (count($this->tabs) > 0): ?>
                 <a name="tabnav"></a>
                 <ul class="recordTabs nav nav-tabs nav-justified">
-                    <? foreach ($this->tabs as $tab => $obj): ?>
+                    <?
+                    /** @var \Hebis\RecordTab\TabInterface $obj */
+                    foreach ($this->tabs as $tab => $obj): ?>
                         <? // add current tab to breadcrumbs if applicable:
                         $desc = $obj->getDescription();
+                        $hasContents = $obj->hasContents();
                         $tab_classes = array();
                         if (0 === strcasecmp($this->activeTab, $tab)) {
                             $tab_classes[] = 'active';
@@ -581,10 +584,17 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         if (!$obj->supportsAjax()) {
                             $tab_classes[] = 'noajax';
                         }
+                        if (!$hasContents) {
+                            $tab_classes[] = 'disabled';
+                        }
                         ?>
                         <li<?= count($tab_classes) > 0 ? ' class="' . implode(' ', $tab_classes) . '"' : '' ?>>
+                            <? if ($hasContents) : ?>
                             <a id="<?= strtolower($tab) ?>"
                                href="<?= $this->recordLink()->getTabUrl($this->driver, $tab) ?>#tabnav"><?= $this->transEsc($desc) ?></a>
+                            <? else : ?>
+                                <a id="<?= strtolower($tab) ?>" href="#tabnav"><?= $this->transEsc($desc) ?></a>
+                            <? endif; ?>
                         </li>
                     <? endforeach; ?>
                 </ul>
