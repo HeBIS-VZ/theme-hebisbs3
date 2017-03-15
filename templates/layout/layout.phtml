@@ -1,14 +1,12 @@
 <?= $this->doctype('HTML5') ?>
 <html lang="<?= $this->layout()->userLang ?>">
 <head>
-    <base href="<?= $this->basePath() ?>">
-    <? $this->headThemeResources() ?>
+    <?$this->headThemeResources()?>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-
-    <?= $this->headMeta() ?>
-    <?= $this->headTitle() ?>
+    <?=$this->headMeta()?>
+    <?=$this->headTitle()?>
     <style media="screen" type="text/css">
         @font-face {
             font-family: 'vufind-hds';
@@ -21,87 +19,120 @@
             font-weight: normal;
             font-style: normal;
         }
-        /* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
-        /* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
-
-        @media screen and (-webkit-min-device-pixel-ratio:0) {
-            @font-face {
-                font-family: 'vufind-hds';
-                src: url('<?= $this->basePath() ?>/themes/hebisbs3/font/vufind-hds.svg?45523202#vufind-hds') format('svg');
-            }
-        }
     </style>
-    <?
-    // Set up OpenSearch link:
-    $this->headLink(
-        array(
-            'href' => $this->url('search-opensearch') . '?method=describe',
-            'type' => 'application/opensearchdescription+xml',
-            'title' => $this->transEsc('Library Catalog Search'),
-            'rel' => 'search'
-        )
-    );
-    ?>
-    <?= $this->headLink() ?>
-    <?= $this->headStyle() ?>
-    <?
-    // Set global path for Javascript code:
-    $home = rtrim($this->url('home'));
-    if (empty($home)) {
-        $this->headScript()->prependScript("path = '/';\n\tVuFind.path = '/';");
-    } else {
-        $this->headScript()->prependScript("path = '".$home."';\n\tVuFind.path = '".$home."';");
-    }
-    $this->headScript()->prependScript("lang = '" .trim($this->layout()->userLang) ."';");
-
-
-    // Deal with cart stuff:
-    if (!isset($this->renderingError)) {
-        $cart = $this->cart();
-        $this->jsTranslations()->addStrings(
+        <?
+          // Set up OpenSearch link:
+          $this->headLink(
             array(
+              'href' => $this->url('search-opensearch') . '?method=describe',
+              'type' => 'application/opensearchdescription+xml',
+              'title' => $this->transEsc('Library Catalog Search'),
+              'rel' => 'search'
+            )
+          );
+        ?>
+        <!-- RTL styling -->
+        <? if ($this->layout()->rtl) {
+          $this->headLink()->appendStylesheet('vendor/bootstrap-rtl.min.css');
+        } ?>
+        <?=$this->headLink()?>
+        <?=$this->headStyle()?>
+        <?
+          if (!isset($this->renderingError)) {
+            // Add translation strings
+            $this->jsTranslations()->addStrings(
+              array(
+                'add_tag_success' => 'add_tag_success',
                 'bulk_email_success' => 'bulk_email_success',
+                'bulk_noitems_advice' => 'bulk_noitems_advice',
                 'bulk_save_success' => 'bulk_save_success',
                 'close' => 'close',
+                'collection_empty' => 'collection_empty',
+                'error_occurred' => 'An error has occurred',
+                'go_to_list' => 'go_to_list',
+                'libphonenumber_invalid' => 'libphonenumber_invalid',
+                'libphonenumber_invalidcountry' => 'libphonenumber_invalidcountry',
+                'libphonenumber_invalidregion' => 'libphonenumber_invalidregion',
+                'libphonenumber_notanumber' => 'libphonenumber_notanumber',
+                'libphonenumber_toolong' => 'libphonenumber_toolong',
+                'libphonenumber_tooshort' => 'libphonenumber_tooshort',
+                'libphonenumber_tooshortidd' => 'libphonenumber_tooshortidd',
                 'loading' => 'Loading',
+                'more' => 'more',
+                'number_thousands_separator' => [
+                    'number_thousands_separator', null, ','
+                ],
                 'sms_success' => 'sms_success'
-            )
-        );
-        if ($cart->isActive()) {
-            $this->headScript()->appendFile("vendor/cookies.js");
-            $this->headScript()->appendFile("cart.js");
-            $domain = $cart->getCookieDomain();
-            $this->headScript()->appendScript(
-                'var cartCookieDomain = ' . (!empty($domain) ? "'$domain'" : 'false') . ';'
+              )
             );
+            // Add libphonenumber.js strings
             $this->jsTranslations()->addStrings(
-                array(
-                    'bulk_noitems_advice' => 'bulk_noitems_advice',
-                    'confirmDelete' => 'confirm_delete',
-                    'confirmEmpty' => 'bookbag_confirm_empty',
-                    'viewBookBag' => 'View Book Bag',
-                    'addBookBag' => 'Add to Book Bag',
-                    'removeBookBag' => 'Remove from Book Bag',
-                    'itemsAddBag' => 'items_added_to_bookbag',
-                    'itemsInBag' => 'items_already_in_bookbag',
-                    'bookbagMax' => $cart->getMaxSize(),
-                    'bookbagFull' => 'bookbag_full_msg',
-                    'bookbagStatusFull' => 'bookbag_full',
-                    'no_tags' => 'No Tags'
-                )
+              array(
+                "Phone number invalid" => 'libphonenumber_invalid',
+                "Invalid country calling code" => 'libphonenumber_invalidcountry',
+                "Invalid region code" => 'libphonenumber_invalidregion',
+                "The string supplied did not seem to be a phone number" => 'libphonenumber_notanumber',
+                "The string supplied is too long to be a phone number" => 'libphonenumber_toolong',
+                "The string supplied is too short to be a phone number" => 'libphonenumber_tooshort',
+                "Phone number too short after IDD" => 'libphonenumber_tooshortidd'
+              )
             );
-        }
-        $this->headScript()->appendScript($this->jsTranslations()->getScript());
-    }
+            // Deal with cart stuff:
+            $cart = $this->cart();
+            if ($cart->isActive()) {
+              $this->headScript()->appendFile("vendor/cookies.js");
+              $this->headScript()->appendFile("cart.js");
+              $domain = $cart->getCookieDomain();
+              if (!empty($domain)) {
+                $this->headScript()->appendScript(
+                  'VuFind.cart.setDomain("' . $domain . '");'
+                );
+              }
+              $cookiePath = $cart->getCookiePath();
+              if (!empty($cookiePath)) {
+                $this->headScript()->appendScript(
+                  'VuFind.cart.setCookiePath("' . $cookiePath . '");'
+                );
+              }
+              $this->jsTranslations()->addStrings(
+                array(
+                  'addBookBag' => 'Add to Book Bag',
+                  'bookbagFull' => 'bookbag_full_msg',
+                  'bookbagMax' => $cart->getMaxSize(),
+                  'bookbagStatusFull' => 'bookbag_full',
+                  'confirmDelete' => 'confirm_delete',
+                  'confirmEmpty' => 'bookbag_confirm_empty',
+                  'itemsAddBag' => 'items_added_to_bookbag',
+                  'itemsInBag' => 'items_already_in_bookbag',
+                  'removeBookBag' => 'Remove from Book Bag',
+                  'viewBookBag' => 'View Book Bag'
+                )
+              );
+            }
+            $this->headScript()->appendScript(
+              'var userIsLoggedIn = ' . ($this->auth()->isLoggedIn() ? 'true' : 'false') . ';'
+            );
+          }
 
-    // Session keep-alive
-    if ($this->KeepAlive()) {
-        $this->headScript()->appendScript('var keepAliveInterval = '
-            . $this->KeepAlive());
-        $this->headScript()->appendFile("keep_alive.js");
-    }
+          // Session keep-alive
+          if ($this->KeepAlive()) {
+              $this->headScript()->appendScript('var keepAliveInterval = '
+                . $this->KeepAlive());
+              $this->headScript()->appendFile("keep_alive.js");
+          }
+        ?>
+    <?
+    $root = rtrim($this->url('home'), '/');
+    $translations = $this->jsTranslations()->getJSON();
+    $dsb = DEFAULT_SEARCH_BACKEND;
+    $setupJS = <<<JS
+VuFind.path = '{$root}';
+VuFind.defaultSearchBackend = '{$dsb}';
+VuFind.addTranslations({$translations});
+JS;
+    $this->headScript()->appendScript($setupJS);
     ?>
-    <?= $this->headScript() ?>
+    <?=$this->headScript()?>
 </head>
 <body>
 <? // Set up the search box -- there are three possible cases:
