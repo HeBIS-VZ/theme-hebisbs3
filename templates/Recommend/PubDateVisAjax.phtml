@@ -73,7 +73,7 @@ $(document).ready(function() {
   var facetFields = "{$this->recommend->getFacetFields()}";
   var searchParams = "{$this->recommend->getSearchParams()}";
   // AJAX call
-  var url = '/AJAX/json?method=getVisData&facetFields=' + encodeURIComponent(facetFields) + '&' + searchParams;
+  var url = VuFind.path + '/AJAX/json?method=getVisData&facetFields=' + encodeURIComponent(facetFields) + '&' + searchParams;
   
   $("#{$this->escapeHtmlAttr($title)}Filter").submit(function(e) {
         
