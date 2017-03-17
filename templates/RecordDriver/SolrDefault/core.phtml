@@ -85,11 +85,16 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
 
                         <!-- Titel -->
                         <? $title = $this->singleRecordTitleStatement($this->driver); ?>
+                        <? $owtitle = $this->singleRecordOWTitleStatement($this->driver); ?>
                         <div class="row">
                             <div class="bold col-sm-12 col-md-3 col-lg-2">
                                 <?= $this->transEsc('Title') ?>:
                             </div>
-                            <div class="col-sm-12 col-md-9 col-lg-10"><?= $title ?></div>
+                            <div class="col-sm-12 col-md-9 col-lg-10"><?= $title ?>
+                                <? if ($owtitle) : ?>
+                                    <br/><?= $owtitle ?>
+                                <? endif; ?>
+                            </div>
                         </div>
 
                         <!-- Unterreihe -->
