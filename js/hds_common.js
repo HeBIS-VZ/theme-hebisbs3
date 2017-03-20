@@ -5,6 +5,23 @@
 userIsLoggedIn = false;
 
 $(document).ready(function () {
+
+    $('.list-group.facet .list-group-item.toggle-more').click(function(event) {
+        event.preventDefault();
+        id = $(this).data("group");
+        $('.' + id).removeClass('hidden');
+        $('#more-' + id).addClass('hidden');
+        return false;
+    });
+
+    $('.list-group.facet .list-group-item.toggle-less').click(function(event) {
+        event.preventDefault();
+        id = $(this).data("group");
+        $('.' + id).addClass('hidden');
+        $('#more-' + id).removeClass('hidden');
+        return false;
+    });
+
     String.prototype.replaceAll = function (search, replacement) {
         var target = this;
         return target.split(search).join(replacement);
