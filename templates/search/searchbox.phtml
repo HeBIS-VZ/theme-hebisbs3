@@ -17,24 +17,7 @@ $advSearch = $options->getAdvancedSearchAction();
 //$lastSort = $options->getLastSort(); //not supported since VuFind 3.0.0
 //$lastLimit = $options->getLastLimit(); //not supported since VuFind 3.0.0
 ?>
-<? //if ($this->searchType == 'advanced'): ?>
-    <!--
-    <div id="searchForm" class="navbar-form navbar-left">
-        <? $tabs = $this->render('search/searchTabs'); ?>
-        <? if (!empty($tabs)): ?><?= $tabs ?>
-        <div class="tab-content clearfix"><? endif; ?>
-            <p class="adv_search_terms"><?= $this->transEsc("Your search terms") ?> :
-                "<strong><?= $this->escapeHtml($this->lookfor) ?></strong>"</p>
-            <p class="adv_search_links">
-                <a href="<?= $this->url($advSearch) ?>?edit=<?= $this->escapeHtmlAttr($this->searchId) ?>"><?= $this->transEsc("Edit this Advanced Search") ?></a>
-                |
-                <a href="<?= $this->url($advSearch) ?>"><?= $this->transEsc("Start a new Advanced Search") ?></a> |
-                <a href="<?= $this->url($searchHome) ?>"><?= $this->transEsc("Start a new Basic Search") ?></a>
-            </p>
-            <? if (!empty($tabs)): ?></div><? endif; ?>
-    </div>
-    -->
-<? //else: ?>
+
     <form role="search" class="" method="get" action="<?= $this->url($basicSearch) ?>"
           name="searchForm" id="searchForm" autocomplete="off" style="">
 
@@ -80,13 +63,6 @@ $advSearch = $options->getAdvancedSearchAction();
                                 <a href="<?= $this->url($advSearch) ?>"><span class="hds-icon-zoom-in"></span><?= $this->transEsc("Advanced") ?></a>
                             <? endif; ?>
                         </div>
-                                    <!--
-                                    <li><a href="#">Action</a></li>
-                                    <li><a href="#">Another action</a></li>
-                                    <li><a href="#">Something else here</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="#">Separated link</a></li>
-                                    -->
                     </div>
                     <button type="submit" class="btn btn-primary">
                         <span class="hds-icon-search"></span>

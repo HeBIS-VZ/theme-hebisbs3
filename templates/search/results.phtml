@@ -1,6 +1,11 @@
 <?
   // Set up page title:
   $lookfor = $this->results->getUrlQuery()->isQuerySuppressed() ? '' : $this->params->getDisplayQuery();
+  $this->lookfor = $lookfor;
+  $this->searchIndex = $this->params->getSearchHandler();
+  $this->searchType = $this->params->getSearchType();
+  $this->searchId = $this->results->getSearchId();
+  $this->searchClassId = $this->params->getSearchClassId();
   if (isset($this->overrideTitle)) {
       $this->headTitle($this->overrideTitle);
   } else {

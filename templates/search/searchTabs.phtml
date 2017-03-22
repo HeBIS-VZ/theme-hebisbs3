@@ -1,4 +1,12 @@
-<? $searchTabs = $this->searchtabs()->getTabConfig($this->searchClassId, $this->lookfor, $this->searchIndex, $this->searchType, $this->hiddenFilters); ?>
+<?
+$lookfor = $this->lookfor;
+$searchIndex = $this->searchIndex;
+if (!isset($this->searchTabs))  {
+    $searchTabs = $this->searchtabs()->getTabConfig($this->searchClassId, $lookfor, $searchIndex);
+} else {
+    $searchTabs = $this->searchtabs()->getTabConfig($this->searchClassId, $lookfor, $searchIndex, $this->searchType, $this->hiddenFilters);
+}
+?>
 <? if (count($searchTabs) > 0): ?>
   <ul class="nav nav-tabs">
     <? foreach ($searchTabs as $tab): ?>
