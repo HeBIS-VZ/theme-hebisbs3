@@ -4,7 +4,14 @@
       <? if (!$viewData['selected']): ?>
         <a href="<?=$this->results->getUrlQuery()->setViewParam($viewType)?>" title="<?=$this->transEsc('Switch view to')?> <?=$this->transEsc($viewData['desc'])?>" >
       <? endif; ?>
-      <i class="fa fa-<?=$viewType ?>"<? if($viewData['selected']): ?> title="<?=$this->transEsc($viewData['desc']) ?> <?=$this->transEsc('view already selected') ?>" <? endif ?> alt="<?=$this->transEsc($viewData['desc'])?>"></i>
+          <? if ($viewType === "list|title") : ?>
+            <i class="hds-icon-th-list"<? if($viewData['selected']): ?> title="<?=$this->transEsc($viewData['desc']) ?> <?=$this->transEsc('view already selected') ?>" <? endif ?> alt="<?=$this->transEsc($viewData['desc'])?>"></i>
+
+          <? elseif ($viewType === "list|brief") : ?>
+              <i class="hds-icon-th-large"<? if($viewData['selected']): ?> title="<?=$this->transEsc($viewData['desc']) ?> <?=$this->transEsc('view already selected') ?>" <? endif ?> alt="<?=$this->transEsc($viewData['desc'])?>"></i>
+          <? elseif ($viewType === "list|detailed") : ?>
+              <i class="hds-icon-th"<? if($viewData['selected']): ?> title="<?=$this->transEsc($viewData['desc']) ?> <?=$this->transEsc('view already selected') ?>" <? endif ?> alt="<?=$this->transEsc($viewData['desc'])?>"></i>
+          <? endif; ?>
       <?=$this->transEsc($viewData['desc']) ?><? if (!$viewData['selected']): ?></a><? endif; ?>&nbsp;
     <? endforeach; ?>
   <? endif; ?>
