@@ -580,7 +580,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         $tab_classes = array();
                         if (0 === strcasecmp($this->activeTab, $tab)) {
                             $tab_classes[] = 'active';
-                            $this->layout()->breadcrumbs .= '<li class="active">' . $this->transEsc($desc) . '</li>';
+                            $breadcrumbs = $this->layout()->breadcrumbs .= '<li class="active">' . $this->transEsc($desc) . '</li>';
                             $activeTabObj = $obj;
                         }
                         if (!$obj->isVisible()) {
