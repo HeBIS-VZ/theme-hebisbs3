@@ -1,9 +1,31 @@
-<? $searchTabs = $this->searchtabs()->getTabConfig($this->searchClassId, $this->lookfor, $this->searchIndex, $this->searchType, $this->hiddenFilters); ?>
+<?
+
+$lookfor = $this->lookfor;
+$searchIndex = $this->searchIndex;
+if (!isset($this->searchTabs))  {
+    $searchTabs = $this->searchtabs()->getTabConfig($this->searchClassId, $lookfor, $searchIndex);
+} else {
+    $searchTabs = $this->searchtabs()->getTabConfig($this->searchClassId, $lookfor, $searchIndex, $this->searchType, $this->hiddenFilters);
+}
+?>
 <? if (count($searchTabs) > 0): ?>
   <ul class="nav nav-tabs">
     <? foreach ($searchTabs as $tab): ?>
-      <li<?=$tab['selected'] ? ' class="active"' : ''?>>
+      <li id="<?=$tab["id"]?>"<?=$tab['selected'] ? ' class="active"' : ''?>>
         <a <?=$tab['selected'] ? '' : 'href="' . $this->escapeHtmlAttr($tab['url']) . '"' ?>><?=$this->transEsc($tab['label']); ?></a>
+        <? if ($tab["id"] === "EDS" && !$tab['selected']) :
+            $url = str_replace("/Search", "/ajax", $tab["url"]);
+
+            $var = <<<EDSSCRIPT
+    var url = "{$url}";
+    $(document).ready(function() {
+      $.getJSON(url, function (data) {
+        $("#EDS > a").append(" <small id=\"eds-count\">("+data["data"]+")</small>");
+      });
+    });
+EDSSCRIPT;
+            $this->headScript()->appendScript($var);
+        endif; ?>
       </li>
     <? endforeach; ?>
   </ul>

@@ -5,6 +5,23 @@
 userIsLoggedIn = false;
 
 $(document).ready(function () {
+
+    $('.list-group.facet .list-group-item.toggle-more').click(function(event) {
+        event.preventDefault();
+        id = $(this).data("group");
+        $('.' + id).removeClass('hidden');
+        $('#more-' + id).addClass('hidden');
+        return false;
+    });
+
+    $('.list-group.facet .list-group-item.toggle-less').click(function(event) {
+        event.preventDefault();
+        id = $(this).data("group");
+        $('.' + id).addClass('hidden');
+        $('#more-' + id).removeClass('hidden');
+        return false;
+    });
+
     String.prototype.replaceAll = function (search, replacement) {
         var target = this;
         return target.split(search).join(replacement);
@@ -117,52 +134,6 @@ function processWikipediaLinks() {
             });
         });
     }
-}
-
-function setupAutocomplete() {
-    // Search autocomplete
-    $('.autocomplete').each(function (i, op) {
-        $(op).autocomplete({
-            maxResults: 10,
-            loadingString: VuFind.translate('loading') + '...',
-            handler: function (input, cb) {
-                var query = input.val();
-                var searcher = extractClassParams(input);
-                var hiddenFilters = [];
-                $(input).closest('.searchForm').find('input[name="hiddenFilters[]"]').each(function () {
-                    hiddenFilters.push($(this).val());
-                });
-                $.fn.autocomplete.ajax({
-                    url: path + '/AJAX/JSON',
-                    data: {
-                        q: query,
-                        method: 'getACSuggestions',
-                        searcher: searcher['searcher'],
-                        type: searcher['type'] ? searcher['type'] : $(input).closest('.searchForm').find('.searchForm_type').val(),
-                        hiddenFilters: hiddenFilters
-                    },
-                    dataType: 'json',
-                    success: function (json) {
-                        if (json.data.length > 0) {
-                            var datums = [];
-                            for (var i = 0; i < json.data.length; i++) {
-                                datums.push(json.data[i]);
-                            }
-                            cb(datums);
-                        } else {
-                            cb([]);
-                        }
-                    }
-                });
-            }
-        });
-    });
-    // Update autocomplete on type change
-    $('.searchForm_type').change(function() {
-        var $lookfor = $(this).closest('.searchForm').find('.searchForm_lookfor[name]');
-        $lookfor.autocomplete('clear cache');
-        $lookfor.focus();
-    });
 }
 
 function processOtherEditions() {

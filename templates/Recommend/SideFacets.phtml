@@ -1,6 +1,6 @@
 <? $results = $this->recommend->getResults(); ?>
 <? if ($results->getResultTotal() > 0): ?>
-  <h4><?=$this->transEsc(isset($this->overrideSideFacetCaption) ? $this->overrideSideFacetCaption : 'Narrow Search')?></h4>
+  <!-- <h4><?=$this->transEsc(isset($this->overrideSideFacetCaption) ? $this->overrideSideFacetCaption : 'Narrow Search')?></h4> -->
 <? endif; ?>
 <? $checkboxFilters = $results->getParams()->getCheckboxFacets(); if (count($checkboxFilters) > 0): ?>
 <?
@@ -18,7 +18,7 @@
       onclick="document.location.href=\''.($current['selected'] ? $results->getUrlQuery()->removeFilter($current['filter']) : $results->getUrlQuery()->addFilter($current['filter'])).'\';" />'.$this->transEsc($current['desc']).'</label>';
   }
 ?>
-  <div class="checkboxFilter<?if($shown == 0):?> hidden<? endif; ?>"><?=$html ?></div>
+  <!-- <div class="checkboxFilter<?if($shown == 0):?> hidden<? endif; ?>" style="margin-left: 1.5em;"><?=$html ?></div> -->
 <? endif; ?>
 <? $extraFilters = isset($this->extraSideFacetFilters) ? $this->extraSideFacetFilters : array(); ?>
 <? $collapsedFacets = $this->recommend->getCollapsedFacets() ?>
@@ -44,7 +44,7 @@
           }
         ?>
         <a class="list-group-item active" href="<?=$removeLink?>">
-          <span class="pull-right flip"><i class="fa fa-times"></i></span>
+          <span class="pull-right flip"><i class="hds-icon hds-icon-cancel-1"></i></span>
           <? if ($filter['operator'] == 'NOT') echo $this->transEsc('NOT') . ' '; if ($filter['operator'] == 'OR' && $i > 0) echo $this->transEsc('OR') . ' '; ?><?=$this->transEsc($field)?>: <?=$this->escapeHtml($filter['displayText'])?>
         </a>
       <? endforeach; ?>
@@ -162,7 +162,7 @@ JS;
               ?>
               <? $moreClass = 'narrowGroupHidden-'.$this->escapeHtmlAttr($title).' hidden'; ?>
             <? if ($i == $facets_before_more): ?>
-              <a id="more-narrowGroupHidden-<?=$this->escapeHtmlAttr($title)?>" class="list-group-item narrow-toggle" href="javascript:moreFacets('narrowGroupHidden-<?=$this->escapeHtmlAttr($title) ?>')"><?=$this->transEsc('more')?> ...</a>
+              <a id="more-narrowGroupHidden-<?=$this->escapeHtmlAttr($title)?>" class="list-group-item narrow-toggle toggle-more" data-group="narrowGroupHidden-<?=$this->escapeHtmlAttr($title) ?>" href="#"><?=$this->transEsc('more')?> ...</a>
             <? endif; ?>
             <? if ($thisFacet['isApplied']): ?>
               <a class="list-group-item active<? if ($i >= $facets_before_more): ?><?=$moreClass ?><?endif ?><? if ($thisFacet['operator'] == 'OR'): ?> facetOR applied<? endif ?>" href="<?=$this->currentPath().$results->getUrlQuery()->removeFacet($title, $thisFacet['value'], true, $thisFacet['operator']) ?>">
@@ -201,7 +201,7 @@ JS;
               <? endif; ?>
             <? endif; ?>
           <? endforeach; ?>
-          <? if ($i >= $facets_before_more): ?><a class="list-group-item narrow-toggle <?=$moreClass ?>" href="javascript:lessFacets('narrowGroupHidden-<?=$this->escapeHtmlAttr($title) ?>')"><?=$this->transEsc('less')?> ...</a><? endif; ?>
+          <? if ($i >= $facets_before_more): ?><a class="list-group-item narrow-toggle toggle-less <?=$moreClass ?>" data-group="narrowGroupHidden-<?=$this->escapeHtmlAttr($title) ?>" href="#"><?=$this->transEsc('less')?> ...</a><? endif; ?>
         <? endif; ?>
         <? if (in_array($title, $hierarchicalFacets)): ?>
           </noscript>

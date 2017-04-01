@@ -13,9 +13,14 @@ if ($this->export()->recordSupportsFormat($this->driver, 'RDF')) {
 }
 
 // Set up breadcrumbs:
-$this->layout()->breadcrumbs = '<li>' . /*$this->getLastSearchLink($this->transEsc('Search'), '', '</li> ')*/'' .
-    '<li class="active">' . $this->recordLink()->getBreadcrumb($this->driver) . '</li> ';
-$this->layout()->title = $this->driver->getShortTitle();
+$lastSearchTerm = $this->searchMemory()->getLastSearchTerm();
+$shortTitle = strpos($this->searchClassId, "EDS") !== false ? $this->edsShortTitle($this->driver) : $this->singleRecordTitleStatementHeadline($this->driver);
+
+$this->layout()->breadcrumbs = !empty($lastSearchTerm) ? "<li>" . $this->searchMemory()->getLastSearchLink($this->transEsc('Search').': '.$lastSearchTerm, '', '</li> ') : '';
+$this->layout()->breadcrumbs .= !empty($shortTitle) ? '<li class="active">'.$this->truncate($shortTitle, 30).'</li>' : "";
+
+
+//$this->layout()->title = $this->singleRecordTitleStatementHeadline($this->driver);
 ?>
 
 <? if (isset($this->scrollData) && ($this->scrollData['previousRecord'] || $this->scrollData['nextRecord'])): ?>

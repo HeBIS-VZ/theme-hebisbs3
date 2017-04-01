@@ -1,0 +1,125 @@
+<? $this->headLink()->appendStylesheet('EDS.css'); ?>
+<?
+    $items = $this->driver->getItems();
+    $dbLabel = $this->driver->getDbLabel();
+    $thumb = $this->driver->getThumbnail('medium');
+    $pubType = $this->driver->getPubType();
+    $customLinks = $this->driver->getCustomLinks();
+    $accessLevel = $this->driver->getAccessLevel();
+    $restrictedView = empty($accessLevel) ? false : true;
+
+?>
+<div class="row" vocab="http://schema.org/" resource="#record" typeof="<?=$this->driver->getSchemaOrgFormats()?> Product">
+  <div class="col-sm-3 img-col">
+      <? if (isset($this->scrollData) && ($this->scrollData['previousRecord'] || $this->scrollData['nextRecord'])): ?>
+          <ul class="pager hidden-print hidden-xs hidden-sm">
+              <? if ($this->scrollData['previousRecord']): ?>
+                  <li>
+                      <a href="<?= $this->recordLink()->getUrl($this->scrollData['previousRecord']) ?>"
+                         title="<?= $this->transEsc('Previous Search Result') ?>"><span class="hds-icon-left-open"><!-- --> </span><span class="sr-only"><?= $this->transEsc('Prev') ?></span></a>
+                  </li>
+              <? else: ?>
+                  <li class="disabled"><span class="hds-icon-left-open"><!-- --> </span><span class="sr-only"><?= $this->transEsc('Prev') ?></span></li>
+              <? endif; ?>
+              <li><span><?= $this->localizedNumber($this->scrollData['currentPosition']) . ' / ' . $this->localizedNumber($this->scrollData['resultTotal']) //' ' . $this->transEsc('results') ?></span></li>
+              <? if ($this->scrollData['nextRecord']): ?>
+                  <li>
+                      <a href="<?= $this->recordLink()->getUrl($this->scrollData['nextRecord']) ?>"
+                         title="<?= $this->transEsc('Next Search Result') ?>"><span class="sr-only"><?= $this->transEsc('Next') ?></span><span class="hds-icon-right-open"> <!-- --></span></a>
+                  </li>
+              <? else: ?>
+                  <li class="disabled"><span class="sr-only"><?= $this->transEsc('Next') ?></span><span class="hds-icon-right-open"> <!-- --></span></li>
+              <? endif; ?>
+          </ul>
+      <? endif; ?>
+
+    <? if ($thumb): ?>
+        <img src="<?=$this->escapeHtmlAttr($thumb)?>" class="recordcover" alt="<?=$this->transEsc('Cover Image')?>"/>
+    <? else: ?>
+      <div class="clearfix">
+        <span class="recordcover pt-icon pt-<?=$this->driver->getPubTypeId()?>"></span>
+      </div>
+    <? endif; ?>
+    <? if ($pubType): ?>
+      <p><?=$this->transEsc($pubType)?></p>
+    <? endif; ?>
+
+    <div class="external-links">
+      <? $pdfLink = $this->driver->getPdfLink();
+          if ($pdfLink): ?>
+        <span>
+          <a href="<?=$pdfLink?>" class="icon pdf fulltext">
+            <?=$this->transEsc('PDF Full Text')?>
+          </a>
+        </span><br />
+      <? endif; ?>
+      <? if ($this->driver->hasHTMLFullTextAvailable()): ?>
+        <span>
+          <a href="<?=$this->recordLink()->getUrl($this->driver, 'fulltext')?>#html" class="icon html fulltext">
+            <?=$this->transEsc('HTML Full Text')?>
+          </a>
+        </span><br />
+      <? endif; ?>
+    </div>
+  </div>
+  <div class="col-sm-9 info-col">
+    <h3 property="name"><?=$this->driver->getTitle()?></h3>
+
+    <table class="table table-striped" summary="<?=$this->transEsc('Bibliographic Details')?>">
+      <? foreach ($items as $key => $item): ?>
+        <? if (!empty($item['Data'])): ?>
+        <tr>
+          <th><?=$this->transEsc($item['Label'])?>:</th>
+          <td><?=$this->driver->linkUrls($item['Data'])?></td>
+        </tr>
+        <? endif; ?>
+      <? endforeach; ?>
+
+      <? if ($dbLabel): ?>
+        <tr>
+          <th><?=$this->transEsc('Database')?>:</th>
+          <td><?=$this->escapeHtml($dbLabel)?></td>
+        </tr>
+      <? endif; ?>
+
+      <?if ($this->driver->hasHTMLFullTextAvailable() && !$restrictedView):
+          $fullText = $this->driver->getHtmlFullText();?>
+        <tr id="html">
+          <td colspan="2">
+            <?=$fullText?>
+          </td>
+        </tr>
+      <? elseif ($this->driver->hasHTMLFullTextAvailable() && $restrictedView): ?>
+        <tr id="html">
+          <td>
+            <?=$this->transEsc('Full text is not displayed to guests')?>
+          </td>
+          <td>
+            <a class="login" href="<?=$this->url('myresearch-home')?>" rel="nofollow">
+              <strong><?=$this->transEsc('Login for full access')?></strong>
+            </a>
+          </td>
+        </tr>
+      <? endif; ?>
+    </table>
+
+    <div class="resultItemLine4 custom-links">
+
+    <? $customLinks = array_merge($this->driver->getFTCustomLinks(), $this->driver->getCustomLinks());
+    if (!empty($customLinks)): ?>
+      <? foreach ($customLinks as $customLink): ?>
+      <? $url = isset($customLink['Url']) ? $customLink['Url'] : '';
+          $mot = isset($customLink['MouseOverText'])? $customLink['MouseOverText'] : '';
+          $icon = isset ($customLink['Icon']) ? $customLink['Icon'] : '';
+          $name = isset($customLink['Text']) ? $customLink['Text'] : '';
+      ?>
+      <span>
+        <a href="<?=$this->escapeHtmlAttr($url)?>" target="_blank" title="<?=$this->escapeHtmlAttr($mot)?>" class="custom-link">
+          <? if ($icon): ?><img src="<?=$this->escapeHtmlAttr($icon)?>" /> <? endif; ?><?=$this->escapeHtml($name)?>
+        </a>
+      </span>
+      <? endforeach; ?>
+    <? endif; ?>
+    </div>
+  </div>
+</div>
