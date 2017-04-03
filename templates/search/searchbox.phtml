@@ -60,7 +60,14 @@ $advSearch = $options->getAdvancedSearchAction();
                                 </div>
                             <? endforeach; ?>
                             <? if ($advSearch): ?>
-                                <a href="<?= $this->url($advSearch) ?>"><span class="hds-icon-zoom-in"></span><?= $this->transEsc("Advanced") ?></a>
+                                <? if ($this->searchType == 'advanced'): ?>
+                                    <? $hiddenFilterParams = $this->searchtabs()->getCurrentHiddenFilterParams($this->searchClassId, $ignoreHiddenFilterMemory, '?'); ?>
+                                <p class="adv_search_links">
+                                    <a href="<?=$this->url($advSearch)?>?edit=<?=$this->escapeHtmlAttr($this->searchId)?>"><?=$this->transEsc("Advanced")?></a>
+                                </p>
+                                <? else : ?>
+                                    <a href="<?= $this->url($advSearch) ?>"><span class="hds-icon-zoom-in"></span><?= $this->transEsc("Advanced") ?></a>
+                                <? endif; ?>
                             <? endif; ?>
                         </div>
                     </div>

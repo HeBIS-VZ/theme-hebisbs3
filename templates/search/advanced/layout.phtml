@@ -87,7 +87,7 @@
         </div>
         <? /* An empty div. This is the target for the javascript that builds this screen */ ?>
         <span id="groupPlaceHolder" class="hidden">
-          <i class="fa fa-plus-circle"></i> <a href="#" onClick="addGroup()"><?= $this->transEsc('add_search_group') ?></a>
+          <a class="btn btn-primary" role="button" href="#" onClick="addGroup()"><span class="hds hds-icon-plus"></span> <?= $this->transEsc('add_search_group') ?></a>
         </span>
         <? /* fallback to a fixed set of search groups/fields if JavaScript is turned off */ ?>
         <div class="no-js">
@@ -152,10 +152,13 @@
             <? endfor; ?>
           <? endif; ?>
         </div>
-        <div class="clearfix">
-          <input class="btn btn-default clear-btn" type="button" value="<?= $this->transEsc('Clear')?>">
-          <input class="btn btn-primary pull-right flip" type="submit" value="<?= $this->transEsc('Find')?>">
+        <div class="pull-right">
+            <div class="btn-group" role="group">
+                <button class="btn btn-primary pull-right flip" type="submit"><span class="hds-icon-search"></span> <?= $this->transEsc('Find')?></button>
+                <button class="btn btn-default pull-right clear-btn" type="button"><span class="hds-icon-recycle"></span><?= $this->transEsc('Clear')?></button>
+            </div>
         </div>
+        <p class="clearfix"><!-- --></p>
         <? if (isset($this->extraAdvancedControls)): ?>
           <?=$this->extraAdvancedControls ?>
           <div class="clearfix">
