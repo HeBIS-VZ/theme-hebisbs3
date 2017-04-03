@@ -12,7 +12,7 @@
           </label>
         </div>
       <? endforeach; ?>
-
+      <!--
       <label class="displayBlock" for="searchModes"><?=$this->transEsc('Search Mode')?></label>
       <select id="searchMode_<?=$this->escapeHtmlAttr($field)?>" name="filter[]" class="form-control">
         <? foreach ($this->searchModes as $field => $searchMode):
@@ -22,6 +22,7 @@
           </option>
         <? endforeach; ?>
       </select>
+      -->
     </fieldset>
   <? endif; ?>
 
@@ -129,3 +130,4 @@ JS;
     </fieldset>
   <? endif; ?>
 </div>
+<p class="clearfix"><!-- --></p>

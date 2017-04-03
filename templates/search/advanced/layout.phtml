@@ -161,9 +161,11 @@
         <p class="clearfix"><!-- --></p>
         <? if (isset($this->extraAdvancedControls)): ?>
           <?=$this->extraAdvancedControls ?>
-          <div class="clearfix">
-            <input class="btn btn-default clear-btn" type="button" value="<?= $this->transEsc('Clear')?>">
-            <input class="btn btn-primary pull-right flip" type="submit" value="<?= $this->transEsc('Find')?>">
+          <div class="pull-right">
+              <div class="btn-group" role="group">
+                  <button class="btn btn-primary pull-right flip" type="submit"><span class="hds-icon-search"></span> <?= $this->transEsc('Find')?></button>
+                  <button class="btn btn-default pull-right clear-btn" type="button"><span class="hds-icon-recycle"></span><?= $this->transEsc('Clear')?></button>
+              </div>
           </div>
         <? endif; ?>
       </div>
