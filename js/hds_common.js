@@ -79,6 +79,16 @@ $(document).ready(function () {
         }
         $form.submit();
     });
+
+    $('#select-search-handler li a').click(function(event) {
+        var value = $(this).data('value');
+        var label = $(this).data('label');
+        console.log(value);
+        console.log(label);
+        $('#search-option-type').val(value);
+        $('#selected-handler').text(label);
+        return event;
+    });
 });
 
 
