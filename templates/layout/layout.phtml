@@ -154,7 +154,7 @@ if (!isset($this->layout()->searchbox)) {
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#header-collapse">
                         <span class="sr-only">Toggle navigation</span>
-                        <i class="fa fa-bars"></i>
+                        <span class="hds-icon-menu"></span>
                     </button>
                     <!--
     <a role="logo" class="navbar-brand" href="<?= $this->url('home') ?>">VuFind</a>
@@ -239,27 +239,22 @@ if (!isset($this->layout()->searchbox)) {
 
             </div>
 
-            <div class="navbar-header col-sm-4 col-xs-10 col-md-2">
+            <div class="navbar-header hidden-xs col-sm-3 col-md-3 col-lg-2">
                 <?= $this->render('logo.phtml') ?>
             </div>
-            <section class="searchbox col-sm-8 col-xs-12 col-md-10" style="min-height:60px;">
+            <section class="searchbox col-xs-12 col-sm-9 col-md-9 col-lg-10" style="min-height:60px;">
                 <?=$this->layout()->searchbox ?>
             </section>
         </div>
 
     </div>
-    <!--
-    <div class="container navbar">
-        <a class="sr-only" href="#content"><?= $this->transEsc('Skip to content') ?></a>
-        <? // echo $this->render('header.phtml') ?>
-    </div>
-    -->
+
 </header>
 <div id="main-content" role="main" class="main template-dir-<?= $this->templateDir ?> template-name-<?= $this->templateName ?>">
 
     <div class="container">
 
-        <div class="container-inner">
+
 
             <? if ((!isset($this->layout()->showBreadcrumbs) || $this->layout()->showBreadcrumbs == true)
                 && !empty($this->layout()->breadcrumbs)
@@ -299,12 +294,11 @@ if (!isset($this->layout()->searchbox)) {
                 <?= $this->layout()->content ?>
             </section>
         </div>
-    </div>
 </div>
 <footer role="contentinfo" class="hidden-print">
     <div class="container">
         <?= $this->render('footer.phtml') ?>
-        <?= $this->layout()->poweredBy ?>
+        <?= $this->render('poweredby.phtml') ?>
         <div id="height-offset-workaround"><!-- --></div>
     </div>
 </footer>

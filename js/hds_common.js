@@ -42,26 +42,26 @@ $(document).ready(function () {
     var origOffsetY = $('.searchbox').offset().top;
     //var origOffsetX = container.left;
     function scroll() {
-        if ($(window).scrollTop() > (origOffsetY)) {
-            $('#height-offset-workaround').height(origOffsetY*2).show();
-            navbar.addClass('sticky');
-            menu.hide();
-            smalllogo.removeClass('hidden-sm').removeClass('hidden-md').removeClass('hidden-lg');
-            largelogo.hide();
-            $("#main-content").css({marginTop: $("header.header").height()+origOffsetY});
-            //$('.main-content').addClass('menu-padding');
-            //container.offset({left: origOffsetX});
-        } else {
-            //$('#height-offset-workaround').hide();
-            navbar.removeClass('sticky');
-            menu.show();
-            smalllogo.addClass('hidden-sm').addClass('hidden-md').addClass('hidden-lg');
-            largelogo.show();
-            $("#main-content").css({marginTop: 0});
-            //$('.main-content').removeClass('menu-padding');
+        if (document.body.clientWidth >= 768) {
+            if ($(window).scrollTop() > (origOffsetY)) {
+                $('#height-offset-workaround').height(origOffsetY*2).show();
+                navbar.addClass('sticky');
+                menu.hide();
+                smalllogo.removeClass('hidden-sm').removeClass('hidden-md').removeClass('hidden-lg');
+                largelogo.hide();
+                $("#main-content").css({marginTop: $("header.header").height()+origOffsetY});
+                //$('.main-content').addClass('menu-padding');
+                //container.offset({left: origOffsetX});
+            } else {
+                //$('#height-offset-workaround').hide();
+                navbar.removeClass('sticky');
+                menu.show();
+                smalllogo.addClass('hidden-sm').addClass('hidden-md').addClass('hidden-lg');
+                largelogo.show();
+                $("#main-content").css({marginTop: 0});
+                //$('.main-content').removeClass('menu-padding');
+            }
         }
-
-
     }
 
     document.onscroll = scroll;
@@ -83,8 +83,6 @@ $(document).ready(function () {
     $('#select-search-handler li a').click(function(event) {
         var value = $(this).data('value');
         var label = $(this).data('label');
-        console.log(value);
-        console.log(label);
         $('#search-option-type').val(value);
         $('#selected-handler').text(label);
         return event;
