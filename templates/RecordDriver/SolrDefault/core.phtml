@@ -85,7 +85,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
 
                         <!-- Titel -->
                         <? $title = $this->singleRecordTitleStatement($this->driver); ?>
-                        <? $owtitle = $this->singleRecordOWTitleStatement($this->driver); ?>
+                        <? $owtitle = $this->singleRecordOWTitleStatement($this->driver); //get the ow title from view helper ?>
                         <div class="row">
                             <div class="bold col-sm-12 col-md-3 col-lg-2">
                                 <?= $this->transEsc('Title') ?>:
