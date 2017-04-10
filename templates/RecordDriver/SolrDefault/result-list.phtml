@@ -242,7 +242,7 @@
 
             <? if ($this->userlist()->getMode() !== 'disabled'): ?>
                 <? /* Add to favorites */ ?>
-                <i class="fa fa-fw fa-star"></i> <a href="<?=$this->recordLink()->getActionUrl($this->driver, 'Save')?>" data-lightbox class="save-record" data-id="<?=$this->escapeHtmlAttr($this->driver->getUniqueId()) ?>"><?=$this->transEsc('Add to favorites')?></a><br/>
+                <span class="hds-icon-star-empty" aria-hidden="true"><!-- --></span>  <a href="<?=$this->recordLink()->getActionUrl($this->driver, 'Save')?>" data-lightbox class="save-record" data-id="<?=$this->escapeHtmlAttr($this->driver->getUniqueId()) ?>"><?=$this->transEsc('Add to favorites')?></a><br/>
                 <br/>
 
                 <? /* Saved lists */ ?>
