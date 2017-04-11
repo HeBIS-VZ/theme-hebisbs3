@@ -59,6 +59,22 @@
                     <?= !empty($titleSource) ? "<br />" . $titleSource : ""?>
                     <?= !empty($subjects) ? "<br />" . $subjects : ""?>
                 </p>
+                <? if ($this->driver->hasHTMLFullTextAvailable() || $this->driver->hasPdfAvailable()): ?>
+                    <p>
+                        <? if ($this->driver->hasHTMLFullTextAvailable()): ?>
+                            <a href="<?= $this->recordLink()->getUrl($this->driver, 'fulltext') ?>#html" class="icon html fulltext _record_link" target="_blank">
+                                <?=$this->transEsc('HTML Full Text')?>
+                            </a>
+                            &nbsp; &nbsp;
+                        <? endif; ?>
+
+                        <? if ($this->driver->hasPdfAvailable()): ?>
+                            <a href="<?= $this->recordLink()->getUrl($this->driver).'/PDF'; ?>" class="icon pdf fulltext" target="_blank">
+                                <?=$this->transEsc('PDF Full Text')?>
+                            </a>
+                        <? endif; ?>
+                    </p>
+                <? endif; ?>
             </div>
         <? elseif ($restrictedView): ?>
             <div class="resultItemLine1">
