@@ -154,7 +154,11 @@ JS;
             </li>
             <noscript>
           <? endif; ?>
-          <? foreach ($cluster['list'] as $i=>$thisFacet): ?>
+          <? $facetLimit = $this->config()->edsFacetLimit(); ?>
+          <? foreach ($cluster['list'] as $i => $thisFacet): ?>
+              <? if ($i >= $facetLimit):
+                    break;
+                endif; ?>
               <?
                 if(strlen($thisFacet['displayText']) == 0) {
                   $thisFacet['displayText'] = "-";
