@@ -90,10 +90,9 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                             <div class="bold col-sm-12 col-md-3 col-lg-2">
                                 <?= $this->transEsc('Title') ?>:
                             </div>
-                            <div class="col-sm-12 col-md-9 col-lg-10"><?= $title ?>
-                                <? if ($owtitle) : ?>
-                                    <br/><?= $owtitle ?>
-                                <? endif; ?>
+                            <div class="col-sm-12 col-md-9 col-lg-10">
+                                <? if ($owtitle) : ?><?= $owtitle ?><br/><? endif; ?>
+                                <?= $title ?>
                             </div>
                         </div>
 
