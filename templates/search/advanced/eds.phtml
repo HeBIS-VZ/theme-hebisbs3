@@ -29,14 +29,16 @@
   <? if (!empty($this->limiterList)): ?>
     <fieldset class="col-sm-4">
       <legend><?=$this->transEsc('Limit To')?></legend>
+        <? $languages = parse_ini_file(__DIR__.'/../../../../../vendor/hebis/hds2-i18n/languages/iso-639-2/en.ini'); ?>
       <? foreach ($this->limiterList as $field => $facet): ?>
         <? switch($facet['Type']){
             case 'multiselectvalue': ?>
               <label for="limit_<?=$this->escapeHtmlAttr(str_replace(' ', '+', $field))?>"><?=$this->transEsc($facet['Label'])?></label><br/>
               <select id="limit_<?=$this->escapeHtmlAttr($field)?>" name="filter[]" multiple="multiple" size="10" class="form-control">
                 <? foreach ($facet['LimiterValues'] as $id => $facetValue): ?>
-                  <? $value = $facetValue['Value']; ?>
-                  <option value="<?='LIMIT|'.$this->escapeHtmlAttr($field . ':' . $facetValue['Value'])?>"<?=(isset($facetValue['selected']) && $facetValue['selected'])?' selected="selected"':''?>><?=$this->escapeHtml($facetValue['Value'])?></option>
+                    <? $option = $this->escapeHtmlAttr(lcfirst(trim($facetValue['Value']))); ?>
+                    <option value="Language:&quot;<?=$option?>&quot;"<?=(isset($facetValue['selected']) && $facetValue['selected'])?' selected="selected"':''?>><?=$this->escapeHtml($facetValue['Value'])?></option>
+
                 <? endforeach; ?>
               </select>
               <!-- <br/> -->
