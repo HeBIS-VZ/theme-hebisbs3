@@ -121,6 +121,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
 
                         <!-- Verantwortlich -->
                         <? $authors = $this->singleRecordPersonalName($this->driver, false); ?>
+                        <? $owauthors = $this->singleRecordOWPersonalName($this->driver, false); ?>
                         <? if (!empty($authors)) : ?>
                             <div class="row">
                                 <div
@@ -128,6 +129,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                     <?= $this->transEsc('Author/editor-in-chief') ?>:
                                 </div>
                                 <div class="col-sm-12 col-md-9 col-lg-10" property="author">
+                                    <? if (!empty($owauthors)) : ?><?= $owauthors ?><br/><? endif; ?>
                                     <?= $authors ?>
                                 </div>
                             </div>
