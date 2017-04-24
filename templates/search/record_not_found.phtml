@@ -1,0 +1,57 @@
+<?
+// Set page title.
+$this->headTitle($this->translate('Search Home'));
+
+// Disable top search box -- this page has a special layout.
+$this->layout()->searchbox = false;
+
+// Set default value if necessary:
+if (!isset($this->searchClassId)) {
+    $this->searchClassId = 'Solr';
+}
+
+// Load search actions and settings (if any):
+$options = $this->searchOptions($this->searchClassId);
+$basicSearch = $options->getSearchAction();
+$advSearch = $options->getAdvancedSearchAction();
+
+$this->layout()->breadcrumbs = false;
+
+$lookfor = isset($this->lookfor) ? $this->lookfor : "";
+$ppnSearch = false;
+
+
+if (strpos($lookfor, "id:") !== false) {
+    $ppnSearch = true;
+    $ppn = str_replace("id:", "", $lookfor);
+    $ppn = str_replace("HEB", "", $ppn);
+}
+
+// Set up search box:
+$this->layout()->searchbox = $this->context($this)->renderInContext(
+    'search/searchbox.phtml',
+    [
+        'lookfor' => $lookfor
+    ]
+);
+?>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="jumbotron">
+            <? if ($ppnSearch) : ?>
+                <h2><?= $this->transEsc("not_in_stock")?></h2>
+
+                <div class="lead">
+                    <a href="https://portal.hebis.de/jsp/customers/hebis/direktsuche/HDS.jsp?ppn=<?=$ppn?>"><?= $this->transEsc("interlibrary-loan-id", ["%1" => $ppn]) ?></a>
+                </div>
+            <? else : ?>
+                <h2><?= $this->transEsc("not_in_stock")?></h2>
+                <div class="lead">
+
+                </div>
+            <? endif; ?>
+
+        </div>
+    </div>
+</div>
