@@ -193,12 +193,18 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
 
                         <!-- Publication / Veröffentlicht -->
                         <? $publicationDistribution = $this->singleRecordPublication($this->driver); ?>
+                        <? $publicationOWDistribution = $this->singleRecordOWPublication($this->driver); ?>
                         <? if (!empty($publicationDistribution)) : ?>
                             <div class="row">
                                 <div class="bold col-sm-12 col-md-3 col-lg-2">
                                     <?= $this->transEsc('Publication') ?>:
                                 </div>
-                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $publicationDistribution ?></div>
+                                <div class="col-sm-12 col-md-9 col-lg-10">
+                                    <? if (!empty($publicationOWDistribution)) : ?>
+                                        <?= $publicationOWDistribution ?><br/>
+                                    <? endif; ?>
+                                    <?= $publicationDistribution ?>
+                                </div>
                             </div>
                         <? endif; ?>
 
