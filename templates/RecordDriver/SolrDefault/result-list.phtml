@@ -52,7 +52,7 @@
             <?php
                 $edition = $this->resultListEditionStatement($this->driver);
                 $hostItem = $this->resultListHostItemEntry($this->driver);
-                $publicationDistribution = $this->resultListPublicationDistribution($this->driver);
+                $publicationDistribution = $this->resultListOWPublicationDistribution($this->driver);
             ?>
 
             <? if (!empty($edition)) : ?>
@@ -69,6 +69,13 @@
                 <div class="distribution">
                     <?= $publicationDistribution ?>
                 </div>
+            <? else: ?>
+                $publicationDistribution = $this->resultListPublicationDistribution($this->driver);
+                <? if (!empty($publicationDistribution)) : ?>
+                    <div class="distribution">
+                        <?= $publicationDistribution ?>
+                    </div>
+                <? endif; ?>
             <? endif; ?>
             <!--
             <div>
