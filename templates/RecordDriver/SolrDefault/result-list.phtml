@@ -39,11 +39,18 @@
                     ?>
                 </a>
             </div>
-            <? $author = $this->resultListPersonalName($this->driver); ?>
+            <? $author = $this->resultListOWPersonalName($this->driver); ?>
             <? if (!empty($author)) : ?>
                 <div class="author">
                     <?= $author ?>
                 </div>
+            <? else: ?>
+                <? $author = $this->resultListPersonalName($this->driver); ?>
+                <? if (!empty($author)) : ?>
+                    <div class="author">
+                        <?= $author ?>
+                    </div>
+                <? endif; ?>
             <? endif; ?>
             <? $corporation = $this->resultListCorporateName($this->driver); ?>
             <div class="author">
