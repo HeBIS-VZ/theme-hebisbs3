@@ -30,11 +30,16 @@
                         echo $this->transEsc('Title not available');
                     }*/
 
-                    $title = $this->resultListTitleStatement($this->driver);
+                    $title = $this->resultListOWTitleStatement($this->driver);
                     if (!empty($title)) {
                         echo $title;
                     } else {
-                        echo $this->transEsc('Title not available');
+                        $title = $this->resultListTitleStatement($this->driver);
+                        if (!empty($title)) {
+                            echo $title;
+                        } else {
+                            echo $this->transEsc('Title not available');
+                        }
                     }
                     ?>
                 </a>
