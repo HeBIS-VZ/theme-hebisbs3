@@ -82,7 +82,7 @@
                     <?= $publicationDistribution ?>
                 </div>
             <? else: ?>
-                $publicationDistribution = $this->resultListPublicationDistribution($this->driver);
+                <? $publicationDistribution = $this->resultListPublicationDistribution($this->driver); ?>
                 <? if (!empty($publicationDistribution)) : ?>
                     <div class="distribution">
                         <?= $publicationDistribution ?>
