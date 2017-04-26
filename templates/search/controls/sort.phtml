@@ -1,9 +1,10 @@
 <? $list = $this->params->getSortList();
 if (!empty($list)): ?>
     <form class="form-horizontal" action="<?= $this->currentPath() ?>" method="get" name="sort">
+        <!--
         <div class="form-group">
             <?= $this->results->getUrlQuery()->asHiddenFields(array('sort' => '/.*/')); ?>
-            <label class="col-md-3 control-label" for="sort_options_1" style="line-height: 38px;margin: 0;padding: 0;"><?= $this->transEsc('Sort') ?></label>
+            <label class="sr-only control-label" for="sort_options_1" style="line-height: 38px;margin: 0;padding: 0;"><?= $this->transEsc('Sort') ?></label>
             <div class="col-md-9">
                 <select id="sort_options_1" name="sort" class="jumpMenu form-control">
                     <? foreach ($list as $sortType => $sortData): ?>
@@ -14,5 +15,13 @@ if (!empty($list)): ?>
             </div>
             <noscript><input type="submit" class="btn btn-default" value="<?= $this->transEsc("Set") ?>"/></noscript>
         </div>
+        -->
+        <?= $this->results->getUrlQuery()->asHiddenFields(array('sort' => '/.*/')); ?>
+            <select id="sort_options_1" name="sort" class="jumpMenu form-control">
+                <? foreach ($list as $sortType => $sortData): ?>
+                    <option
+                            value="<?= $this->escapeHtmlAttr($sortType) ?>"<?= $sortData['selected'] ? ' selected="selected"' : '' ?>><?= $this->transEsc($sortData['desc']) ?></option>
+                <? endforeach; ?>
+            </select>
     </form>
 <? endif; ?>

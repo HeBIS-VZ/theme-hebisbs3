@@ -78,14 +78,19 @@
               </div>
               <div class="col-md-4 text-right">
                   <?=$this->render('search/controls/sort.phtml')?>
+
+                  <?=$this->render('search/controls/limit.phtml')?>
+
               </div>
-        </div>
+            </div>
             <div class="col-md-12 hidden-sm hidden-xs" style="padding: 1em 0;">
                 <? foreach ($this->results->getRecommendations('top') as $current): ?>
                     <?=$this->recommend($current)?>
                 <? endforeach; ?>
             </div>
-            <? if ($recordTotal > 0): ?>
+
+            <? /* if ($recordTotal > 0): ?>
+                <!--
                 <div class="row">
                     <div class="col-xs-12 col-md-8 text-left control-input">
                         <div>
@@ -96,7 +101,8 @@
                         <?=$this->render('search/controls/limit.phtml')?>
                     </div>
                 </div>
-            <? endif; ?>
+                -->
+            <? endif; */?>
         </div>
 
         <? /* End Listing Options */ ?>
