@@ -27,6 +27,7 @@ return [
             },
             'record' => 'Hebis\View\Helper\Root\Factory::getRecord',
             'citation' => 'Hebis\View\Helper\Root\Factory::getCitation',
+            'searchmemory' => 'Hebis\View\Helper\Root\Factory::getSearchMemory',
         ]
     ]
 ];

@@ -73,7 +73,7 @@ $(document).ready(function() {
   var facetFields = "{$this->recommend->getFacetFields()}";
   var searchParams = "{$this->recommend->getSearchParams()}";
   // AJAX call
-  var url = '/AJAX/json?method=getVisData&facetFields=' + encodeURIComponent(facetFields) + '&' + searchParams;
+  var url = VuFind.path + '/AJAX/json?method=getVisData&facetFields=' + encodeURIComponent(facetFields) + '&' + searchParams;
   
   $("#{$this->escapeHtmlAttr($title)}Filter").submit(function(e) {
         
@@ -101,7 +101,7 @@ $(document).ready(function() {
         if (rangeTo === 0) { rangeTo = maxYear; }
         if (rangeFrom === rangeTo) { rangeTo++; maxYear++; }
         $('#min-year').append($('<p>'+minYear+'</p>'));
-        $('#max-year').append($('<p>'+maxYear+'</p>'));
+        $('#max-year').append($('<p>'+(maxYear+1)+'</p>'));
         for (var i = 0; i < val_['data'].length; i++) {
             var current = val_['data'][i];
             var year = current[0];
@@ -141,8 +141,8 @@ $(document).ready(function() {
         var {$this->escapeHtmlAttr($title)}dateSlider = $('#{$this->escapeHtmlAttr($title)}dateSlider')
             .slider({
                 'min':minYear,
-                'max':maxYear,
-                'value':[rangeFrom,rangeTo],
+                'max':maxYear+1,
+                'value':[rangeFrom,rangeTo+1],
                 'reversed': {$reversed}
             })
             .on('slide', fillTexts)

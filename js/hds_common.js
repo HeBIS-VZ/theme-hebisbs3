@@ -5,6 +5,23 @@
 userIsLoggedIn = false;
 
 $(document).ready(function () {
+
+    $('.list-group.facet .list-group-item.toggle-more').click(function(event) {
+        event.preventDefault();
+        id = $(this).data("group");
+        $('.' + id).removeClass('hidden');
+        $('#more-' + id).addClass('hidden');
+        return false;
+    });
+
+    $('.list-group.facet .list-group-item.toggle-less').click(function(event) {
+        event.preventDefault();
+        id = $(this).data("group");
+        $('.' + id).addClass('hidden');
+        $('#more-' + id).removeClass('hidden');
+        return false;
+    });
+
     String.prototype.replaceAll = function (search, replacement) {
         var target = this;
         return target.split(search).join(replacement);
@@ -25,26 +42,26 @@ $(document).ready(function () {
     var origOffsetY = $('.searchbox').offset().top;
     //var origOffsetX = container.left;
     function scroll() {
-        if ($(window).scrollTop() > (origOffsetY)) {
-            $('#height-offset-workaround').height(origOffsetY*2).show();
-            navbar.addClass('sticky');
-            menu.hide();
-            smalllogo.removeClass('hidden-sm').removeClass('hidden-md').removeClass('hidden-lg');
-            largelogo.hide();
-            $("#main-content").css({marginTop: $("header.header").height()+origOffsetY});
-            //$('.main-content').addClass('menu-padding');
-            //container.offset({left: origOffsetX});
-        } else {
-            //$('#height-offset-workaround').hide();
-            navbar.removeClass('sticky');
-            menu.show();
-            smalllogo.addClass('hidden-sm').addClass('hidden-md').addClass('hidden-lg');
-            largelogo.show();
-            $("#main-content").css({marginTop: 0});
-            //$('.main-content').removeClass('menu-padding');
+        if (document.body.clientWidth >= 768) {
+            if ($(window).scrollTop() > (origOffsetY)) {
+                $('#height-offset-workaround').height(origOffsetY*2).show();
+                navbar.addClass('sticky');
+                menu.hide();
+                smalllogo.removeClass('hidden-sm').removeClass('hidden-md').removeClass('hidden-lg');
+                largelogo.hide();
+                $("#main-content").css({marginTop: $("header.header").height()+origOffsetY});
+                //$('.main-content').addClass('menu-padding');
+                //container.offset({left: origOffsetX});
+            } else {
+                //$('#height-offset-workaround').hide();
+                navbar.removeClass('sticky');
+                menu.show();
+                smalllogo.addClass('hidden-sm').addClass('hidden-md').addClass('hidden-lg');
+                largelogo.show();
+                $("#main-content").css({marginTop: 0});
+                //$('.main-content').removeClass('menu-padding');
+            }
         }
-
-
     }
 
     document.onscroll = scroll;
@@ -61,6 +78,14 @@ $(document).ready(function () {
             $form = $(this).parentsUntil('form').parent();
         }
         $form.submit();
+    });
+
+    $('#select-search-handler li a').click(function(event) {
+        var value = $(this).data('value');
+        var label = $(this).data('label');
+        $('#search-option-type').val(value);
+        $('#selected-handler').text(label);
+        return event;
     });
 });
 
@@ -117,52 +142,6 @@ function processWikipediaLinks() {
             });
         });
     }
-}
-
-function setupAutocomplete() {
-    // Search autocomplete
-    $('.autocomplete').each(function (i, op) {
-        $(op).autocomplete({
-            maxResults: 10,
-            loadingString: VuFind.translate('loading') + '...',
-            handler: function (input, cb) {
-                var query = input.val();
-                var searcher = extractClassParams(input);
-                var hiddenFilters = [];
-                $(input).closest('.searchForm').find('input[name="hiddenFilters[]"]').each(function () {
-                    hiddenFilters.push($(this).val());
-                });
-                $.fn.autocomplete.ajax({
-                    url: path + '/AJAX/JSON',
-                    data: {
-                        q: query,
-                        method: 'getACSuggestions',
-                        searcher: searcher['searcher'],
-                        type: searcher['type'] ? searcher['type'] : $(input).closest('.searchForm').find('.searchForm_type').val(),
-                        hiddenFilters: hiddenFilters
-                    },
-                    dataType: 'json',
-                    success: function (json) {
-                        if (json.data.length > 0) {
-                            var datums = [];
-                            for (var i = 0; i < json.data.length; i++) {
-                                datums.push(json.data[i]);
-                            }
-                            cb(datums);
-                        } else {
-                            cb([]);
-                        }
-                    }
-                });
-            }
-        });
-    });
-    // Update autocomplete on type change
-    $('.searchForm_type').change(function() {
-        var $lookfor = $(this).closest('.searchForm').find('.searchForm_lookfor[name]');
-        $lookfor.autocomplete('clear cache');
-        $lookfor.focus();
-    });
 }
 
 function processOtherEditions() {

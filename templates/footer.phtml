@@ -1,0 +1,46 @@
+<div class="row">
+    <div class="col-md-3">
+        <h3> </h3>
+        <hr style="border-color: transparent"/>
+        <div style="width: 70%; margin: 0 auto;">
+            <a href="http://hds.hebis.de"><img class="img-responsive" src="<?= $this->basePath()."/themes/hebisbs3/images/hds-logo_gray.svg"?>"></a>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <h3><?= $this->transEsc('Options') ?></h3>
+        <hr />
+        <ul>
+            <li>
+                <a href="https://hds.hebis.de/Shibboleth.sso/UBFFM?target=<? urlencode($this->url("myresearch-home")) ?>"><?= $this->transEsc("Verlängern, Konto abfragen") ?></a>
+            </li>
+            <li>Noch ein Link</li>
+            <li>Und noch einer</li>
+        </ul>
+    </div>
+    <div class="col-md-3">
+        <h3><?= $this->transEsc('Need Help?') ?></h3>
+        <hr />
+        <ul>
+            <li><a href="<?= $this->url('help-home') ?>?topic=search&amp;_=<?= time() ?>" data-lightbox
+                   class="help-link"><?= $this->transEsc('Search Tips') ?></a></li>
+            <li><a href="#"><?= $this->transEsc('Ask a Librarian') ?></a></li>
+            <li><a href="#"><?= $this->transEsc('FAQs') ?></a></li>
+        </ul>
+    </div>
+    <div class="col-md-3">
+        <h3>Kontakt/Social Media</h3>
+        <hr />
+        <ul style="list-style: none; padding-left: 0;">
+            <li><span class="hds-icon-facebook-squared"></span> <a href="">Facebook</a></li>
+            <li><span class="hds-icon-twitter-squared"></span> <a href="">Twitter</a></li>
+            <li><span class="hds-icon-youtube-squared"></span> <a href="">YouTube</a></li>
+            <li><span class="hds-icon-info"></span> <a href="">Impressum</a></li>
+        </ul>
+    </div>
+</div>
+
+<hr />
+<div class="copyright">
+    <p class="text-right"><span class="hds-icon-copyright"></span> <?=$this->transEsc("HeBIS Verbundzentrale");?><br />
+        Diese Katalogsuche ist ein Produkt des <a href="http://www.hebis.de">HeBIS-Verbundes</a>.</p>
+</div>
