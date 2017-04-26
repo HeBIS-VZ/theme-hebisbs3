@@ -157,20 +157,24 @@ $('#side-collapse-{$this->escapeHtmlAttr($title)}').on('show.bs.collapse', funct
   initFacetTree($('#facet_{$this->escapeHtml($title)}'), true);
 });
 JS;
-                ?>
-                <?=$this->inlineScript(\Zend\View\Helper\HeadScript::SCRIPT, $script, 'SET'); ?>
-                <? endif; ?>
-                <li id="facet_<?= $this->escapeHtml($title) ?>" class="jstree-facet"
-                    data-facet="<?= $this->escapeHtmlAttr($title) ?>"
-                    data-path="<?= $this->currentPath() ?>"
-                    data-exclude="<?= $allowExclude ?>"
-                    data-operator="<?= $this->recommend->getFacetOperator($title) ?>"
-                    data-exclude-title="<?= $this->transEsc('exclude_facet') ?>"
-                    data-sort="<?= isset($hierarchicalFacetSortOptions[$title]) ? $hierarchicalFacetSortOptions[$title] : '' ?>">
-                </li>
-                <noscript>
-                    <? endif; ?>
-                    <? foreach ($cluster['list'] as $i=>$thisFacet): ?>
+              ?>
+              <?=$this->inlineScript(\Zend\View\Helper\HeadScript::SCRIPT, $script, 'SET'); ?>
+            <? endif; ?>
+            <li id="facet_<?=$this->escapeHtml($title)?>" class="jstree-facet"
+                  data-facet="<?=$this->escapeHtmlAttr($title)?>"
+                  data-path="<?=$this->currentPath()?>"
+                  data-exclude="<?=$allowExclude?>"
+                  data-operator="<?=$this->recommend->getFacetOperator($title)?>"
+                  data-exclude-title="<?=$this->transEsc('exclude_facet')?>"
+                  data-sort="<?=isset($hierarchicalFacetSortOptions[$title]) ? $hierarchicalFacetSortOptions[$title] : ''?>">
+            </li>
+            <noscript>
+          <? endif; ?>
+          <? $facetLimit = $this->config()->edsFacetLimit(); ?>
+          <? foreach ($cluster['list'] as $i => $thisFacet): ?>
+              <? if ($i >= $facetLimit):
+                    break;
+                endif; ?>
               <?
                 if(strlen($thisFacet['displayText']) == 0) {
                   $thisFacet['displayText'] = "-";
