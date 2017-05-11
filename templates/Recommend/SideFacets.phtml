@@ -171,8 +171,9 @@ JS;
             <noscript>
           <? endif; ?>
           <? $facetLimit = $this->config()->edsFacetLimit(); ?>
+
           <? foreach ($cluster['list'] as $i => $thisFacet): ?>
-              <? if ($i >= $facetLimit):
+              <? if ($results instanceof Hebis\Search\EDS\Results && $i >= $facetLimit):
                     break;
                 endif; ?>
               <?
