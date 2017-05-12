@@ -92,7 +92,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                             </div>
                             <div class="col-sm-12 col-md-9 col-lg-10">
                                 <? if ($owtitle) : ?><?= $owtitle ?><br/><? endif; ?>
-                                <?= $title ?>
+                                <bdi><?= $title ?></bdi>
                             </div>
                         </div>
 
@@ -103,7 +103,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                 <div class="bold col-sm-12 col-md-3 col-lg-2">
                                     <?= $this->transEsc('Section of a work'); ?>:
                                 </div>
-                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $sectionOfWork ?></div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><bdi><?= $sectionOfWork ?></bdi></div>
                             </div>
                         <? endif; ?>
 
@@ -114,7 +114,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                 <div class="bold col-sm-12 col-md-3 col-lg-2">
                                     <?= $this->transEsc('Part of a work'); ?>:
                                 </div>
-                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $partOfWork ?></div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><bdi><?= $partOfWork ?></bdi></div>
                             </div>
                         <? endif; ?>
 
@@ -129,7 +129,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                 </div>
                                 <div class="col-sm-12 col-md-9 col-lg-10" property="author">
                                     <? if (!empty($owauthors)) : ?><?= $owauthors ?><br/><? endif; ?>
-                                    <?= $authors ?>
+                                    <bdi><?= $authors ?></bdi>
                                 </div>
                             </div>
                         <? endif; ?>
@@ -187,7 +187,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                     class="bold col-sm-12 col-md-3 col-lg-2">
                                     <?= $this->transEsc('Manufacture'); ?>:
                                 </div>
-                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $manufacture ?></div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><bdi><?= $manufacture ?></bdi></div>
                             </div>
                         <? endif; ?>
 
@@ -204,8 +204,18 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                     <? if (!empty($publicationOWDistribution)) : ?>
                                         <?= $publicationOWDistribution ?><br/>
                                     <? endif; ?>
-                                    <?= $publicationDistribution ?>
+                                    <bdi><?= $publicationDistribution ?></bdi>
                                 </div>
+                            </div>
+                        <? endif; ?>
+
+                        <? $yearOfPublication = $this->singleRecordPublicationYear($this->driver); ?>
+                        <? if (!empty($yearOfPublication)) : ?>
+                            <div class="row">
+                                <div class="bold col-sm-12 col-md-3 col-lg-2">
+                                    <?= $this->transEsc('Year of Publication'); ?>:
+                                </div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $yearOfPublication ?></div>
                             </div>
                         <? endif; ?>
 
@@ -247,7 +257,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <? if (!empty($additionalPhysical)) : ?>
                             <div class="row">
                                 <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Additional physical from available note') ?>:</div>
-                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $additionalPhysical ?></div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><bdi><?= $additionalPhysical ?></bdi></div>
                             </div>
                         <? endif; ?>
 
@@ -307,7 +317,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                 <div class="bold col-sm-12 col-md-3 col-lg-2">
                                     <?= $this->transEsc('Other edition entry') ?>:
                                 </div>
-                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $otherEditionEntry ?></div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><bdi><?= $otherEditionEntry ?></bdi></div>
                             </div>
                         <? endif; ?>
 
@@ -366,7 +376,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                 <div class="bold col-sm-12 col-md-3 col-lg-2">
                                     <?= $this->transEsc('Physical description scale') ?>:
                                 </div>
-                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $physicalDescription ?></div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><bdi><?= $physicalDescription ?></bdi></div>
                             </div>
                         <? endif; ?>
 

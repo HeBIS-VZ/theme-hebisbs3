@@ -69,7 +69,7 @@
 
             <? if (!empty($edition)) : ?>
                 <div class="edition">
-                    <?= $edition ?>
+                    <bdi><?= $edition ?></bdi>
                 </div>
             <? endif; ?>
             <?  if (!empty($hostItem)) : ?>
@@ -111,7 +111,7 @@
                     <? $publications = $this->driver->getPlacesOfPublication();
                     if (!empty($publications)): ?>
                         <? foreach ($publications as $pub): ?>
-                            <p><?= $pub[0] ?><? if (!empty($pub[1])): ?>. - <?= $this->escapeHtml($pub[1]) ?><? endif; ?></p>
+                            <p><bdi><?= $pub[0] ?><? if (!empty($pub[1])): ?>. - <?= $this->escapeHtml($pub[1]) ?><? endif; ?></bdi></p>
                             <? break; ?>
                         <? endforeach; ?><br/>
                     <? endif; ?>
