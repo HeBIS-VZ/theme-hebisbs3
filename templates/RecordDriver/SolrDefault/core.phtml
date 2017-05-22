@@ -53,6 +53,13 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                  alt="<?= $this->transEsc('No Cover Image') ?>"/>
                         <? endif; ?>
                     </div>
+                    <? $multipartViewHelper = $this->multiPartItems($this->driver);
+                    if ($multipartViewHelper->isMultipartItem() && !empty($multipartItem = $multipartViewHelper->renderShowAllVolumesLink())) : ?>
+                        <br />
+                        <div class="text-center multipartItems">
+                            <span class="hds-icon-list-bullet"> <? echo $multipartItem; ?></span>
+                        </div>
+                    <? endif; ?>
                 </div>
                 <div class="col-sm-9">
                     <h3 property="name">
@@ -468,11 +475,17 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <? endif; ?>
 
                         <? /* Display series section if at least one series exists. */ ?>
-                        <? $series = $this->singleRecordSeriesStatementAddedEntry($this->driver); ?>
-                        <? if (!empty($series)) : ?>
+                        <? //$series = $this->singleRecordSeriesStatementAddedEntry($this->driver); ?>
+                        <? $multipartViewHelper = $this->multiPartItems($this->driver); ?>
+                        <? $parent = $multipartViewHelper->renderParentalItem(); ?>
+                        <? if (!empty($parent)) : ?>
                             <div class="row">
                                 <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Series') ?>:</div>
-                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $series ?></div>
+                                <div class="col-sm-12 col-md-9 col-lg-10">
+                                    <?= $parent ?>
+                                    <br />
+                                    <?= $multipartViewHelper->renderShowAllVolumesLink(); ?>
+                                </div>
                             </div>
                         <? endif; ?>
 
