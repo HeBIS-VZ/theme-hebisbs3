@@ -92,7 +92,7 @@ $(document).ready(function () {
 
 function processWikipediaLinks() {
 
-    var baseUrl = 'https://x.hebis.de/wikimedia/gnd/intro/json/';
+    var baseUrl = 'https://resolver.hebis.de/wikimedia/gnd/intro/json/';
 
     $(".wiki-gnd-popover").click(function(e) {
         e.preventDefault();
@@ -104,7 +104,7 @@ function processWikipediaLinks() {
     $(".wiki-gnd-popover").each(function(e) {
         var $popup = $(this);
         var gndId = $(this).data('id');
-        var url = baseUrl + lang + '/' + gndId;
+        var url = baseUrl + VuFind.userLang + '/' + gndId;
 
         $.get(url, function (result) {
             setPopup($popup, gndId, eval(result));
@@ -148,7 +148,7 @@ function processOtherEditions() {
     $("#other-editions").each(function(e) {
         var $otherEditionsContainer = $(this);
         var xid = $(this).data('xid');
-        var url = path + "/xisbn/xid?isbn="+xid;
+        var url = VuFind.path + "/xisbn/xid?isbn="+xid;
 
         $.get(url, function (result) {
             $otherEditionsContainer.append(result);
