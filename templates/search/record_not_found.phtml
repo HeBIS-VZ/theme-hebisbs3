@@ -43,7 +43,8 @@ $this->layout()->searchbox = $this->context($this)->renderInContext(
                 <h2><?= $this->transEsc("not_in_stock")?></h2>
 
                 <div class="lead">
-                    <a href="https://portal.hebis.de/jsp/customers/hebis/direktsuche/HDS.jsp?ppn=<?=$ppn?>"><?= $this->transEsc("interlibrary-loan-id", ["%1" => $ppn]) ?></a>
+                    <p><a href="https://portal.hebis.de/jsp/customers/hebis/direktsuche/HDS.jsp?ppn=<?=$ppn?>"><?= $this->transEsc("interlibrary-loan-id", ["%1" => $ppn]) ?></a></p>
+                    <p><?= $this->ppnLink()->getRecordLink($this->transEsc('back_to_record'), $this->backlink) ?></p>
                 </div>
             <? else : ?>
                 <h2><?= $this->transEsc("not_in_stock")?></h2>
