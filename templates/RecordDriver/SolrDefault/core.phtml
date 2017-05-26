@@ -397,30 +397,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                 <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('RVK-Notation'); ?>:
                                 </div>
                                 <div class="col-sm-12 col-md-9 col-lg-10">
-                                    <script type="text/javascript">
-                                        //<![[
-                                        /* in order to keep an eye on performance, the popup javascript just will be used when required
-                                         */
-                                        $(function () {
-                                            var baseUrl = "https://resolver.hebis.de/rvkffm/";
 
-                                            $('.rvk-info .label').hover(function (e) {
-                                                var $popup = $(this);
-                                                $popup.off('hover');
-                                                var id = $popup.data('id');
-                                                var parts = id.split(' ');
-                                                var url = baseUrl + parts[0] + '/' + parts[1];
-                                                $.get(url, function (d) {
-                                                    var str = eval(d + "RVK;");
-                                                    $popup.popover({
-                                                        content: "<small>" + str.replaceAll("/", " / ") + "</small>",
-                                                        html: true
-                                                    }).popover('toggle');
-                                                });
-                                            });
-                                        });
-                                        //]]>
-                                    </script>
                                     <? foreach ($rvk as $r) : ?>
                                         <span class="rvk-info"><a class="rvk-link"
                                                                   href="<?= $this->basePath() ?>/Search/Results?lookfor=rvk_full%3A%22<?= $this->transEsc($r) ?>%22&type=allfields"><?= $this->transEsc($r) ?></a>&nbsp;<span

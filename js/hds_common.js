@@ -87,6 +87,29 @@ $(document).ready(function () {
         $('#selected-handler').text(label);
         return event;
     });
+
+    var baseUrl = "https://resolver.hebis.de/rvkffm/";
+
+    $('.rvk-info .label').click(function (e) {
+        var $popup = $(this);
+        var id = $popup.data('id');
+        var parts = id.split(' ');
+        var url = baseUrl + parts[0] + '/' + parts[1];
+        $.get(url, function (d) {
+            var str = eval(d + "RVK;");
+            $popup.popover({
+                content: "<small>" + str.replaceAll("/", " / ") + "</small>",
+                //title: '<a class="close" role="button">&times;</a>',
+                html: true
+            }).popover('toggle')
+              .on('shown.bs.popover', function (eventShown) {
+                var $pop = $('#' + $(eventShown.target).attr('aria-describedby'));
+                $popup.click(function(e) {
+                    $pop.hide();
+                });
+            });
+        });
+    });
 });
 
 
@@ -157,6 +180,8 @@ function processOtherEditions() {
         });
     });
 }
+
+
 
 
 function toIso(n) {
