@@ -87,12 +87,35 @@ $(document).ready(function () {
         $('#selected-handler').text(label);
         return event;
     });
+
+    var baseUrl = "https://resolver.hebis.de/rvkffm/";
+
+    $('.rvk-info .label').click(function (e) {
+        var $popup = $(this);
+        var id = $popup.data('id');
+        var parts = id.split(' ');
+        var url = baseUrl + parts[0] + '/' + parts[1];
+        $.get(url, function (d) {
+            var str = eval(d + "RVK;");
+            $popup.popover({
+                content: "<small>" + str.replaceAll("/", " / ") + "</small>",
+                //title: '<a class="close" role="button">&times;</a>',
+                html: true
+            }).popover('toggle')
+              .on('shown.bs.popover', function (eventShown) {
+                var $pop = $('#' + $(eventShown.target).attr('aria-describedby'));
+                $popup.click(function(e) {
+                    $pop.hide();
+                });
+            });
+        });
+    });
 });
 
 
 function processWikipediaLinks() {
 
-    var baseUrl = 'https://x.hebis.de/wikimedia/gnd/intro/json/';
+    var baseUrl = 'https://resolver.hebis.de/wikimedia/gnd/intro/json/';
 
     $(".wiki-gnd-popover").click(function(e) {
         e.preventDefault();
@@ -104,7 +127,7 @@ function processWikipediaLinks() {
     $(".wiki-gnd-popover").each(function(e) {
         var $popup = $(this);
         var gndId = $(this).data('id');
-        var url = baseUrl + lang + '/' + gndId;
+        var url = baseUrl + VuFind.userLang + '/' + gndId;
 
         $.get(url, function (result) {
             setPopup($popup, gndId, eval(result));
@@ -148,7 +171,7 @@ function processOtherEditions() {
     $("#other-editions").each(function(e) {
         var $otherEditionsContainer = $(this);
         var xid = $(this).data('xid');
-        var url = path + "/xisbn/xid?isbn="+xid;
+        var url = VuFind.path + "/xisbn/xid?isbn="+xid;
 
         $.get(url, function (result) {
             $otherEditionsContainer.append(result);
@@ -157,6 +180,8 @@ function processOtherEditions() {
         });
     });
 }
+
+
 
 
 function toIso(n) {
