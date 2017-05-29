@@ -53,6 +53,13 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                  alt="<?= $this->transEsc('No Cover Image') ?>"/>
                         <? endif; ?>
                     </div>
+                    <? $multipartViewHelper = $this->multiPartItems($this->driver);
+                    if ($multipartViewHelper->isMultipartItem() && !empty($multipartItem = $multipartViewHelper->renderShowAllVolumesLink())) : ?>
+                        <br />
+                        <div class="text-center multipartItems">
+                            <span class="hds-icon-list-bullet"> <? echo $multipartItem; ?></span>
+                        </div>
+                    <? endif; ?>
                 </div>
                 <div class="col-sm-9">
                     <h3 property="name">
@@ -92,7 +99,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                             </div>
                             <div class="col-sm-12 col-md-9 col-lg-10">
                                 <? if ($owtitle) : ?><?= $owtitle ?><br/><? endif; ?>
-                                <?= $title ?>
+                                <bdi><?= $title ?></bdi>
                             </div>
                         </div>
 
@@ -103,7 +110,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                 <div class="bold col-sm-12 col-md-3 col-lg-2">
                                     <?= $this->transEsc('Section of a work'); ?>:
                                 </div>
-                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $sectionOfWork ?></div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><bdi><?= $sectionOfWork ?></bdi></div>
                             </div>
                         <? endif; ?>
 
@@ -114,7 +121,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                 <div class="bold col-sm-12 col-md-3 col-lg-2">
                                     <?= $this->transEsc('Part of a work'); ?>:
                                 </div>
-                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $partOfWork ?></div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><bdi><?= $partOfWork ?></bdi></div>
                             </div>
                         <? endif; ?>
 
@@ -129,7 +136,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                 </div>
                                 <div class="col-sm-12 col-md-9 col-lg-10" property="author">
                                     <? if (!empty($owauthors)) : ?><?= $owauthors ?><br/><? endif; ?>
-                                    <?= $authors ?>
+                                    <bdi><?= $authors ?></bdi>
                                 </div>
                             </div>
                         <? endif; ?>
@@ -187,7 +194,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                     class="bold col-sm-12 col-md-3 col-lg-2">
                                     <?= $this->transEsc('Manufacture'); ?>:
                                 </div>
-                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $manufacture ?></div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><bdi><?= $manufacture ?></bdi></div>
                             </div>
                         <? endif; ?>
 
@@ -204,8 +211,18 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                     <? if (!empty($publicationOWDistribution)) : ?>
                                         <?= $publicationOWDistribution ?><br/>
                                     <? endif; ?>
-                                    <?= $publicationDistribution ?>
+                                    <bdi><?= $publicationDistribution ?></bdi>
                                 </div>
+                            </div>
+                        <? endif; ?>
+
+                        <? $yearOfPublication = $this->singleRecordPublicationYear($this->driver); ?>
+                        <? if (!empty($yearOfPublication)) : ?>
+                            <div class="row">
+                                <div class="bold col-sm-12 col-md-3 col-lg-2">
+                                    <?= $this->transEsc('Year of Publication'); ?>:
+                                </div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $yearOfPublication ?></div>
                             </div>
                         <? endif; ?>
 
@@ -247,7 +264,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <? if (!empty($additionalPhysical)) : ?>
                             <div class="row">
                                 <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Additional physical from available note') ?>:</div>
-                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $additionalPhysical ?></div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><bdi><?= $additionalPhysical ?></bdi></div>
                             </div>
                         <? endif; ?>
 
@@ -307,7 +324,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                 <div class="bold col-sm-12 col-md-3 col-lg-2">
                                     <?= $this->transEsc('Other edition entry') ?>:
                                 </div>
-                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $otherEditionEntry ?></div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><bdi><?= $otherEditionEntry ?></bdi></div>
                             </div>
                         <? endif; ?>
 
@@ -366,7 +383,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                 <div class="bold col-sm-12 col-md-3 col-lg-2">
                                     <?= $this->transEsc('Physical description scale') ?>:
                                 </div>
-                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $physicalDescription ?></div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><bdi><?= $physicalDescription ?></bdi></div>
                             </div>
                         <? endif; ?>
 
@@ -397,30 +414,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                 <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('RVK-Notation'); ?>:
                                 </div>
                                 <div class="col-sm-12 col-md-9 col-lg-10">
-                                    <script type="text/javascript">
-                                        //<![[
-                                        /* in order to keep an eye on performance, the popup javascript just will be used when required
-                                         */
-                                        $(function () {
-                                            var baseUrl = "https://resolver.hebis.de/rvkffm/";
 
-                                            $('.rvk-info .label').hover(function (e) {
-                                                var $popup = $(this);
-                                                $popup.off('hover');
-                                                var id = $popup.data('id');
-                                                var parts = id.split(' ');
-                                                var url = baseUrl + parts[0] + '/' + parts[1];
-                                                $.get(url, function (d) {
-                                                    var str = eval(d + "RVK;");
-                                                    $popup.popover({
-                                                        content: "<small>" + str.replaceAll("/", " / ") + "</small>",
-                                                        html: true
-                                                    }).popover('toggle');
-                                                });
-                                            });
-                                        });
-                                        //]]>
-                                    </script>
                                     <? foreach ($rvk as $r) : ?>
                                         <span class="rvk-info"><a class="rvk-link"
                                                                   href="<?= $this->basePath() ?>/Search/Results?lookfor=rvk_full%3A%22<?= $this->transEsc($r) ?>%22&type=allfields"><?= $this->transEsc($r) ?></a>&nbsp;<span
@@ -468,11 +462,17 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <? endif; ?>
 
                         <? /* Display series section if at least one series exists. */ ?>
-                        <? $series = $this->singleRecordSeriesStatementAddedEntry($this->driver); ?>
-                        <? if (!empty($series)) : ?>
+                        <? //$series = $this->singleRecordSeriesStatementAddedEntry($this->driver); ?>
+                        <? $multipartViewHelper = $this->multiPartItems($this->driver); ?>
+                        <? $parent = $multipartViewHelper->renderParentalItem(); ?>
+                        <? if (!empty($parent)) : ?>
                             <div class="row">
-                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Series') ?>:</div>
-                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $series ?></div>
+                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('series_multipart') ?>:</div>
+                                <div class="col-sm-12 col-md-9 col-lg-10">
+                                    <?= $parent ?>
+                                    <br />
+                                    <?= $multipartViewHelper->renderShowAllVolumesLink(); ?>
+                                </div>
                             </div>
                         <? endif; ?>
 
