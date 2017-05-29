@@ -270,6 +270,13 @@
                 </div>
             <? endif; ?>
 
+            <? $multipartViewHelper = $this->multiPartItems($this->driver);
+            if ($multipartViewHelper->isMultipartItem() && !empty($multipartItem = $multipartViewHelper->renderShowAllVolumesLink())) : ?>
+                <div class="multipartItems">
+                    <span class="hds-icon-list-bullet"> <? echo $multipartItem; ?></span>
+                </div>
+            <? endif; ?>
+
             <? /* Hierarchy tree link */ ?>
             <? $trees = $this->driver->tryMethod('getHierarchyTrees');
             if (!empty($trees)): ?>
@@ -287,6 +294,8 @@
                 <? endforeach; ?>
             <? endif; ?>
 
+
         </div>
     </div>
+
 <!-- </table> -->
