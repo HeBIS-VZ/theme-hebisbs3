@@ -9,6 +9,17 @@
     $restrictedView = empty($accessLevel) ? false : true;
     $abstract = null;
 ?>
+
+<?
+$rediLinks =
+'$(document).ready(function(){
+    var url = VuFind.path + "/EdsRecord/redilink?id='.$this->driver->getUniqueId().'";
+    $.get(url, function (d) {
+        $("#redi").append(d);
+    });
+});';
+$this->headScript()->appendScript($rediLinks); ?>
+
 <div class="row" vocab="http://schema.org/" resource="#record" typeof="<?=$this->driver->getSchemaOrgFormats()?> Product">
   <div class="col-sm-3 img-col">
       <? if (isset($this->scrollData) && ($this->scrollData['previousRecord'] || $this->scrollData['nextRecord'])): ?>
@@ -61,6 +72,7 @@
         </span><br />
       <? endif; ?>
     </div>
+    <div id="redi"><!-- --></div>
   </div>
   <div class="col-sm-9 info-col">
     <h3 property="name"><?=$this->escapeHtml($this->driver->getTitle())?></h3>
