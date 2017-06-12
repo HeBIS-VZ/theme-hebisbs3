@@ -54,7 +54,12 @@ $abstract = null;
         <? endif; ?>
 
         <div class="external-links">
-            <? $customLinks = array_merge($this->driver->getFTCustomLinks(), $this->driver->getCustomLinks()); ?>
+            <? $ftCustomLinks = $this->driver->getFTCustomLinks(); ?>
+            <? $customLinks = $this->driver->getCustomLinks();  ?>
+            <? $customLinks = array_filter($customLinks, function($elem) {
+                return $elem["Category"] === "other";
+            });
+            ?>
             <? $pdfLink = $this->driver->getPdfLink(); ?>
 
             <? if (!empty($customLinks) || !empty($pdfLink)) : ?>
@@ -76,8 +81,24 @@ $abstract = null;
                 </span>
                 <br/>
             <? endif; ?>
-            <? if (!empty($customLinks)) : ?>
+            <? if (!empty($customLinks) || !empty($ftCustomLinks)) : ?>
                 <ul>
+                    <? if (!empty($ftCustomLinks)) : ?>
+                        <? $url = isset($ftCustomLinks[0]['Url']) ? $ftCustomLinks[0]['Url'] : '';
+                        $mot = isset($ftCustomLinks[0]['MouseOverText']) ? $ftCustomLinks[0]['MouseOverText'] : '';
+                        $icon = isset ($ftCustomLinks[0]['Icon']) ? $ftCustomLinks[0]['Icon'] : '';
+                        $name = isset($ftCustomLinks[0]['Text']) ? $ftCustomLinks[0]['Text'] : '';
+                        ?>
+                        <li>
+                            <span>
+                                <a href="<?= $this->escapeHtmlAttr($url) ?>" target="_blank" title="<?= $this->escapeHtmlAttr($mot) ?>"
+                                   class="custom-link">
+                                    <? if ($icon): ?><img
+                                        src="<?= $this->escapeHtmlAttr($icon) ?>" /> <? endif; ?><?= $this->escapeHtml($name) ?>
+                                </a>
+                            </span>
+                        </li>
+                    <? endif; ?>
                 <? foreach ($customLinks as $customLink): ?>
                     <? $url = isset($customLink['Url']) ? $customLink['Url'] : '';
                     $mot = isset($customLink['MouseOverText']) ? $customLink['MouseOverText'] : '';
