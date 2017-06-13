@@ -54,8 +54,24 @@
         </span><br />
       <? endif; ?>
       <? if ($this->driver->hasHTMLFullTextAvailable()): ?>
+          <? $script = <<<ENDSCRIPT
+// toggle 
+$(document).ready(function() {
+    var hash = window.location.hash;
+    $(hash).collapse("toggle");
+    
+    $("#toggleFulltext").click(function(e) {
+        e.preventDefault();
+        
+        $("#collapseFulltext").collapse("toggle");
+        $("html, body").animate({ scrollTop: $('#collapseFulltext').offset().top }, 300);
+    });
+});
+ENDSCRIPT;
+          ?>
+          <? $this->headScript()->appendScript($script); ?>
         <span>
-          <a href="<?=$this->recordLink()->getUrl($this->driver, 'fulltext')?>#html" class="icon html fulltext">
+          <a id="toggleFulltext" href="#" class="icon html fulltext">
             <?=$this->transEsc('HTML Full Text')?>
           </a>
         </span><br />
@@ -65,7 +81,6 @@
   <div class="col-sm-9 info-col">
     <h3 property="name"><?=$this->escapeHtml($this->driver->getTitle())?></h3>
 
-    <!--<table class="table table-striped" summary="<?=$this->transEsc('Bibliographic Details')?>">-->
       <div class="record-details">
       <? foreach ($items as $key => $item): ?>
           <? if ($item['Group'] == "Ab") : ?>
@@ -128,13 +143,14 @@
                   </div>
               <? endif; ?>
               <? if ($this->driver->hasHTMLFullTextAvailable()): ?>
+
               <div class="panel panel-default">
-                  <div class="panel-heading" role="tab" id="headingOne">
+                  <div class="panel-heading" role="tab" id="headingFulltext">
                       <h4 class="panel-title">
-                          <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-controls="collapseOne"><?=$this->transEsc('Fulltext')?></a>
+                          <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFulltext" aria-controls="collapseFulltext"><?=$this->transEsc('Fulltext')?></a>
                       </h4>
                   </div>
-                  <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                  <div id="collapseFulltext" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFulltext">
                         <div class="panel-body">
                             <? if (!$restrictedView) : ?>
                                 <? $fullText = $this->driver->getHtmlFullText(); ?>
@@ -151,8 +167,5 @@
               <? endif; ?>
           </div>
         <? endif; ?>
-    <!-- </table>-->
-
-
   </div>
 </div>
