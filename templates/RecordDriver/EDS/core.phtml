@@ -67,7 +67,7 @@ $abstract = null;
             <? endif; ?>
             <? if ($pdfLink): ?>
                 <span>
-                    <a href="<?= $pdfLink ?>" class="icon pdf fulltext">
+                    <a target="_blank" href="<?= $pdfLink ?>" class="icon pdf fulltext">
                         <?= $this->transEsc('PDF Full Text') ?>
                     </a>
                 </span>
@@ -75,7 +75,7 @@ $abstract = null;
             <? endif; ?>
             <? if ($this->driver->hasHTMLFullTextAvailable()): ?>
                 <span>
-                    <a href="<?= $this->recordLink()->getUrl($this->driver, 'fulltext') ?>#html" class="icon html fulltext">
+                    <a target="_blank" href="<?= $this->recordLink()->getUrl($this->driver, 'fulltext') ?>#html" class="icon html fulltext">
                         <?= $this->transEsc('HTML Full Text') ?>
                     </a>
                 </span>
