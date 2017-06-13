@@ -136,8 +136,10 @@ ENDSCRIPT;
             <? endif; ?>
         </div>
     </div>
-    <div class="col-sm-9 info-col">
-        <h3 property="name"><?= $this->escapeHtml($this->driver->getTitle()) ?></h3>
+    <div id="redi"><!-- --></div>
+  </div>
+  <div class="col-sm-9 info-col">
+    <h3 property="name"><?=$this->escapeHtml($this->driver->getTitle())?></h3>
 
       <div class="record-details">
       <? foreach ($items as $key => $item): ?>
