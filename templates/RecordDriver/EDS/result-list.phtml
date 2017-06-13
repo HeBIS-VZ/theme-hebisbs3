@@ -70,7 +70,7 @@
                         <!-- HTML links -->
                         <? if ($this->driver->hasHTMLFullTextAvailable()): ?>
                             <? $customLinksArray[] = '<a href="' . $this->recordLink()->getUrl($this->driver, 'fulltext') .
-                                '#html" class="icon html fulltext _record_link" target="_blank">' .
+                                '#collapseFulltext" class="icon html fulltext _record_link">' .
                                 $this->transEsc('HTML Full Text') .
                                 '</a>' ?>
                         <? endif; ?>

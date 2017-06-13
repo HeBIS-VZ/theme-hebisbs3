@@ -25,7 +25,7 @@ $abstract = null;
                                 class="sr-only"><?= $this->transEsc('Prev') ?></span></li>
                 <? endif; ?>
                 <li>
-                    <span><?= $this->localizedNumber($this->scrollData['currentPosition']) . ' / ' . $this->localizedNumber($this->scrollData['resultTotal']) //' ' . $this->transEsc('results')  ?></span>
+                    <span><?= $this->localizedNumber($this->scrollData['currentPosition']) . ' / ' . $this->localizedNumber($this->scrollData['resultTotal']) //' ' . $this->transEsc('results')   ?></span>
                 </li>
                 <? if ($this->scrollData['nextRecord']): ?>
                     <li>
@@ -55,8 +55,8 @@ $abstract = null;
 
         <div class="external-links">
             <? $ftCustomLinks = $this->driver->getFTCustomLinks(); ?>
-            <? $customLinks = $this->driver->getCustomLinks();  ?>
-            <? $customLinks = array_filter($customLinks, function($elem) {
+            <? $customLinks = $this->driver->getCustomLinks(); ?>
+            <? $customLinks = array_filter($customLinks, function ($elem) {
                 return $elem["Category"] === "other";
             });
             ?>
@@ -74,12 +74,27 @@ $abstract = null;
                 <br/>
             <? endif; ?>
             <? if ($this->driver->hasHTMLFullTextAvailable()): ?>
+                <? $script = <<<ENDSCRIPT
+// toggle 
+$(document).ready(function() {
+    var hash = window.location.hash;
+    $(hash).collapse();
+    
+    $("#toggleFulltext").click(function(e) {
+        e.preventDefault();
+        
+        $("#collapseFulltext").collapse();
+        $("html, body").animate({ scrollTop: $('#collapseFulltext').offset().top }, 300);
+    });
+});
+ENDSCRIPT;
+                ?>
+                <? $this->headScript()->appendScript($script); ?>
                 <span>
-                    <a target="_blank" href="<?= $this->recordLink()->getUrl($this->driver, 'fulltext') ?>#html" class="icon html fulltext">
-                        <?= $this->transEsc('HTML Full Text') ?>
-                    </a>
-                </span>
-                <br/>
+          <a id="toggleFulltext" href="#" class="icon html fulltext">
+            <?= $this->transEsc('HTML Full Text') ?>
+          </a>
+        </span><br/>
             <? endif; ?>
             <? if (!empty($customLinks) || !empty($ftCustomLinks)) : ?>
                 <ul>
@@ -91,7 +106,8 @@ $abstract = null;
                         ?>
                         <li>
                             <span>
-                                <a href="<?= $this->escapeHtmlAttr($url) ?>" target="_blank" title="<?= $this->escapeHtmlAttr($mot) ?>"
+                                <a href="<?= $this->escapeHtmlAttr($url) ?>" target="_blank"
+                                   title="<?= $this->escapeHtmlAttr($mot) ?>"
                                    class="custom-link">
                                     <? if ($icon): ?><img
                                         src="<?= $this->escapeHtmlAttr($icon) ?>" /> <? endif; ?><?= $this->escapeHtml($name) ?>
@@ -99,22 +115,23 @@ $abstract = null;
                             </span>
                         </li>
                     <? endif; ?>
-                <? foreach ($customLinks as $customLink): ?>
-                    <? $url = isset($customLink['Url']) ? $customLink['Url'] : '';
-                    $mot = isset($customLink['MouseOverText']) ? $customLink['MouseOverText'] : '';
-                    $icon = isset ($customLink['Icon']) ? $customLink['Icon'] : '';
-                    $name = isset($customLink['Text']) ? $customLink['Text'] : '';
-                    ?>
-                    <li>
+                    <? foreach ($customLinks as $customLink): ?>
+                        <? $url = isset($customLink['Url']) ? $customLink['Url'] : '';
+                        $mot = isset($customLink['MouseOverText']) ? $customLink['MouseOverText'] : '';
+                        $icon = isset ($customLink['Icon']) ? $customLink['Icon'] : '';
+                        $name = isset($customLink['Text']) ? $customLink['Text'] : '';
+                        ?>
+                        <li>
                         <span>
-                            <a href="<?= $this->escapeHtmlAttr($url) ?>" target="_blank" title="<?= $this->escapeHtmlAttr($mot) ?>"
+                            <a href="<?= $this->escapeHtmlAttr($url) ?>" target="_blank"
+                               title="<?= $this->escapeHtmlAttr($mot) ?>"
                                class="custom-link">
                                 <? if ($icon): ?><img
                                     src="<?= $this->escapeHtmlAttr($icon) ?>" /> <? endif; ?><?= $this->escapeHtml($name) ?>
                             </a>
                         </span>
-                    </li>
-                <? endforeach; ?>
+                        </li>
+                    <? endforeach; ?>
                 </ul>
             <? endif; ?>
         </div>
@@ -122,77 +139,91 @@ $abstract = null;
     <div class="col-sm-9 info-col">
         <h3 property="name"><?= $this->escapeHtml($this->driver->getTitle()) ?></h3>
 
-        <div class="record-details">
-            <? foreach ($items as $key => $item): ?>
-                <? if ($item['Group'] == "Ab") : ?>
-                    <? $abstract = $item; ?>
-                <? elseif (!empty($item['Data'])): ?>
-                    <div class="row">
-                        <div class="bold col-sm-12 col-md-3 col-lg-2">
-                            <?= $this->escapeHtml($item['Label']) ?>:
-                        </div>
-                        <div class="col-sm-12 col-md-9 col-lg-10">
-                            <?= $this->driver->linkUrls($item['Data']) ?>
-                        </div>
-                    </div>
-                <? endif; ?>
-            <? endforeach; ?>
-
-            <? if ($dbLabel): ?>
-                <div class="row">
-                    <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Database') ?>:</div>
-                    <div class="col-sm-12 col-md-9 col-lg-10"><?= $this->escapeHtml($dbLabel) ?></div>
+      <div class="record-details">
+      <? foreach ($items as $key => $item): ?>
+          <? if ($item['Group'] == "Ab") : ?>
+            <? $abstract = $item; ?>
+          <? elseif (!empty($item['Data'])): ?>
+            <div class="row">
+                <div class="bold col-sm-12 col-md-3 col-lg-2">
+                    <?=$this->escapeHtml($item['Label'])?>:
                 </div>
-            <? endif; ?>
-
-            <? if ($this->driver->hasHTMLFullTextAvailable() || !empty($abstract)) : ?>
-                <br/>
-                <h4><?= $this->transEsc('Further Information'); ?></h4>
-                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                    <? if (!empty($abstract) && !empty($abstract['Data'])) : ?>
-                        <div class="panel panel-default">
-                            <div class="panel-heading" role="tab" id="headingAbstract">
-                                <h4 class="panel-title">
-                                    <a role="button" data-toggle="collapse" data-parent="#accordion"
-                                       href="#collapseAbstract"
-                                       aria-controls="collapseAbstract"><?= $this->transEsc('Abstract') ?></a>
-                                </h4>
-                            </div>
-                            <div id="collapseAbstract" class="panel-collapse collapse" role="tabpanel"
-                                 aria-labelledby="headingAbstract">
-                                <div class="panel-body">
-                                    <div class="col-sm-12 col-md-9 col-lg-10">
-                                        <?= $this->driver->linkUrls($abstract['Data']) ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    <? endif; ?>
-                    <? if ($this->driver->hasHTMLFullTextAvailable()): ?>
-                        <div class="panel panel-default">
-                            <div class="panel-heading" role="tab" id="headingOne">
-                                <h4 class="panel-title">
-                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
-                                       aria-controls="collapseOne"><?= $this->transEsc('Fulltext') ?></a>
-                                </h4>
-                            </div>
-                            <div id="collapseOne" class="panel-collapse collapse" role="tabpanel"
-                                 aria-labelledby="headingOne">
-                                <div class="panel-body">
-                                    <? if (!$restrictedView) : ?>
-                                        <? $fullText = $this->driver->getHtmlFullText(); ?>
-                                        <?= $fullText ?>
-                                    <? else : ?>
-                                        <p><?= $this->transEsc('Full text is not displayed to guests') ?></p>
-                                        <a class="login" href="<?= $this->url('myresearch-home') ?>" rel="nofollow">
-                                            <strong><?= $this->transEsc('Login for full access') ?></strong>
-                                        </a>
-                                    <? endif; ?>
-                                </div>
-                            </div>
-                        </div>
-                    <? endif; ?>
+                <div class="col-sm-12 col-md-9 col-lg-10">
+                    <?=$this->driver->linkUrls($item['Data'])?>
                 </div>
-            <? endif; ?>
+            </div>
+        <? endif; ?>
+      <? endforeach; ?>
+
+      <? if ($dbLabel): ?>
+        <div class="row">
+          <div class="bold col-sm-12 col-md-3 col-lg-2"><?=$this->transEsc('Database')?>:</div>
+            <div class="col-sm-12 col-md-9 col-lg-10"><?=$this->escapeHtml($dbLabel)?></div>
         </div>
-    </div>
+      <? endif; ?>
+      <? $customLinks = array_merge($this->driver->getFTCustomLinks(), $this->driver->getCustomLinks());
+      if (!empty($customLinks)): ?>
+          <br />
+          <h4><?= $this->transEsc('Links'); ?></h4>
+          <div class="resultItemLine4 custom-links">
+          <? foreach ($customLinks as $customLink): ?>
+              <? $url = isset($customLink['Url']) ? $customLink['Url'] : '';
+              $mot = isset($customLink['MouseOverText'])? $customLink['MouseOverText'] : '';
+              $icon = isset ($customLink['Icon']) ? $customLink['Icon'] : '';
+              $name = isset($customLink['Text']) ? $customLink['Text'] : '';
+              ?>
+              <span>
+                <a href="<?=$this->escapeHtmlAttr($url)?>" target="_blank" title="<?=$this->escapeHtmlAttr($mot)?>" class="custom-link">
+                    <? if ($icon): ?><img src="<?=$this->escapeHtmlAttr($icon)?>" /> <? endif; ?><?=$this->escapeHtml($name)?>
+                </a>
+            </span>
+          <? endforeach; ?>
+          </div>
+      <? endif; ?>
+        <? if ($this->driver->hasHTMLFullTextAvailable() || !empty($abstract)) : ?>
+            <br />
+            <h4><?= $this->transEsc('Further Information'); ?></h4>
+          <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+              <? if (!empty($abstract) && !empty($abstract['Data'])) : ?>
+                  <div class="panel panel-default">
+                      <div class="panel-heading" role="tab" id="headingAbstract">
+                          <h4 class="panel-title">
+                              <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseAbstract" aria-controls="collapseAbstract"><?=$this->transEsc('Abstract')?></a>
+                          </h4>
+                      </div>
+                      <div id="collapseAbstract" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingAbstract">
+                          <div class="panel-body">
+                              <div class="col-sm-12 col-md-9 col-lg-10">
+                                  <?=$this->driver->linkUrls($abstract['Data'])?>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              <? endif; ?>
+              <? if ($this->driver->hasHTMLFullTextAvailable()): ?>
+
+              <div class="panel panel-default">
+                  <div class="panel-heading" role="tab" id="headingFulltext">
+                      <h4 class="panel-title">
+                          <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFulltext" aria-controls="collapseFulltext"><?=$this->transEsc('Fulltext')?></a>
+                      </h4>
+                  </div>
+                  <div id="collapseFulltext" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFulltext">
+                        <div class="panel-body">
+                            <? if (!$restrictedView) : ?>
+                                <? $fullText = $this->driver->getHtmlFullText(); ?>
+                                <?=$fullText?>
+                            <? else : ?>
+                                <p><?=$this->transEsc('Full text is not displayed to guests')?></p>
+                                <a class="login" href="<?=$this->url('myresearch-home')?>" rel="nofollow">
+                                    <strong><?=$this->transEsc('Login for full access')?></strong>
+                                </a>
+                            <?endif; ?>
+                      </div>
+                  </div>
+              </div>
+              <? endif; ?>
+          </div>
+        <? endif; ?>
+  </div>
+</div>
