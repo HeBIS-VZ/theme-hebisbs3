@@ -60,7 +60,11 @@
                     <?= !empty($subjects) ? "<br />" . $subjects : ""?>
                 </p>
                 <? $ftCustomLinks = $this->driver->getFTCustomLinks();
-                   $customLinks = $this->driver->getCustomLinks(); ?>
+                   $customLinks = $this->driver->getCustomLinks();
+                   $customLinks = array_filter($customLinks, function($elem) {
+                        return $elem["Category"] === "other";
+                    });
+                ?>
                 <? if ($this->driver->hasHTMLFullTextAvailable() || $this->driver->hasPdfAvailable() || !empty($customLinks)): ?>
                     <p>
                         <!-- HTML links -->
