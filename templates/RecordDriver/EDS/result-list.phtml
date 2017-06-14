@@ -65,7 +65,7 @@
                         return $elem["Category"] === "other";
                     });
                 ?>
-                <? if ($this->driver->hasHTMLFullTextAvailable() || $this->driver->hasPdfAvailable() || !empty($customLinks)): ?>
+                <? if ($this->driver->hasHTMLFullTextAvailable() || $this->driver->hasPdfAvailable() || !empty($customLinks) || !empty($ftCustomLinks)): ?>
                     <? $customLinksArray = [] ?>
                         <!-- HTML links -->
                         <? if ($this->driver->hasHTMLFullTextAvailable()): ?>
@@ -95,7 +95,7 @@
                                         $cl .= '<img src="' . $this->escapeHtmlAttr($icon) . '" />';
                                     }
                                     $cl .= $this->escapeHtml($name) . '</a></span>';
-                                $customLinks[] = $cl;
+                                $customLinksArray[] = $cl;
                             endif; ?>
 
                             <? if (!empty($customLinks)): ?>

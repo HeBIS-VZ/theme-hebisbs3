@@ -64,7 +64,9 @@ $this->headScript()->appendScript($rediLinks); ?>
         <? endif; ?>
 
         <div class="external-links">
-            <? $ftCustomLinks = $this->driver->getFTCustomLinks(); ?>
+            <? $ftCustomLinks = array_filter($this->driver->getFTCustomLinks(), function($item) {
+                return strpos($item["Name"], "Check availability") !== false;
+            }); ?>
             <? $customLinks = $this->driver->getCustomLinks(); ?>
             <? $customLinks = array_filter($customLinks, function ($elem) {
                 return $elem["Category"] === "other";
@@ -171,27 +173,6 @@ ENDSCRIPT;
                 <div class="row">
                     <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Database') ?>:</div>
                     <div class="col-sm-12 col-md-9 col-lg-10"><?= $this->escapeHtml($dbLabel) ?></div>
-                </div>
-            <? endif; ?>
-            <? $customLinks = array_merge($this->driver->getFTCustomLinks(), $this->driver->getCustomLinks());
-            if (!empty($customLinks)): ?>
-                <br/>
-                <h4><?= $this->transEsc('Links'); ?></h4>
-                <div class="resultItemLine4 custom-links">
-                    <? foreach ($customLinks as $customLink): ?>
-                        <? $url = isset($customLink['Url']) ? $customLink['Url'] : '';
-                        $mot = isset($customLink['MouseOverText']) ? $customLink['MouseOverText'] : '';
-                        $icon = isset ($customLink['Icon']) ? $customLink['Icon'] : '';
-                        $name = isset($customLink['Text']) ? $customLink['Text'] : '';
-                        ?>
-                        <span>
-                <a href="<?= $this->escapeHtmlAttr($url) ?>" target="_blank" title="<?= $this->escapeHtmlAttr($mot) ?>"
-                   class="custom-link">
-                    <? if ($icon): ?><img
-                        src="<?= $this->escapeHtmlAttr($icon) ?>" /> <? endif; ?><?= $this->escapeHtml($name) ?>
-                </a>
-            </span>
-                    <? endforeach; ?>
                 </div>
             <? endif; ?>
             <? if ($this->driver->hasHTMLFullTextAvailable() || !empty($abstract)) : ?>
