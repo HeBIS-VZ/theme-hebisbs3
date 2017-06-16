@@ -100,7 +100,8 @@
 
                             <? if (!empty($customLinks)): ?>
 
-                                <? foreach ($customLinks as $customLink) : ?>
+                                <? $customLink = $customLinks[0];
+                                //foreach ($customLinks as $customLink) : ?>
                                     <? $url = isset($customLink['Url']) ? $customLink['Url'] : '';
                                     $mot = isset($customLink['MouseOverText'])? $customLink['MouseOverText'] : '';
                                     $icon = isset ($customLink['Icon']) ? $customLink['Icon'] : '';
@@ -114,7 +115,7 @@
                                     }
                                     $cl .= $this->escapeHtml($name) . '</a></span>';
                                     $customLinksArray[] = $cl; ?>
-                                <? endforeach; ?>
+                                <? //endforeach; ?>
                             <? endif; ?>
                         <? endif; ?>
                     <? if (!empty($customLinksArray)) : ?>

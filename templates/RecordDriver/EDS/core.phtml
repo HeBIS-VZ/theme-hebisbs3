@@ -64,11 +64,9 @@ $this->headScript()->appendScript($rediLinks); ?>
         <? endif; ?>
 
         <div class="external-links">
-            <? $ftCustomLinks = array_filter($this->driver->getFTCustomLinks(), function($item) {
-                return strpos($item["Name"], "Check availability") !== false;
-            }); ?>
-            <? $customLinks = $this->driver->getCustomLinks(); ?>
-            <? $customLinks = array_filter($customLinks, function ($elem) {
+            <? $ftCustomLinks = $this->driver->getFTCustomLinks(); ?>
+            <? $customLinks = $this->driver->getCustomLinks();  ?>
+            <? $customLinks = array_filter($customLinks, function($elem) {
                 return $elem["Category"] === "other";
             });
             ?>
