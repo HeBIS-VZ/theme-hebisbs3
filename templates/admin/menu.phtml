@@ -13,4 +13,6 @@
        class="list-group-item<?= strtolower($this->layout()->templateName) == "tags" ? ' active' : '' ?>"><?= $this->transEsc('Tag Maintenance') ?></a>
     <a href="<?= $this->url('logs') ?>"
        class="list-group-item<?= isset($this->site) && strtolower($this->site) == "logs" ? ' active' : '' ?>"><?= $this->transEsc('Logs') ?></a>
+    <a href="<?= $this->url('custompages') ?>"
+       class="list-group-item<?= strtolower($this->layout()->templateName) == "custompages" ? ' active' : '' ?>"><?= $this->transEsc('Custom Pages') ?></a>
 </div>

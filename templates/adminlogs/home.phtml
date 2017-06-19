@@ -1,6 +1,7 @@
 <?
 // Set page title.
-$this->headTitle($this->translate('VuFind Administration - Social Statistics'));
+$this->headTitle($this->translate('VuFind Administration - Logs'));
+// Scroll to bottom of text field
 $this->headScript()->appendScript('
     $(document).ready(function() {
         var textarea = document.getElementById("log");
@@ -14,7 +15,7 @@ $this->headScript()->appendScript('
         <h2><?= $this->transEsc('Logs') ?></h2><samp>recent <?= $this->lineCount ?> lines:</samp>
 
         <textarea id="log" style="width: 100%; font-family: monospace; font-size: 10px"
-                  rows="30"><? echo $this->logContent; ?></textarea>
+                  rows="30" title="recentlog"><? echo $this->logContent; ?></textarea>
 
     </div>
     <div class="<?= $this->layoutClass('sidebar') ?>">
