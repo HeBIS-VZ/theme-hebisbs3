@@ -60,6 +60,10 @@
                     <?= !empty($subjects) ? "<br />" . $subjects : ""?>
                 </p>
                 <? $ftCustomLinks = $this->driver->getFTCustomLinks();
+
+                    $ftCustomLinks = array_filter($ftCustomLinks, function ($ftCustomLink) {
+                        return $ftCustomLink["Category"] === "fullText";
+                    });
                    $customLinks = $this->driver->getCustomLinks();
                    $customLinks = array_filter($customLinks, function($elem) {
                         return $elem["Category"] === "other";
@@ -100,8 +104,7 @@
 
                             <? if (!empty($customLinks)): ?>
 
-                                <? $customLink = $customLinks[0];
-                                //foreach ($customLinks as $customLink) : ?>
+                                <? foreach ($customLinks as $customLink) : ?>
                                     <? $url = isset($customLink['Url']) ? $customLink['Url'] : '';
                                     $mot = isset($customLink['MouseOverText'])? $customLink['MouseOverText'] : '';
                                     $icon = isset ($customLink['Icon']) ? $customLink['Icon'] : '';
@@ -115,7 +118,7 @@
                                     }
                                     $cl .= $this->escapeHtml($name) . '</a></span>';
                                     $customLinksArray[] = $cl; ?>
-                                <? //endforeach; ?>
+                                <? endforeach; ?>
                             <? endif; ?>
                         <? endif; ?>
                     <? if (!empty($customLinksArray)) : ?>

@@ -64,7 +64,13 @@ $this->headScript()->appendScript($rediLinks); ?>
         <? endif; ?>
 
         <div class="external-links">
-            <? $ftCustomLinks = $this->driver->getFTCustomLinks(); ?>
+            <?  $ftCustomLinks = $this->driver->getFTCustomLinks();
+                $ftCustomLinks = array_filter($ftCustomLinks, function ($ftCustomLink) {
+
+                    return $ftCustomLink["Category"] === "fullText";
+                });
+
+            ?>
             <? $customLinks = $this->driver->getCustomLinks();  ?>
             <? $customLinks = array_filter($customLinks, function($elem) {
                 return $elem["Category"] === "other";
@@ -106,9 +112,12 @@ ENDSCRIPT;
           </a>
         </span><br/>
             <? endif; ?>
+            <? if (strpos($ftCustomLinks[0]['Url'], "www.redi-bw.de") !== false) : ?>
+                <div id="redi"><!-- --></div>
+            <? endif; ?>
             <? if (!empty($customLinks) || !empty($ftCustomLinks)) : ?>
                 <ul>
-                    <? if (!empty($ftCustomLinks)) : ?>
+                    <? if (!empty($ftCustomLinks) && strpos($ftCustomLinks[0]['Url'], "www.redi-bw.de") === false) : ?>
                         <? $url = isset($ftCustomLinks[0]['Url']) ? $ftCustomLinks[0]['Url'] : '';
                         $mot = isset($ftCustomLinks[0]['MouseOverText']) ? $ftCustomLinks[0]['MouseOverText'] : '';
                         $icon = isset ($ftCustomLinks[0]['Icon']) ? $ftCustomLinks[0]['Icon'] : '';
@@ -125,6 +134,7 @@ ENDSCRIPT;
                             </span>
                         </li>
                     <? endif; ?>
+
                     <? foreach ($customLinks as $customLink): ?>
                         <? $url = isset($customLink['Url']) ? $customLink['Url'] : '';
                         $mot = isset($customLink['MouseOverText']) ? $customLink['MouseOverText'] : '';
@@ -145,7 +155,6 @@ ENDSCRIPT;
                 </ul>
             <? endif; ?>
         </div>
-        <div id="redi"><!-- --></div>
     </div>
 
     <div class="col-sm-9 info-col">
