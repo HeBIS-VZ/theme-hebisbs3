@@ -2,7 +2,12 @@
 
 $lookfor = $this->lookfor;
 $searchIndex = $this->searchIndex;
-if (!isset($this->searchTabs))  {
+//$this->searchIndex = $this->params->getSearchHandler();
+//$this->searchType = $this->params->getSearchType();
+//$this->searchId = $this->results->getSearchId();
+//$this->searchClassId = $this->params->getSearchClassId();
+
+if (!isset($this->searchTabs) && !empty($lookfor))  {
     $searchTabs = $this->searchtabs()->getTabConfig($this->searchClassId, $lookfor, $searchIndex);
 } else {
     $searchTabs = $this->searchtabs()->getTabConfig($this->searchClassId, $lookfor, $searchIndex, $this->searchType, $this->hiddenFilters);
@@ -13,7 +18,7 @@ if (!isset($this->searchTabs))  {
     <? foreach ($searchTabs as $tab): ?>
       <li id="<?=$tab["id"]?>"<?=$tab['selected'] ? ' class="active"' : ''?>>
         <a <?=$tab['selected'] ? '' : 'href="' . $this->escapeHtmlAttr($tab['url']) . '"' ?>><?=$this->transEsc($tab['label']); ?></a>
-        <? if ($tab["id"] === "EDS" && !$tab['selected']) :
+        <? if ($tab["id"] === "EDS" && !$tab['selected'] && !empty($lookfor)) :
             $url = str_replace("/Search", "/ajax", $tab["url"]);
 
             $var = <<<EDSSCRIPT

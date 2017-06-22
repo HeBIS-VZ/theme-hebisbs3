@@ -46,9 +46,6 @@
   $this->headScript()->appendFile("check_item_statuses.js");
   $this->headScript()->appendFile("check_save_statuses.js");
 ?>
-<?= $this->render('search/searchTabs'); ?>
-<div class="tab-content">
-  <div class="tab-pane active">
     <div class="row">
       <div class="<?=$this->layoutClass('mainbody')?>">
         <? $recordTotal = $this->results->getResultTotal()?>
@@ -158,5 +155,3 @@
       </div>
       <? /* End Narrow Search Options */ ?>
     </div>
-  </div>
-</div>

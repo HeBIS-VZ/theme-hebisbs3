@@ -255,45 +255,73 @@ if (!isset($this->layout()->searchbox)) {
 
     <div class="container">
 
+        <?
+        if (isset($this->results)) : // it is a search request?
+            $this->searchIndex = $this->params->getSearchHandler();
+            $this->searchType = $this->params->getSearchType();
+            $this->searchId = $this->results->getSearchId();
+            $this->searchClassId = $this->params->getSearchClassId();
+            if (isset($this->overrideTitle)) {
+                $this->headTitle($this->overrideTitle);
+            } else {
+                $this->headTitle($this->translate('Search Results') . (empty($lookfor) ? '' : " - {$lookfor}"));
+            }
+
+        endif;
+        if (isset($lookfor)) :
+            // Set up breadcrumbs:
+            if (isset($this->overrideTitle)) {
+                $this->layout()->breadcrumbs .= '<li class="active">' . $this->escapeHtml($this->overrideTitle) . '</li>';
+            } else {
+                $this->layout()->breadcrumbs .= '<li class="active">' . $this->transEsc('Search') . ': ' . $this->escapeHtml($this->lookfor) . '</li>';
+            }
+        endif;
+        ?>
 
 
-            <? if ((!isset($this->layout()->showBreadcrumbs) || $this->layout()->showBreadcrumbs == true)
-                && !empty($this->layout()->breadcrumbs)
-            ): ?>
-                <ul class="breadcrumb hidden-print hidden-xs hidden-xs">
-                    <li>
-                        <a href="<?= $this->url('home') ?>"><span class="hds-icon-home"><!-- --></span></a>
-                    </li>
-                    <? if (is_array($this->layout()->breadcrumbs)): ?>
-                        <? if (count($this->layout()->breadcrumbs) > 1): ?>
-                            <?= $this->render('breadcrumbs/multi.phtml', array(
-                                'parents' => $this->layout()->breadcrumbs,
-                                'title' => $this->layout()->title,
-                                'end' => $this->layout()->breadcrumbEnd,
-                                'from' => $this->layout()->from
-                            )) ?>
-                        <? else: ?>
-                            <?= $this->render('breadcrumbs/default.phtml', array(
-                                'parents' => $this->layout()->breadcrumbs,
-                                'title' => $this->layout()->title
-                            )) ?>
-                        <? endif; ?>
+
+
+        <? if ((!isset($this->layout()->showBreadcrumbs) || $this->layout()->showBreadcrumbs == true)
+            && !empty($this->layout()->breadcrumbs)
+        ): ?>
+            <ul class="breadcrumb hidden-print hidden-xs hidden-xs">
+                <li>
+                    <a href="<?= $this->url('home') ?>"><span class="hds-icon-home"><!-- --></span></a>
+                </li>
+                <? if (is_array($this->layout()->breadcrumbs)): ?>
+                    <? if (count($this->layout()->breadcrumbs) > 1): ?>
+                        <?= $this->render('breadcrumbs/multi.phtml', array(
+                            'parents' => $this->layout()->breadcrumbs,
+                            'title' => $this->layout()->title,
+                            'end' => $this->layout()->breadcrumbEnd,
+                            'from' => $this->layout()->from
+                        )) ?>
                     <? else: ?>
-                        <?= $this->layout()->breadcrumbs ?>
+                        <?= $this->render('breadcrumbs/default.phtml', array(
+                            'parents' => $this->layout()->breadcrumbs,
+                            'title' => $this->layout()->title
+                        )) ?>
                     <? endif; ?>
-                </ul>
-            <? endif; ?>
+                <? else: ?>
+                    <?= $this->layout()->breadcrumbs ?>
+                <? endif; ?>
+            </ul>
+        <? endif; ?>
 
-            <? /*if ($this->layout()->searchbox !== false): ?>
+        <? /*if ($this->layout()->searchbox !== false): ?>
                 <section class="search-box">
                     <?=$this->layout()->searchbox ?>
                 </section>
             <? endif; */?>
 
-
-            <section class="content">
-                <?= $this->layout()->content ?>
-            </section>
+            <?= $this->render('search/searchTabs'); ?>
+            <div class="tab-content">
+                <div class="tab-pane active">
+                    <section class="content">
+                        <?= $this->layout()->content ?>
+                    </section>
+                </div>
+            </div>
         </div>
 </div>
 <footer role="contentinfo" class="hidden-print">
