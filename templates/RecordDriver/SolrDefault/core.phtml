@@ -414,14 +414,21 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                 <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('RVK-Notation'); ?>:
                                 </div>
                                 <div class="col-sm-12 col-md-9 col-lg-10">
-
                                     <? foreach ($rvk as $r) : ?>
-                                        <span class="rvk-info"><a class="rvk-link"
-                                                                  href="<?= $this->basePath() ?>/Search/Results?lookfor=rvk_full%3A%22<?= $this->transEsc($r) ?>%22&type=allfields"><?= $this->transEsc($r) ?></a>&nbsp;<span
+                                        <? $rvkId = str_replace(" ", "-", $r); ?>
+                                        <span class="rvk-info">
+                                            <a class="rvk-link"
+                                               href="<?= $this->basePath() ?>/Search/Results?lookfor=rvk_full%3A%22<?= $this->transEsc($r) ?>%22&type=allfields"><?= $this->transEsc($r) ?></a>&nbsp
+                                            <span
+                                                role="button"
                                                 style="padding-bottom: 1px; font-size: 80%; font-weight: lighter; cursor: pointer"
-                                                data-toggle="popover" data-id="<?= $r ?>" data-container="body"
-                                                data-placement="auto"
-                                                class="label label-info">rvk</span></span>&nbsp;&nbsp;
+                                                data-id="<?= $r ?>"
+                                                data-container="body"
+                                                data-popover-content="#rvk_<?= $rvkId ?>"
+                                                class="rvk_popover label label-info">rvk</span>
+                                        </span>
+                                        <div class="hidden" id="rvk_<?= $rvkId ?>"><div class="popover-heading"></div><div class="popover-body"></div></div>
+                                        &nbsp;&nbsp;
                                     <? endforeach; ?>
                                 </div>
                             </div>
