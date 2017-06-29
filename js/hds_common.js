@@ -67,6 +67,7 @@ $(document).ready(function () {
     document.onscroll = scroll;
 
     processWikipediaLinks();
+    processRvkLinks();
     processOtherEditions();
 
     // support "jump menu" dropdown boxes
@@ -88,30 +89,58 @@ $(document).ready(function () {
         return event;
     });
 
-    var baseUrl = "https://resolver.hebis.de/rvkffm/";
 
-    $('.rvk-info .label').click(function (e) {
+});
+
+function processRvkLinks() {
+
+    var baseUrl = "https://resolver.hebis.de/rvkffm/";
+    $(".rvk_popover").click(function(e) {
+        e.preventDefault();
+        var $popup = $(this);
+        $popup.popover('show');
+        return false;
+    });
+
+    $(".rvk_popover").each(function(e) {
         var $popup = $(this);
         var id = $popup.data('id');
         var parts = id.split(' ');
         var url = baseUrl + parts[0] + '/' + parts[1];
-        $.get(url, function (d) {
-            var str = eval(d + "RVK;");
-            $popup.popover({
-                content: "<small>" + str.replaceAll("/", " / ") + "</small>",
-                //title: '<a class="close" role="button">&times;</a>',
-                html: true
-            }).popover('toggle')
-              .on('shown.bs.popover', function (eventShown) {
-                var $pop = $('#' + $(eventShown.target).attr('aria-describedby'));
-                $popup.click(function(e) {
-                    $pop.hide();
-                });
-            });
+        $.get(url, function (result) {
+            result = eval(result + "RVK;");
+            setRvkPopup($popup, id, result);
+        }).fail(function (e) {
+            setPopup($popup, gndId, {"title":"Error", "extract":"Something gone wrong!"});
+            $popup.hide();
         });
     });
-});
 
+    function setRvkPopup($popup, gndId, data) {
+        $popup.popover({
+            html: true,
+            trigger: 'manual',
+            placement: 'auto',
+            content: function () {
+                var contentDiv = $(this).attr("data-popover-content");
+                var content = '<p>' + data + '</p>';
+                return $(contentDiv).children(".popover-body").html(content).html();
+            },
+            title: function () {
+                var title = $(this).attr("data-popover-content");
+                var $header = $(title).children(".popover-heading");
+                $header.html("RVK" + '<a data-id="'+gndId+'" class="close" role="button">&times;</a>');
+                return $header.html();
+            }
+        }).on('shown.bs.popover', function (eventShown) {
+            var $pop = $('#' + $(eventShown.target).attr('aria-describedby'));
+            $pop.find('a.close').click(function (e) {
+                e.preventDefault();
+                $pop.popover('hide');
+            });
+        });
+    }
+}
 
 function processWikipediaLinks() {
 
