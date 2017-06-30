@@ -1,4 +1,17 @@
-<div id="bibtip_shorttitle" style="display:none"><?= $this->bibTipTitleStatement($this->driver); ?> / <?= $this->bibTipPersonalName($this->driver); ?> (<?= $this->bibTipPublication($this->driver); ?>)</div>
+
+<?php
+$title = $this->bibTipTitleStatement($this->driver);
+$author = $this->bibTipPersonalName($this->driver);
+$year = $this->bibTipPublication($this->driver);
+
+$out = "";
+
+$out .= !empty($title) ? $title : "";
+$out .= !empty($author) ? " / $author" : "";
+$out .= !empty($year) ? "($year)" : "";
+?>
+
+<div id="bibtip_shorttitle" style="display:none"><?= $out ?></div>
 <div id="bibtip_id" style="display:none"><?= $this->driver->getPPN(); ?></div>
 <script src="https://recommender.bibtip.de/js/bibtip_ub_f_portal.js<?= $this->bibTipJs ?>" type="text/javascript"></script>
 <div id="bibtip_reclist" style="display:none"><!-- --></div>

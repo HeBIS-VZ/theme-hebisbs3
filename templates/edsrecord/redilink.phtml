@@ -1,0 +1,10 @@
+<? if (!empty($this->ezbLinks)) : ?>
+    <? foreach ($this->ezbLinks as $ezbLink) : ?>
+        <p><?= $ezbLink['ampel'] ?> <?= $ezbLink['direktlink'] ?>
+        <? if (!empty($this->infoLink)) : ?>
+            <a style="" href="<?= $this->infoLink ?>" target="_blank"><span class="hds-icon-info-circled info"><!-- --></span></a></span>
+        <? endif; ?>
+        </p>
+    <? endforeach; ?>
+<? endif; ?>
+

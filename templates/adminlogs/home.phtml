@@ -1,0 +1,23 @@
+<?
+// Set page title.
+$this->headTitle($this->translate('VuFind Administration - Social Statistics'));
+$this->headScript()->appendScript('
+    $(document).ready(function() {
+        var textarea = document.getElementById("log");
+        textarea.scrollTop = textarea.scrollHeight;
+    });
+    ');
+?>
+
+<div class="row">
+    <div class="<?= $this->layoutClass('mainbody') ?>">
+        <h2><?= $this->transEsc('Logs') ?></h2><samp>recent <?= $this->lineCount ?> lines:</samp>
+
+        <textarea id="log" style="width: 100%; font-family: monospace; font-size: 10px"
+                  rows="30"><? echo $this->logContent; ?></textarea>
+
+    </div>
+    <div class="<?= $this->layoutClass('sidebar') ?>">
+        <?= $this->render("admin/menu.phtml") ?>
+    </div>
+</div>

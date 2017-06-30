@@ -262,7 +262,7 @@ if (!isset($this->layout()->searchbox)) {
             ): ?>
                 <ul class="breadcrumb hidden-print hidden-xs hidden-xs">
                     <li>
-                        <a href="<?= $this->basePath() ?>"><span class="hds-icon-home"><!-- --></span></a>
+                        <a href="<?= $this->url('home') ?>"><span class="hds-icon-home"><!-- --></span></a>
                     </li>
                     <? if (is_array($this->layout()->breadcrumbs)): ?>
                         <? if (count($this->layout()->breadcrumbs) > 1): ?>
