@@ -1,0 +1,13 @@
+<?
+$this->headTitle($this->translate('VuFind Administration - Edit Custom Page'));
+?>
+
+<div class="row">
+    <div class="<?= $this->layoutClass('mainbody') ?>">
+        <h3><?= $this->transEsc('Add New Page') ?></h3>
+        <textarea id="editor" rows="16" cols="86" title="texteditor">WYSIWYG</textarea>
+    </div>
+    <div class="<?= $this->layoutClass('sidebar') ?>">
+        <?= $this->render("admin/menu.phtml") ?>
+    </div>
+</div>

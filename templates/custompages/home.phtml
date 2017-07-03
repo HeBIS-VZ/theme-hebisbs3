@@ -1,12 +1,23 @@
 <?
 // Set page title.
 $this->headTitle($this->translate('VuFind Administration - Custom Pages'));
+
 ?>
 
 <div class="row">
     <div class="<?= $this->layoutClass('mainbody') ?>">
         <h2>Custom Pages</h2>
         <p>coming soon…</p>
+
+        <ul>
+            <li>
+                <a href="<?= $this->url('custompages', array('action' => 'addpage')) ?>"><?= $this->transEsc('Add New Page') ?></a>
+            </li>
+            <li>
+                <a href="<?= $this->url('custompages', array('action' => 'manage')) ?>"><?= $this->transEsc('Manage Pages') ?></a>
+            </li>
+        </ul>
+
 
     </div>
     <div class="<?= $this->layoutClass('sidebar') ?>">
