@@ -1,16 +1,30 @@
-<?
-$this->headTitle($this->translate('VuFind Administration - Edit Custom Page'));
+<?php
+$this->headTitle($this->translate('VuFind Administration - Add Custom Page'));
+$form = $this->form;
+$form->prepare();
 ?>
 
 <div class="row">
+
     <div class="<?= $this->layoutClass('mainbody') ?>">
-        <h3><?= $this->transEsc('Add New Page') ?></h3>
-        <textarea id="editor" rows="16" cols="86" title="texteditor">WYSIWYG</textarea>
+
+        <h3><?= $this->translate('Add New Page') ?></h3>
+
+        <div class="form-group">
+            <?php echo $this->form()->openTag($form); ?>
+            <?php echo $this->formRow($form->get('headline')); ?><br>
+            <?php echo $this->formRow($form->get('content')); ?><br>
+            <?php echo $this->formSubmit($form->get('submit')); ?>
+            <?php echo $this->form()->closeTag($form); ?>
+        </div>
+
     </div>
+
     <div class="<?= $this->layoutClass('sidebar') ?>">
         <?= $this->render("admin/menu.phtml") ?>
     </div>
 </div>
+
 <!--WYSIWYG Script-->
 <script src="http://js.nicedit.com/nicEdit-latest.js" type="text/javascript"></script>
 <script type="text/javascript">bkLib.onDomLoaded(nicEditors.allTextAreas);</script>
