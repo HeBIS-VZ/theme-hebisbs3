@@ -65,7 +65,7 @@ $rangeFacets = $this->recommend->getAllRangeFacets(); ?>
         <div class="list-group facet" id="side-panel-<?= $this->escapeHtmlAttr($title) ?>">
             <div class="list-group-item title<? if (in_array($title, $collapsedFacets)): ?> collapsed<? endif ?>"
                  data-toggle="collapse" href="#side-collapse-<?= $this->escapeHtmlAttr($title) ?>">
-                <?= $this->transEsc($cluster['label']) ?>
+                <?= $this->translate($cluster['label']) ?>
                 <div class="pull-right"><span class="caret"><!-- --></span></div>
             </div>
             <div id="side-collapse-<?= $this->escapeHtmlAttr($title) ?>"
