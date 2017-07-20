@@ -68,7 +68,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <?= $this->escapeHtml($this->singleRecordTitleStatementHeadline($this->driver)) ?>
                     </h3>
 
-                    <? $summary = $this->driver->getSummary();
+                    <? /*$summary = $this->driver->getSummary();
                     $summary = isset($summary[0]) ? $this->escapeHtml($summary[0]) : false; ?>
                     <? if ($summary): ?>
                         <p><?= $this->truncate($summary, 300) ?></p>
@@ -78,7 +78,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                 <a href='<?= $this->recordLink()->getTabUrl($this->driver, 'Description') ?>#tabnav'><?= $this->translate('Full description') ?></a>
                             </p>
                         <? endif; ?>
-                    <? endif; ?>
+                    <? endif; */?>
 
                     <? if ($this->userlist()->getMode() !== 'disabled'): ?>
                         <? /* Display the lists that this record is saved to */ ?>
@@ -142,14 +142,17 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <? endif; ?>
 
                         <!-- Körperschaft -->
-                        <? $corporate = $this->singleRecordCorporateName($this->driver); ?>
-                        <? if (!empty($corporate)) : ?>
+                        <? $corporates = $this->singleRecordCorporateName($this->driver, true); ?>
+                        <? if (!empty($corporates)) : ?>
                             <div class="row">
                                 <div class="bold col-sm-12 col-md-3 col-lg-2">
                                     <?= $this->translate('Corporate') ?>:
                                 </div>
                                 <div class="col-sm-12 col-md-9 col-lg-10" property="author">
-                                    <a href="<?= $this->record($this->driver)->getLink('other', html_entity_decode($corporate)); ?>"><?= $corporate ?></a>
+                                    <? foreach ($corporates as $corporate) : ?>
+                                        <a href="<?= $this->record($this->driver)->getLink('other', html_entity_decode($corporate)); ?>"><?= $corporate ?></a><br />
+                                    <? endforeach; ?>
+
                                 </div>
                             </div>
                         <? endif; ?>
@@ -319,6 +322,27 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                             </div>
                         <? endif; ?>
 
+                        <? $editionStatement = $this->singleRecordEditionStatement($this->driver); ?>
+                        <? if (!empty($editionStatement)) : ?>
+                            <div class="row">
+                                <div class="bold col-sm-12 col-md-3 col-lg-2">
+                                    <?= $this->translate('edition') ?>:
+                                </div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><bdi><?= $editionStatement ?></bdi></div>
+                            </div>
+                        <? endif; ?>
+
+                        <?php $cartographics = $this->singleRecordCartographicMathematicalData($this->driver); ?>
+                        <? if (!empty($cartographics)) : ?>
+                            <div class="row">
+                                <div class="bold col-sm-12 col-md-3 col-lg-2">
+                                    <?= $this->translate('scale') ?>:
+                                </div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><bdi><?= $cartographics ?></bdi></div>
+                            </div>
+                        <? endif; ?>
+
+
                         <!-- Other Edition Entry-->
                         <? $otherEditionEntry = $this->singleRecordOtherEditionEntry($this->driver); ?>
                         <? if (!empty($otherEditionEntry)) : ?>
@@ -389,13 +413,12 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                             </div>
                         <? endif; ?>
 
-                        <? $langs = $this->driver->getLanguages();
-                        if (!empty($langs)): ?>
+                        <? $langs = $this->singleRecordLanguageCode($this->driver); ?>
+                        <? if (!empty($langs)): ?>
                             <div class="row">
                                 <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->translate('Language') ?>:</div>
                                 <div
-                                    class="col-sm-12 col-md-9 col-lg-10"><? foreach ($langs as $lang): ?><?= $this->translate($lang) ?>
-                                        <br/><? endforeach; ?></div>
+                                    class="col-sm-12 col-md-9 col-lg-10"><?= $langs ?></div>
                             </div>
                         <? endif; ?>
 
@@ -469,8 +492,6 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                 <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->translate('series_multipart') ?>:</div>
                                 <div class="col-sm-12 col-md-9 col-lg-10">
                                     <?= $parent ?>
-                                    <br />
-                                    <?= $multipartViewHelper->renderShowAllVolumesLink(); ?>
                                 </div>
                             </div>
                         <? endif; ?>
