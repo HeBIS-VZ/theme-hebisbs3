@@ -9,20 +9,13 @@ $this->headTitle($this->translate('VuFind Administration - Custom Pages'));
         <h2>Custom Pages</h2>
         <p>coming soon…</p>
 
-        <ul>
-            <li>
-                <a href="<?= $this->url('custompages', array('action' => 'addpage')) ?>"><?= $this->transEsc('Add New Page') ?></a>
-            </li>
-            <li>
-                <a href="<?= $this->url('custompages', array('action' => 'edit')) ?>"><?= $this->transEsc('Manage Pages') ?></a>
-            </li>
-        </ul>
 
         <?
         foreach ($this->rows as $row) {
-            echo "<li>" . $row->headline . "</li>";
+            echo "<li><a href=" . $this->url('custompages', array('action' => 'viewpage')) . ">" . $row->headline . "</a></li>";
         }
         ?>
+        <li></li><a href="<?= $this->url('custompages', array('action' => 'addpage')) ?>"><?= $this->transEsc('Add New Page') ?></a></li></div>
 
 
     </div>
