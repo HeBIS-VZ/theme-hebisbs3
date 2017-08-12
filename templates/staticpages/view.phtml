@@ -7,10 +7,11 @@ $this->headTitle($this->translate('VuFind Administration - Static Page View'));
 <div class="row">
     <div class="<?= $this->layoutClass('mainbody') ?>">
 
-        <H2></H2>
-
-
-
+        <div class="<?= $this->layoutClass('viewpage') ?>">
+            <h2>
+                <? echo $this->row->headline ?> <!-- NOTHING YET -->
+            </h2>
+        </div>
 
     </div>
     <div class="<?= $this->layoutClass('sidebar') ?>">
