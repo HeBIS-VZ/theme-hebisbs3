@@ -8,9 +8,14 @@ $this->headTitle($this->translate('VuFind Administration - Static Page View'));
     <div class="<?= $this->layoutClass('mainbody') ?>">
 
         <div class="<?= $this->layoutClass('viewpage') ?>">
-            <h2>
-                <? echo $this->row->headline ?> <!-- NOTHING YET -->
-            </h2>
+
+            <? echo
+                '<h3><b>' . $this->row->headline . '</b><br />' .
+                '<small style="color: #81a8ce"><i>last modified: ' . $this->row->changeDate . '</i></small></h3>' .
+                '' . '<br />' .
+                '<article style="width: 70%">' . $this->row->content . '</article>'
+            ?>
+
         </div>
 
     </div>
