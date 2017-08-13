@@ -6,17 +6,20 @@ $this->headTitle($this->translate('VuFind Administration - HeBIS Bulletin'));
 <div class="row">
     <div class="<?= $this->layoutClass('mainbody') ?>">
         <h2>📝 Das <b>Bulletin</b></h2>
-
-
-        <a href="<?= $this->url('staticpages', array('action' => 'addpage')) ?>"><?= $this->transEsc('➕ Add New Page') ?></a>
-
-        <ul>
+        <hr>
+        <table width="80%" cellspacing="20">
+            <tr>
+                <td>➕&nbsp;</td>
+                <td><a href="<?= $this->url('staticpages', array('action' => 'add')) ?>">Neue Seite Hinzufügen</a></td>
+            </tr>
             <?
             foreach ($this->rows as $row) {
-                echo "<li>" . $row->id . ".&nbsp" . $row->headline . " ¦ " . $row->content . "&nbsp;<a href='home.phtml'>✏</a>❌</a></li>";
+                $visibilitySymbol = ($row->visible == 1) ? "✔&nbsp;️" : "🚫&nbsp;";
+                echo "<tr><td>" . $visibilitySymbol . "</td><td><a href='Static-pages/View/" . $row->id .
+                    "'>" . $row->headline . "</a></td></tr>";
             }
             ?>
-        </ul>
+        </table>
 
     </div>
     <div class="<?= $this->layoutClass('sidebar') ?>">
