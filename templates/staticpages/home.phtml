@@ -9,14 +9,21 @@ $this->headTitle($this->translate('VuFind Administration - HeBIS Bulletin'));
         <hr>
         <table width="80%" cellspacing="20">
             <tr>
-                <td>➕&nbsp;</td>
-                <td><a href="<?= $this->url('staticpages', array('action' => 'add')) ?>">Neue Seite Hinzufügen</a></td>
+                <td>➕</td>
+                <td><a href="<?= $this->url('staticpages/add') ?>"><i>Neue Seite Hinzufügen</i></a></td>
             </tr>
             <?
+            $symbols = array(
+                'visible' => '👁',
+                'unvisible' => '🚫',
+                'delete' => '🗑️',
+                'edit' => '📝'
+            );
             foreach ($this->rows as $row) {
-                $visibilitySymbol = ($row->visible == 1) ? "✔&nbsp;️" : "🚫&nbsp;";
-                echo "<tr><td>" . $visibilitySymbol . "</td><td><a href='Static-pages/View/" . $row->id .
-                    "'>" . $row->headline . "</a></td></tr>";
+                $visibilitySymbol = ($row->visible == 1) ? $symbols['visible'] : $symbols['unvisible'];
+
+                echo '<tr><td>' . $visibilitySymbol . '</td><td><a href="' . $this->url('staticpages/view', ['id' => $row->id]) . '">' . $row->headline .
+                    '</a></td><td><a href="' . $this->url('staticpages/edit', ['id' => $row->id]) . '">' . $symbols['edit'] . '</td><td><a href="' . $this->url('staticpages/delete', ['id' => $row->id]) . '">' . $symbols['delete'] . '</td></tr>';
             }
             ?>
         </table>
