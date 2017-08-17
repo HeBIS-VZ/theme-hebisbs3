@@ -9,9 +9,9 @@ $this->headTitle($this->translate('VuFind Administration - Add Custom Page'));
 
         <div class="form-group" style="width: 85%">
             <form id="new post">
-                <p><textarea id="headline" rows="1"
+                <p><textarea id="headline" name="headline" rows="1"
                              style="width: 100%; font-size: large; font-weight: 700">Headline</textarea></p>
-                <p><textarea id="content" rows="11" style="width: 100%">Content</textarea></p>
+                <p><textarea name="content" id="content" rows="11" style="width: 100%">Content</textarea></p>
                 <input type="submit" formmethod="post" formaction="" value="Save Post">
 
             </form>

@@ -1,0 +1,48 @@
+<?
+// Set page title.
+$this->headTitle($this->translate('VuFind Administration - HeBIS Bulletin'));
+?>
+
+<div class="row">
+    <div class="<?= $this->layoutClass('mainbody') ?>">
+        <h3>📝 Das <b>Bulletin</b></h3>
+        <hr>
+
+        <!-- xs sm md lg -->
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-10">
+                <span class="hds-icon-plus-circled"></span>&nbsp;
+                <a href="<?= $this->url('adminstaticpages/add') ?>"><i>Neue Seite Hinzufügen</i></a>
+            </div>
+            <div class="col-xs-12 col-sm-2">
+
+            </div>
+        </div>
+        <?
+        $symbols = array(
+            'visible' => '<span class="hds-icon-eye"></span>',
+            'unvisible' => '<span class="hds-icon-eye-off"></span>',
+            'delete' => '<span class="hds-icon-trash"></span>',
+            'edit' => '<span class="hds-icon-pencil-1"></span>'
+        ); ?>
+        <? foreach ($this->rows as $row) : ?>
+            <? $visibilitySymbol = ($row->visible == 1) ? $symbols['visible'] : $symbols['unvisible']; ?>
+            <div class="row">
+                <div class="col-xs-12 col-sm-10">
+                    <?= ($row->visible == 1) ? $symbols['visible'] : $symbols['unvisible']; ?>&nbsp;
+                    <a href="<?= $this->url('adminstaticpages/view', ['id' => $row->id]) ?>"><?= $row->headline ?></a>
+                </div>
+                <div class="col-xs-12 col-sm-2">
+                    <a href="<?= $this->url('adminstaticpages/edit', ['id' => $row->id]) ?>"><?= $symbols['edit'] ?></a>&nbsp;
+                    <a href="<?= $this->url('adminstaticpages/delete', ['id' => $row->id]) ?>"><?= $symbols['delete'] ?></a>
+                </div>
+
+            </div>
+        <? endforeach; ?>
+
+    </div>
+    <div class="<?= $this->layoutClass('sidebar') ?>">
+        <?= $this->render("admin/menu.phtml") ?>
+    </div>
+</div>
