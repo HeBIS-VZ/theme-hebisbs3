@@ -1,0 +1,39 @@
+<?php
+$form = $this->form;
+$fieldset = $form->get('post');
+
+$headline = $fieldset->get('headline');
+$headline->setAttribute('class', 'form-control');
+$headline->setAttribute('placeholder', 'Post headline');
+
+$content = $fieldset->get('content');
+$content->setAttribute('class', 'form-control');
+$content->setAttribute('placeholder', 'Post content');
+
+$submit = $form->get('submit');
+$submit->setValue($this->submitLabel);
+$submit->setAttribute('class', 'btn btn-primary');
+
+$form->prepare();
+
+echo $this->form()->openTag($form);
+?>
+
+    <fieldset>
+        <div class="form-group">
+            <?= $this->formLabel($headline) ?>
+            <?= $this->formElement($headline) ?>
+            <?= $this->formElementErrors()->render($headline, ['class' => 'help-block']) ?>
+        </div>
+
+        <div class="form-group">
+            <?= $this->formLabel($content) ?>
+            <?= $this->formElement($content) ?>
+            <?= $this->formElementErrors()->render($content, ['class' => 'help-block']) ?>
+        </div>
+    </fieldset>
+
+<?php
+echo $this->formSubmit($submit);
+echo $this->formHidden($fieldset->get('id'));
+echo $this->form()->closeTag();

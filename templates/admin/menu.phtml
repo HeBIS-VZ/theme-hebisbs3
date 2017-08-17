@@ -1,6 +1,6 @@
 <div class="list-group">
     <a href="<?= $this->url('admin') ?>"
-       class="list-group-item<?= !isset($this->site) && strtolower($this->layout()->templateName) == "home" ? ' active' : '' ?>"><?= $this->transEsc('Home') ?></a>
+       class="list-group-item<?= strtolower($this->layout()->templateName) == "home" ? ' active' : '' ?>"><?= $this->transEsc('Home') ?></a>
     <a href="<?= $this->url('admin/social') ?>"
        class="list-group-item<?= strtolower($this->layout()->templateName) == "socialstats" ? ' active' : '' ?>"><?= $this->transEsc('Social Statistics') ?></a>
     <a href="<?= $this->url('admin/statistics') ?>"
@@ -13,6 +13,6 @@
        class="list-group-item<?= strtolower($this->layout()->templateName) == "tags" ? ' active' : '' ?>"><?= $this->transEsc('Tag Maintenance') ?></a>
     <a href="<?= $this->url('adminlogs') ?>"
        class="list-group-item<?= strtolower($this->layout()->templateName) == "adminlogs" ? ' active' : '' ?>"><?= $this->transEsc('Logs') ?></a>
-    <a href="<?= $this->url('staticpages') ?>"
-       class="list-group-item<?= strtolower($this->layout()->templateName) == "staticpages" ? ' active' : '' ?>"><?= $this->transEsc('Custom Pages') ?></a>
+    <a href="<?= $this->url('adminstaticpages') ?>"
+       class="list-group-item<?= strtolower($this->layout()->templateName) == "adminstaticpages" ? ' active' : '' ?>"><?= $this->transEsc('Custom Pages') ?></a>
 </div>
