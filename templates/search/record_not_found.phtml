@@ -20,6 +20,7 @@ $this->layout()->breadcrumbs = false;
 $lookfor = isset($this->lookfor) ? $this->lookfor : "";
 $ppnSearch = false;
 
+$params = $this->params;
 
 if (strpos($lookfor, "id:") !== false) {
     $ppnSearch = true;
@@ -43,15 +44,23 @@ $this->layout()->searchbox = $this->context($this)->renderInContext(
                 <h2><?= $this->transEsc("not_in_stock")?></h2>
 
                 <div class="lead">
-                    <p><a title="<?= $this->transEsc('link_in_new_window'); ?>" target="_blank" href="https://portal.hebis.de/jsp/customers/hebis/direktsuche/HDS.jsp?ppn=<?=$ppn?>">
+                    <p><a title="<?= $this->transEsc('not_in_stocklink_in_new_window'); ?>" target="_blank" href="https://portal.hebis.de/jsp/customers/hebis/direktsuche/HDS.jsp?ppn=<?=$ppn?>">
                             <span class="hds-icon-link-ext"><!-- --></span>
-                            <?= $this->transEsc("interlibrary-loan-id", ["%1" => $ppn]) ?></a></p>
-                    <p><?= $this->ppnLink()->getRecordLink($this->transEsc('back_to_record'), $this->backlink) ?></p>
+                            <?= $this->transEsc("not_in_stock.interlibrary-loan-id", ["%1" => $ppn]) ?></a></p>
+                    <p><?= $this->ppnLink()->getRecordLink($this->transEsc('not_in_stock.back_to_record'), $this->backlink) ?></p>
                 </div>
             <? else : ?>
                 <h2><?= $this->transEsc("not_in_stock")?></h2>
                 <div class="lead">
+                    <p><?= $this->transEsc("not_in_stock.check_search") ?></p>
+                       <?= $this->translate("not_in_stock.search_tips") ?>
+                        <? if ($this->searchType === "advanced") : ?>
 
+                            <a href="<?=$this->url($advSearch)?>?edit=<?=$this->escapeHtmlAttr($this->searchId)?>">
+                                <span class="hds-icon-edit"></span><?= $this->transEsc("not_in_stock.edit_advanced_search") ?>
+                            </a>
+                        <? endif; ?>
+                    </p>
                 </div>
             <? endif; ?>
 
