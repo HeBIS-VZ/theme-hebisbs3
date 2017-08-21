@@ -14,5 +14,10 @@
     <a href="<?= $this->url('adminlogs') ?>"
        class="list-group-item<?= strtolower($this->layout()->templateName) == "logs" ? ' active' : '' ?>"><?= $this->transEsc('Logs') ?></a>
     <a href="<?= $this->url('adminstaticpages') ?>"
-       class="list-group-item<?= strtolower($this->layout()->templateName) == "list" ? ' active' : '' ?>"><?= $this->transEsc('Custom Pages') ?></a>
+       class="list-group-item<?=
+       strtolower($this->layout()->templateName) == "list" ||
+       strtolower($this->layout()->templateName) == "add" ||
+       strtolower($this->layout()->templateName) == "view" ||
+       strtolower($this->layout()->templateName) == "edit" ||
+       strtolower($this->layout()->templateName) == "delete" ? ' active' : '' ?>"><?= $this->transEsc('Custom Pages') ?></a>
 </div>

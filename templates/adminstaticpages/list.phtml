@@ -1,11 +1,12 @@
 <?
 // Set page title.
 $this->headTitle($this->translate('VuFind Administration - HeBIS Bulletin'));
+
 ?>
 
 <div class="row">
     <div class="<?= $this->layoutClass('mainbody') ?>">
-        <h3>📝 Das <b>Bulletin</b></h3>
+        <h3><span class="hds-icon-journal"></span>&nbsp;Static<b>Pages</b></h3>
         <hr>
 
         <!-- xs sm md lg -->
@@ -30,7 +31,8 @@ $this->headTitle($this->translate('VuFind Administration - HeBIS Bulletin'));
             <? $visibilitySymbol = ($row->visible == 1) ? $symbols['visible'] : $symbols['unvisible']; ?>
             <div class="row">
                 <div class="col-xs-12 col-sm-10">
-                    <?= ($row->visible == 1) ? $symbols['visible'] : $symbols['unvisible']; ?>&nbsp;
+                    <a class="page-visibility" style="color: black"
+                       href="<?= $this->url('adminstaticpages/json', ['method' => 'visible', 'id' => $row->id]) ?>"><?= ($row->visible == 1) ? $symbols['visible'] : $symbols['unvisible']; ?></a>
                     <a href="<?= $this->url('adminstaticpages/view', ['id' => $row->id]) ?>"><?= $row->headline ?></a>
                 </div>
                 <div class="col-xs-12 col-sm-2">
@@ -46,3 +48,5 @@ $this->headTitle($this->translate('VuFind Administration - HeBIS Bulletin'));
         <?= $this->render("admin/menu.phtml") ?>
     </div>
 </div>
+
+<!-- " http://ubffm.hds2.dev/hds/Admin/Staticpages/Json?method=visible " -->

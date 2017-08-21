@@ -6,8 +6,19 @@ $this->headTitle($this->translate('VuFind Administration - Custom Pages / Edit P
 
 <div class="row">
     <div class="<?= $this->layoutClass('mainbody') ?>">
-        <h2>Edit Custom Page:</h2>
-        <p>coming soon...</p>
+        <h3 style="color: #00A5E3"><span class="hds-icon-pencil-1"></span><i><?= $this->translate('Edit Page') ?></i>
+        </h3>
+        <div class="form-group" style="width: 85%">
+            <form id="edit post">
+                <p><textarea id="headline" name="headline" rows="1"
+                             style="width: 100%; font-size: large; font-weight: 700"><?= $this->row->headline ?></textarea>
+                </p>
+                <p><textarea name="content" id="content" rows="9"
+                             style="width: 100%"><?= $this->row->content ?></textarea></p>
+                <input type="submit" formmethod="post" value="Save Post">
+
+            </form>
+        </div>
 
 
     </div>
@@ -15,3 +26,14 @@ $this->headTitle($this->translate('VuFind Administration - Custom Pages / Edit P
         <?= $this->render("admin/menu.phtml") ?>
     </div>
 </div>
+
+<!--WYSIWYG Script-->
+<script src="http://js.nicedit.com/nicEdit-latest.js" type="text/javascript"></script>
+<script type="text/javascript">
+    bkLib.onDomLoaded(function () {
+        nicEditors.editors.push(
+            new nicEditor().panelInstance(
+                document.getElementById('content')));
+    });
+</script>
+
