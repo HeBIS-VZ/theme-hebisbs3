@@ -17,15 +17,18 @@ $advSearch = $options->getAdvancedSearchAction();
 //$lastSort = $options->getLastSort(); //not supported since VuFind 3.0.0
 //$lastLimit = $options->getLastLimit(); //not supported since VuFind 3.0.0
 
-function getActiveHandler($handlers) {
-    $first = current($handlers);
-    foreach ($handlers as $handler) {
-        if ($handler['selected']) {
-            return $handler;
+if (!function_exists('getActiveHandler')) {
+    function getActiveHandler($handlers) {
+        $first = current($handlers);
+        foreach ($handlers as $handler) {
+            if ($handler['selected']) {
+                return $handler;
+            }
         }
+        return $first;
     }
-    return $first;
 }
+
 ?>
 
     <form role="search" class="" method="get" action="<?= $this->url($basicSearch) ?>"
