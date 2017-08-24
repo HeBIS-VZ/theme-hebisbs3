@@ -1,9 +1,8 @@
 <?php
-$this->headTitle($this->translate('VuFind Administration - Add Custom Page'));
+$this->headTitle('VuFind Administration - ' . $this->translate('Static Pages - Add'));
 ?>
 
 <div class="row">
-
     <div class="<?= $this->layoutClass('mainbody') ?>">
         <h4 style="color: #00A5E3"><span
                     class="hds-icon-plus-circled"></span><i><?= $this->translate('Add New Page') ?></i></h4>
@@ -14,7 +13,6 @@ $this->headTitle($this->translate('VuFind Administration - Add Custom Page'));
                              style="width: 100%; font-size: large; font-weight: 700">Headline</textarea></p>
                 <p><textarea name="content" id="content" rows="11" style="width: 100%">Content</textarea></p>
                 <input type="submit" formmethod="post" value="Save Post">
-
             </form>
         </div>
 

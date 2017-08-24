@@ -1,7 +1,5 @@
 <?
-// Set page title.
-$this->headTitle($this->translate('VuFind Administration - Custom Pages / Edit Page'));
-
+$this->headTitle('VuFind Administration - ' . $this->translate('Static Pages - Edit'));
 ?>
 
 <div class="row">
@@ -16,7 +14,6 @@ $this->headTitle($this->translate('VuFind Administration - Custom Pages / Edit P
                 <p><textarea name="content" id="content" rows="9"
                              style="width: 100%"><?= $this->row->content ?></textarea></p>
                 <input type="submit" formmethod="post" value="Save Post">
-
             </form>
         </div>
 

@@ -1,7 +1,5 @@
 <?
-// Set page title.
-$this->headTitle($this->translate('VuFind Administration - HeBIS Bulletin'));
-
+$this->headTitle('VuFind Administration - ' . $this->translate('Static Pages - Home'));
 ?>
 
 <div class="row">
@@ -22,8 +20,8 @@ $this->headTitle($this->translate('VuFind Administration - HeBIS Bulletin'));
         </div>
         <?
         $symbols = array(
-            'visible' => '<span class="hds-icon-eye"></span>',
-            'unvisible' => '<span class="hds-icon-eye-off"></span>',
+            'visible' => '<span class="hds-icon-eye green"></span>',
+            'unvisible' => '<span class="hds-icon-eye-off red"></span>',
             'delete' => '<span class="hds-icon-trash"></span>',
             'edit' => '<span class="hds-icon-pencil-1"></span>'
         ); ?>
@@ -31,8 +29,9 @@ $this->headTitle($this->translate('VuFind Administration - HeBIS Bulletin'));
             <? $visibilitySymbol = ($row->visible == 1) ? $symbols['visible'] : $symbols['unvisible']; ?>
             <div class="row">
                 <div class="col-xs-12 col-sm-10">
-                    <a class="page-visibility" style="color: black"
-                       href="<?= $this->url('adminstaticpages/json', ['method' => 'visible', 'id' => $row->id]) ?>"><?= ($row->visible == 1) ? $symbols['visible'] : $symbols['unvisible']; ?></a>
+                    <span class="eye-page-visibility"
+                          href="<?= $this->url('adminstaticpages/json', ['method' => 'visible', 'id' => $row->id]) ?>">
+                        <?= ($row->visible == 1) ? $symbols['visible'] : $symbols['unvisible']; ?></span>
                     <a href="<?= $this->url('adminstaticpages/view', ['id' => $row->id]) ?>"><?= $row->headline ?></a>
                 </div>
                 <div class="col-xs-12 col-sm-2">

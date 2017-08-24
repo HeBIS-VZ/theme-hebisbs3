@@ -1,6 +1,5 @@
 <?
-// Set page title.
-$this->headTitle($this->translate('VuFind Administration - Static Page View'));
+$this->headTitle('VuFind Administration - ' . $this->translate('Static Pages - View'));
 
 ?>
 
@@ -14,7 +13,7 @@ $this->headTitle($this->translate('VuFind Administration - Static Page View'));
                 '<i><small style="color: #466666">Autor: <b>' . $this->row->author . '</b></small></i><br />' .
                 '' . '<br />' .
                 '<article style="width: inherit">' . $this->row->content . '</article><br/><small style="color: #74c2c1">'
-                . $this->row->changeDate . '</small>'
+                . $this->row->createDate . '</small>'
             ?>
 
         </div>

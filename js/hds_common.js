@@ -6,6 +6,23 @@ userIsLoggedIn = false;
 
 $(document).ready(function () {
 
+    /* Toggle the visibility icon of static page */
+    $('.eye-page-visibility').click(function () {
+        var _this = this;
+        var url = $(this).attr('href');
+        $.getJSON(url)
+            .done(function (result) {
+                if (result.data == 1) {
+                    $(_this).find('span').addClass('hds-icon-eye green');
+                    $(_this).find('span').removeClass('hds-icon-eye-off red');
+                } else if (result.data == 0) {
+                    $(_this).find('span').addClass('hds-icon-eye-off red');
+                    $(_this).find('span').removeClass('hds-icon-eye green');
+                }
+
+            });
+    });
+
     $('.list-group.facet .list-group-item.toggle-more').click(function(event) {
         event.preventDefault();
         id = $(this).data("group");
