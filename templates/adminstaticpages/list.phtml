@@ -1,6 +1,6 @@
 <?
 $this->headTitle('VuFind Administration - ' . $this->translate('Static Pages - Home'));
-
+$this->headScript()->appendFile("vendor/cookies.js");
 ?>
 
 <div class="row">
@@ -9,12 +9,6 @@ $this->headTitle('VuFind Administration - ' . $this->translate('Static Pages - H
         <hr>
 
         <!-- xs sm md lg -->
-
-        <span id="dialog-confirm" title="Empty the recycle bin?">
-            <p>Sicher?</p>
-        </span>
-        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
         <div class="row">
             <div class="col-xs-12 col-sm-10">
