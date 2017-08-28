@@ -23,6 +23,11 @@ $(document).ready(function () {
             });
     });
 
+    /* Toggle the visibility icon of static page */
+    $('.delete-post').click(function () {
+
+    });
+
     $('.list-group.facet .list-group-item.toggle-more').click(function(event) {
         event.preventDefault();
         id = $(this).data("group");

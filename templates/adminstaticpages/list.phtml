@@ -1,5 +1,6 @@
 <?
 $this->headTitle('VuFind Administration - ' . $this->translate('Static Pages - Home'));
+
 ?>
 
 <div class="row">
@@ -8,6 +9,12 @@ $this->headTitle('VuFind Administration - ' . $this->translate('Static Pages - H
         <hr>
 
         <!-- xs sm md lg -->
+
+        <span id="dialog-confirm" title="Empty the recycle bin?">
+            <p>Sicher?</p>
+        </span>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
         <div class="row">
             <div class="col-xs-12 col-sm-10">
@@ -27,7 +34,7 @@ $this->headTitle('VuFind Administration - ' . $this->translate('Static Pages - H
         ); ?>
         <? foreach ($this->rows as $row) : ?>
             <? $visibilitySymbol = ($row->visible == 1) ? $symbols['visible'] : $symbols['unvisible']; ?>
-            <div class="row">
+            <div class="row" id="<?= $row->id ?>">
                 <div class="col-xs-12 col-sm-10">
                     <span class="eye-page-visibility"
                           href="<?= $this->url('adminstaticpages/json', ['method' => 'visible', 'id' => $row->id]) ?>">
@@ -36,7 +43,8 @@ $this->headTitle('VuFind Administration - ' . $this->translate('Static Pages - H
                 </div>
                 <div class="col-xs-12 col-sm-2">
                     <a href="<?= $this->url('adminstaticpages/edit', ['id' => $row->id]) ?>"><?= $symbols['edit'] ?></a>&nbsp;
-                    <a href="<?= $this->url('adminstaticpages/delete', ['id' => $row->id]) ?>"><?= $symbols['delete'] ?></a>
+                    <span class="delete-post"
+                          href="<?= $this->url('adminstaticpages/json', ['method' => 'delete', 'id' => $row->id]) ?>"><?= $symbols['delete'] ?></span>
                 </div>
 
             </div>
@@ -47,5 +55,3 @@ $this->headTitle('VuFind Administration - ' . $this->translate('Static Pages - H
         <?= $this->render("admin/menu.phtml") ?>
     </div>
 </div>
-
-<!-- " http://ubffm.hds2.dev/hds/Admin/Staticpages/Json?method=visible " -->
