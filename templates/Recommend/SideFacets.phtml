@@ -196,7 +196,7 @@ JS;
               </a>
             <? else: ?>
               <? $addURL =  $this->currentPath(); ?>
-              <? if (strpos($title, "department") !== false && $thisFacet['value'] != "3/900") :
+              <? if (strpos($title, "department") !== false && $thisFacet['value'] != $this->config()->solrOnlineFacet()) :
                   $addURL .= $results->getUrlQuery()
                                 ->addFacets([
                                     [
@@ -205,7 +205,7 @@ JS;
                                         "operator" => $thisFacet['operator']
                                     ],[
                                         "field" => $title,
-                                        "value" => "3/900",
+                                        "value" => $this->config()->solrOnlineFacet(),
                                         "operator" => "OR"
                                     ]]);
 
