@@ -34,34 +34,25 @@ if (!function_exists('getActiveHandler')) {
     <form role="search" class="" method="get" action="<?= $this->url($basicSearch) ?>"
           name="searchForm" id="searchForm" autocomplete="off" style="">
 
-        <!-- <div class="search-field-container"> --
-            <div class="row">
-                <div class="col-md-offset-2 col-md-8">
-                    -->
-
-        <!-- </div>
-        </div> <!-- ./row -->
-
         <div class="col-xs-12">
 
-
-
-            <!-- <div class="col-sm-2 hidden-md"> -->
-
-            <!-- </div> -->
             <? $handler = getActiveHandler($handlers);?>
+
             <input type="hidden" name="type" id="search-option-type" value="<?= $this->escapeHtmlAttr($handler['value']) ?>" />
             <div class="input-group input-group-md" style="margin:1em 0 0 0;">
 
                 <div class="input-group-addon hidden-sm hidden-md hidden-lg">
                     <a title="<?=$this->transEsc("Home"); ?>" href="<?=$this->config()->homeUrl()?>"><img class="img" src="<?=$this->basePath().$this->config()->themePath()?>/images/uni-logo-klein.svg" alt="<?= $this->config()->title()?>" /></a>
                 </div>
-            <!-- <? if ($this->searchbox()->autocompleteEnabled($this->searchClassId)): ?> autocomplete searcher:<?= $this->escapeHtmlAttr($this->searchClassId) ?><? endif ?> -->
-                <input class="form-control search-query<? if($this->searchbox()->autocompleteEnabled($this->searchClassId)):?> autocomplete searcher:<?=$this->escapeHtmlAttr($this->searchClassId) ?><? endif ?>" id="searchForm_lookfor" type="text" name="lookfor" placeholder="<?= $this->translate('Search') ?>" value="<?= $this->escapeHtmlAttr($this->lookfor) ?>"/>
+                <input class="form-control search-query<? if($this->searchbox()->autocompleteEnabled($this->searchClassId)):?> autocomplete searcher:<?=$this->escapeHtmlAttr($this->searchClassId) ?><? endif ?>"
+                       id="searchForm_lookfor"
+                       name="lookfor"
+                       placeholder="<?= $this->translate('Search') ?>"
+                       value="<?= !$advSearch ? $this->escapeHtmlAttr($this->lookfor) : '' ?>"/>
+
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-
-                        <span id="selected-handler"><?=$this->transEsc($handler['label'])?></span>
+                        <span data-toggle="tooltip" data-placement="auto" title="<?=$this->transEsc('tooltip_search_handler')?>" id="selected-handler"><?=$this->transEsc($handler['label'])?></span>&nbsp;
                         <span class="caret"></span>
                     </button>
                     <ul id="select-search-handler" class="dropdown-menu dropdown-menu-right">
@@ -70,33 +61,16 @@ if (!function_exists('getActiveHandler')) {
                                 <a href="#" data-value="<?= $this->escapeHtmlAttr($handler['value']) ?>" data-label="<?=$this->transEsc($handler['label'])?>"><?=$this->transEsc($handler['label'])?></a>
                             </li>
                         <? endforeach; ?>
-
-                            <? foreach ($handlers as $handler): ?>
-                                <!--
-                                <div class="radio">
-
-
-                                        <input type="radio" name="type" id="search-option-<?= $this->escapeHtmlAttr($handler['value']) ?>" value="<?= $this->escapeHtmlAttr($handler['value']) ?>"<?= $handler['selected'] ? ' checked="checked"' : '' ?>/>
-                                        <?= $this->transEsc($handler['label']) ?>
-
-                                        <!-- <a href="#"
-                                       data-value="<?= $this->escapeHtmlAttr($handler['value']) ?>"><?= $handler['indent'] ? '-- ' : '' ?><?= $this->transEsc($handler['label']) ?></a>
-                                    <!--
-                                    value="<?= $this->escapeHtmlAttr($handler['value']) ?>"<?= $handler['selected'] ? ' selected="selected"' : '' ?>><?= $handler['indent'] ? '-- ' : '' ?><?= $this->transEsc($handler['label']) ?>
-                                    -->
-
-                                <!-- </div> -->
-                            <? endforeach; ?>
-                            <? if ($advSearch): ?>
-                                <? if ($this->searchType == 'advanced'): ?>
-                                    <? $hiddenFilterParams = $this->searchtabs()->getCurrentHiddenFilterParams($this->searchClassId, $ignoreHiddenFilterMemory, '?'); ?>
-                                <li class="adv_search_links">
-                                    <a href="<?=$this->url($advSearch)?>?edit=<?=$this->escapeHtmlAttr($this->searchId)?>"><?=$this->transEsc("Advanced")?></a>
-                                </li>
-                                <? else : ?>
-                                    <li><a href="<?= $this->url($advSearch) ?>"><?= $this->transEsc("Advanced") ?> <span class="hds-icon-zoom-in"></span></a></li>
-                                <? endif; ?>
+                        <? if ($advSearch): ?>
+                            <? if ($this->searchType == 'advanced'): ?>
+                                <? $hiddenFilterParams = $this->searchtabs()->getCurrentHiddenFilterParams($this->searchClassId, $ignoreHiddenFilterMemory, '?'); ?>
+                            <li class="adv_search_links">
+                                <a href="<?=$this->url($advSearch)?>?edit=<?=$this->escapeHtmlAttr($this->searchId)?>"><?=$this->transEsc("Advanced")?></a>
+                            </li>
+                            <? else : ?>
+                                <li><a href="<?= $this->url($advSearch) ?>"><?= $this->transEsc("Advanced Search") ?> <span class="hds-icon-zoom-in"></span></a></li>
                             <? endif; ?>
+                        <? endif; ?>
                     </ul>
                     <button type="submit" class="btn btn-primary">
                         <span class="hds-icon-search"></span>
