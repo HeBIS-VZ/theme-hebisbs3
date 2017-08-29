@@ -1,12 +1,37 @@
 <?
 $this->headTitle('VuFind Administration - ' . $this->translate('Static Pages - Home'));
-$this->headScript()->appendFile("vendor/cookies.js");
+$this->headScript()->appendFile("https://code.jquery.com/ui/1.12.1/jquery-ui.js");
 ?>
 
+
 <div class="row">
+    <h3><span class="hds-icon-journal"></span>&nbsp;Static<b>Pages</b></h3>
+    <hr>
     <div class="<?= $this->layoutClass('mainbody') ?>">
-        <h3><span class="hds-icon-journal"></span>&nbsp;Static<b>Pages</b></h3>
-        <hr>
+        <div class="delete-confirm" style="
+        display:none;
+        position: absolute;
+        z-index: 1000;
+        width: 90%;
+        height: 100%;">
+            <div class="col-xs-12 col-sm-2"></div>
+            <div class="col-xs-12 col-sm-8">
+                <div class="confff" style="
+                border: groove rgba(255,75,0,0.25);
+            background-color: rgba(255,255,255,0.75);
+            padding: 20px 10px 10px 10px;
+            margin: 10px auto;
+            text-align: center"
+                >
+                    <p><b>Sicher?</b></p>
+                    <div class="conf-buttons">
+                        <button id="del">Jaaa</button>
+                        <button style="color: darkred">Ja!</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-2"></div>
+        </div>
 
         <!-- xs sm md lg -->
 
@@ -37,7 +62,7 @@ $this->headScript()->appendFile("vendor/cookies.js");
                 </div>
                 <div class="col-xs-12 col-sm-2">
                     <a href="<?= $this->url('adminstaticpages/edit', ['id' => $row->id]) ?>"><?= $symbols['edit'] ?></a>&nbsp;
-                    <span class="delete-post"
+                    <span class="delete-post" style="cursor: hand"
                           href="<?= $this->url('adminstaticpages/json', ['method' => 'delete', 'id' => $row->id]) ?>"><?= $symbols['delete'] ?></span>
                 </div>
 

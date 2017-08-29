@@ -24,8 +24,24 @@ $(document).ready(function () {
     });
 
     /* Toggle the visibility icon of static page */
-    $('.delete-post').click(function () {
+    $('.delete-post').on('click', function () {
 
+        $('.delete-confirm').show('pulsate', 500, callback);
+
+        function callback() {
+            var $con = !$(this);
+            $($con).click(function () {
+                $('.delete-confirm').hide(400);
+            })
+        }
+
+        //fadeIn(300);
+    });
+
+    bkLib.onDomLoaded(function () {
+        nicEditors.editors.push(
+            new nicEditor().panelInstance(
+                document.getElementById('content')));
     });
 
     $('.list-group.facet .list-group-item.toggle-more').click(function(event) {
