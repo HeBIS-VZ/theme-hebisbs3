@@ -28,7 +28,12 @@ if (count($checkboxFilters) > 0): ?>
 <? $filterList = array_merge($results->getParams()->getFilterList(true), $extraFilters);
 if (!empty($filterList)): ?>
     <div class="list-group filters">
-        <div class="list-group-item title"><?= $this->transEsc('Remove Filters') ?></div>
+        <? $removeAllFacetsLink = $this->currentPath() . $results->getUrlQuery()->removeFacets(); ?>
+        <div class="list-group-item title">
+            <a href="<?= $removeAllFacetsLink ?>">
+                <?= $this->transEsc('Remove Filters') ?> <span class="pull-right flip"><i class="hds-icon hds-icon-cancel-1"></i></span>
+            </a>
+        </div>
         <? foreach ($filterList as $field => $filters): ?>
             <? foreach ($filters as $i => $filter): ?>
                 <?
