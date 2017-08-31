@@ -28,7 +28,10 @@ if (count($checkboxFilters) > 0): ?>
 <? $filterList = array_merge($results->getParams()->getFilterList(true), $extraFilters);
 if (!empty($filterList)): ?>
     <div class="list-group filters">
-        <div class="list-group-item title"><?= $this->transEsc('Remove Filters') ?></div>
+        <? $removeAllFacetsLink = $this->currentPath() . $results->getUrlQuery()->removeFacets(); ?>
+        <div class="list-group-item title">
+            <?= $this->transEsc('Remove Filters') ?> <span class="pull-right flip"><a href="<?= $removeAllFacetsLink ?>"><i class="hds-icon hds-icon-cancel-1"></i></a></span>
+        </div>
         <? foreach ($filterList as $field => $filters): ?>
             <? foreach ($filters as $i => $filter): ?>
                 <?
@@ -196,7 +199,7 @@ JS;
               </a>
             <? else: ?>
               <? $addURL =  $this->currentPath(); ?>
-              <? if (strpos($title, "department") !== false && $thisFacet['value'] != "3/900") :
+              <? if (strpos($title, "department") !== false && $thisFacet['value'] != $this->config()->solrOnlineFacet()) :
                   $addURL .= $results->getUrlQuery()
                                 ->addFacets([
                                     [
@@ -205,7 +208,7 @@ JS;
                                         "operator" => $thisFacet['operator']
                                     ],[
                                         "field" => $title,
-                                        "value" => "3/900",
+                                        "value" => $this->config()->solrOnlineFacet(),
                                         "operator" => "OR"
                                     ]]);
 

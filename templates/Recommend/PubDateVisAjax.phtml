@@ -82,6 +82,20 @@ $(document).ready(function() {
         return true;
   });
   
+  var timeLineInitialized = false;
+  
+  $(window).resize(function() {
+      if (timeLineInitialized) {
+          var bars = $('.year-count-bar');
+          var numOfBars = bars.size();
+          var liWidth = ($('.timeline-list').width()-2) / numOfBars;
+          bars.each(function () {
+              $(this).width(liWidth);
+              $(this).find("a").width(liWidth - 1);
+          });
+      }
+  });
+  
   $.getJSON(url, function (data) {
     if (data.status == 'OK') {
       $.each(data['data'], function(key, val_) {
@@ -112,7 +126,7 @@ $(document).ready(function() {
             var liWidth = ($('.timeline-list').width()-2) / val_['data'].length; 
             var aWidth = liWidth-1;
             var inrange = (applied) ? ' in-range' : '';
-            var bar = '<li style="width:'+liWidth+'px;" data-year="'+year+'" class="year-count-bar'+inrange+'"></li>';
+            var bar = '<li style="width:'+liWidth+'px;" data-year="'+year+'" class="year-count-bar year-count-bar'+inrange+'"></li>';
             var a = $('<a href="#" data-toggle="tooltip" data-placement="top" title="'+year+': '+count+'" data-year="'+year+'" data-count="'+count+'" style="height:'+height+'px;width:'+aWidth+'px;"><!-- --></a>').tooltip();
             
             $('.timeline-list').append($(bar).append(a));
@@ -149,6 +163,7 @@ $(document).ready(function() {
             .data('slider');
         });
     }
+    timeLineInitialized = true;
   });
 });
 JS;
