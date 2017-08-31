@@ -53,13 +53,6 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                  alt="<?= $this->translate('No Cover Image') ?>"/>
                         <? endif; ?>
                     </div>
-                    <? $multipartViewHelper = $this->multiPartItems($this->driver);
-                    if ($multipartViewHelper->isMultipartItem() && !empty($multipartItem = $multipartViewHelper->renderShowAllVolumesLink())) : ?>
-                        <br />
-                        <div class="text-center multipartItems">
-                            <span class="hds-icon-list-bullet"> <? echo $multipartItem; ?></span>
-                        </div>
-                    <? endif; ?>
                 </div>
                 <div class="col-sm-9">
                     <h3 property="name">
@@ -492,6 +485,15 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                 <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->translate('series_multipart') ?>:</div>
                                 <div class="col-sm-12 col-md-9 col-lg-10">
                                     <?= $parent ?>
+                                </div>
+                            </div>
+                        <? endif; ?>
+                        <? $multipartViewHelper = $this->multiPartItems($this->driver);
+                        if ($multipartViewHelper->isMultipartItem() && !empty($multipartItem = $multipartViewHelper->renderShowAllVolumesLink())) : ?>
+                            <div class="row">
+                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->translate('volumes') ?>:</div>
+                                <div class="col-sm-12 col-md-9 col-lg-10">
+                                    <? echo $multipartItem; ?>
                                 </div>
                             </div>
                         <? endif; ?>
