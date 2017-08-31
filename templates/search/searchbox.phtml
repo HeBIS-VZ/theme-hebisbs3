@@ -14,6 +14,7 @@ $handlerCount = count($handlers);
 $basicSearch = $this->searchbox()->combinedHandlersActive() ? 'combined-searchbox' : $options->getSearchAction();
 $searchHome = $options->getSearchHomeAction();
 $advSearch = $options->getAdvancedSearchAction();
+$ignoreHiddenFilterMemory = isset($this->ignoreHiddenFilterMemory) && $this->ignoreHiddenFilterMemory;
 //$lastSort = $options->getLastSort(); //not supported since VuFind 3.0.0
 //$lastLimit = $options->getLastLimit(); //not supported since VuFind 3.0.0
 
