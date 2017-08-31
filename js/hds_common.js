@@ -11,11 +11,11 @@ $(document).ready(function () {
         var _this = this;
         var url = $(this).attr('href');
         $.getJSON(url)
-            .done(function (result) {
-                if (result.data == 1) {
+            .done(function (JSONoutput) {
+                if (JSONoutput.data == 1) {
                     $(_this).find('span').addClass('hds-icon-eye green');
                     $(_this).find('span').removeClass('hds-icon-eye-off red');
-                } else if (result.data == 0) {
+                } else if (JSONoutput.data == 0) {
                     $(_this).find('span').addClass('hds-icon-eye-off red');
                     $(_this).find('span').removeClass('hds-icon-eye green');
                 }
@@ -25,17 +25,23 @@ $(document).ready(function () {
 
     /* Toggle the visibility icon of static page */
     $('.delete-post').on('click', function () {
+        var url = $(this).attr('href');
+        var $parentRow = $(this).parent().parent();
 
-        $('.delete-confirm').show('pulsate', 500, callback);
+        /* customize the header in modal confirmation question */
+        $('#del-header').remove();
+        $('#delete-confirmation-question').after("<p id='del-header'><i>\"<strong>" + $parentRow.data('href') + "</strong>\"</i></p>");
+        $('#delete-confirmation').modal();
 
-        function callback() {
-            var $con = !$(this);
-            $($con).click(function () {
-                $('.delete-confirm').hide(400);
-            })
-        }
-
-        //fadeIn(300);
+        $('#delete-confirmation-button').on('click', function () {
+            $.getJSON(url)
+                .done(function (JSONoutput) {
+                    if (JSONoutput.data == 1) {
+                        $parentRow.fadeOut();
+                    }
+                    else alert(JSONoutput.status);
+                })
+        })
     });
 
     bkLib.onDomLoaded(function () {
