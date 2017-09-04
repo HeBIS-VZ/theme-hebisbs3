@@ -13,11 +13,6 @@
        class="list-group-item<?= strtolower($this->layout()->templateName) == "tags" ? ' active' : '' ?>"><?= $this->transEsc('Tag Maintenance') ?></a>
     <a href="<?= $this->url('adminlogs') ?>"
        class="list-group-item<?= strtolower($this->layout()->templateName) == "logs" ? ' active' : '' ?>"><?= $this->transEsc('Logs') ?></a>
-    <a href="<?= $this->url('adminstaticpages') ?>"
-       class="list-group-item<?=
-       strtolower($this->layout()->templateName) == "list" ||
-       strtolower($this->layout()->templateName) == "add" ||
-       strtolower($this->layout()->templateName) == "view" ||
-       strtolower($this->layout()->templateName) == "edit" ||
-       strtolower($this->layout()->templateName) == "delete" ? ' active' : '' ?>"><?= $this->transEsc('Custom Pages') ?></a>
+    <a href="<?= $this->url('adminstaticpages') ?>"<? $templateStaticPages = in_array(strtolower($this->layout()->templateName), array('list', 'add', 'view', 'edit', 'delete')); ?>
+       class="list-group-item<?= $templateStaticPages ? ' active' : '' ?>"><?= $this->transEsc('Static Pages') ?></a>
 </div>

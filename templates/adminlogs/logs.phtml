@@ -12,10 +12,10 @@ $this->headScript()->appendScript('
 
 <div class="row">
     <div class="<?= $this->layoutClass('mainbody') ?>">
-        <h2><?= $this->transEsc('Logs') ?></h2><samp>recent <?= $this->lineCount ?> lines:</samp>
+        <h3><?= $this->transEsc('Logs') ?></h3>
 
-        <textarea id="log" style="width: 100%; font-family: monospace; font-size: 10px"
-                  rows="30" title="recentlog"><? echo $this->logContent; ?></textarea>
+        <textarea class="log-box"
+                  rows="19" title="recentlog"><?= $this->logContent; ?></textarea>
 
     </div>
     <div class="<?= $this->layoutClass('sidebar') ?>">
