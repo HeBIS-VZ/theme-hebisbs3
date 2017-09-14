@@ -1,5 +1,7 @@
 <?
 $this->headTitle('VuFind Administration - ' . $this->translate('Static Pages - Edit'));
+$this->headLink(['rel' => 'stylesheet', 'href' => 'http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css']);
+$this->headScript()->appendFile('http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js');
 ?>
 
 <div class="row">
@@ -11,7 +13,7 @@ $this->headTitle('VuFind Administration - ' . $this->translate('Static Pages - E
                 <p><textarea id="headline" name="headline" rows="1"
                              style="width: 100%; font-size: large; font-weight: 700"><?= $this->row->headline ?></textarea>
                 </p>
-                <p><textarea name="content" id="content" rows="9"
+                <p><textarea id="sp_WYSWIG" name="content"
                              style="width: 100%"><?= $this->row->content ?></textarea></p>
                 <input type="submit" formmethod="post" value="Save Post">
             </form>

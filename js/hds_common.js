@@ -4,11 +4,10 @@
 
 userIsLoggedIn = false;
 
-/*  ↓  ↓  ↓  ↓ Static Pages  ↓  ↓  ↓  ↓  ↓  */
 $(document).ready(function () {
 
     /* Static Pages: Toggle the visibility symbol */
-    $('.eye-page-visibility').click(function () {
+    $('.sp-page-visibility').click(function () {
         var _this = this;
         var url = $(this).attr('href');
         $.getJSON(url)
@@ -24,24 +23,15 @@ $(document).ready(function () {
             });
     });
 
-    /* Summernote Editor run */
-    $('#sp_WYSWIG').summernote({
-        height: 250,
-        minHeight: null,
-        maxHeight: null,
-        focus: true,
-        placeholder: 'Text here...'
-    });
-
     /* Toggle the visibility icon of static page */
-    $('.delete-post').on('click', function () {
+    $('.sp-delete-button').on('click', function () {
         var url = $(this).attr('href');
         var $parentRow = $(this).parent().parent();
 
         /* customize the header in modal confirmation question */
-        $('#del-header').remove();
-        $('#delete-confirmation-question').after("<p id='del-header'><i>\"<strong>" + $parentRow.data('href') + "</strong>\"</i></p>");
-        $('#delete-confirmation').modal();
+        $('#sp-del-header').remove();
+        $('#sp-delete-question').after("<p id='sp-del-header'><i>\"<strong>" + $parentRow.data('href') + "</strong>\"</i></p>");
+        $('#sp-delete-confirmation').modal();
 
         $('#delete-confirmation-button').on('click', function () {
             $.getJSON(url)
@@ -54,6 +44,14 @@ $(document).ready(function () {
         })
     });
 
+    /* Summernote Editor run */
+    $('#sp_WYSWIG').summernote({
+        height: 250,
+        minHeight: null,
+        maxHeight: null,
+        focus: true,
+        placeholder: 'Text here...'
+    });
 
     /* –––––––––––– End of Static Pages ––––––––––––– */
 
