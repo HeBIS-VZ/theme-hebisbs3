@@ -4,9 +4,10 @@
 
 userIsLoggedIn = false;
 
+/*  ↓  ↓  ↓  ↓ Static Pages  ↓  ↓  ↓  ↓  ↓  */
 $(document).ready(function () {
 
-    /* Toggle the visibility icon of static page */
+    /* Static Pages: Toggle the visibility symbol */
     $('.eye-page-visibility').click(function () {
         var _this = this;
         var url = $(this).attr('href');
@@ -21,6 +22,15 @@ $(document).ready(function () {
                 }
 
             });
+    });
+
+    /* Summernote Editor run */
+    $('#sp_WYSWIG').summernote({
+        height: 250,
+        minHeight: null,
+        maxHeight: null,
+        focus: true,
+        placeholder: 'Text here...'
     });
 
     /* Toggle the visibility icon of static page */
@@ -44,11 +54,8 @@ $(document).ready(function () {
         })
     });
 
-    bkLib.onDomLoaded(function () {
-        nicEditors.editors.push(
-            new nicEditor().panelInstance(
-                document.getElementById('content')));
-    });
+
+    /* –––––––––––– End of Static Pages ––––––––––––– */
 
     $('.list-group.facet .list-group-item.toggle-more').click(function(event) {
         event.preventDefault();

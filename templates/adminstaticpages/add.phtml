@@ -1,6 +1,7 @@
 <?php
 $this->headTitle('VuFind Administration - ' . $this->translate('Static Pages - Add'));
-$this->headScript()->appendFile('http://js.nicedit.com/nicEdit-latest.js');
+$this->headLink(['rel' => 'stylesheet', 'href' => 'http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css']);
+$this->headScript()->appendFile('http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js');
 
 ?>
 
@@ -11,10 +12,10 @@ $this->headScript()->appendFile('http://js.nicedit.com/nicEdit-latest.js');
 
         <div class="form-group" style="width: 85%">
             <form id="new post">
-                <p><textarea id="headline" name="headline" rows="1"
-                             style="width: 100%; font-size: large; font-weight: 700">Headline</textarea></p>
-                <p><textarea name="content" id="content" rows="11" style="width: 100%">Content</textarea></p>
-                <input type="submit" formmethod="post" value="Save Post">
+                <p><textarea id="sp_headline" name="headline" rows="1"
+                             style="width: 100%; font-size: large; font-weight: 500">Headline</textarea>
+                <p><textarea id="sp_WYSWIG" name="content"></textarea>
+                <p><input type="submit" formmethod="post" value="Save Post">
             </form>
         </div>
 
@@ -24,13 +25,3 @@ $this->headScript()->appendFile('http://js.nicedit.com/nicEdit-latest.js');
         <?= $this->render("admin/menu.phtml") ?>
     </div>
 </div>
-
-
-<!--<script src="http://js.nicedit.com/nicEdit-latest.js" type="text/javascript"></script>
-<script type="text/javascript">
-    bkLib.onDomLoaded(function () {
-        nicEditors.editors.push(
-            new nicEditor().panelInstance(
-                document.getElementById('content')));
-    });
-</script>-->
