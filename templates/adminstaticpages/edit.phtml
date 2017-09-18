@@ -1,7 +1,7 @@
 <?
 $this->headTitle('VuFind Administration - ' . $this->translate('Static Pages - Edit'));
-$this->headLink(['rel' => 'stylesheet', 'href' => 'http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote-lite.css']);
-$this->headScript()->appendFile('http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote-lite.js');
+$this->headLink(['rel' => 'stylesheet', 'href' => 'http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css']);
+$this->headScript()->appendFile('http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js');
 ?>
 
 <div class="row">
@@ -15,13 +15,7 @@ $this->headScript()->appendFile('http://cdnjs.cloudflare.com/ajax/libs/summernot
                 </p>
                 <p><textarea id="sp_WYSWIG" name="content"
                              style="width: 100%"><?= $this->row->content ?></textarea></p>
-                <input type="submit" formmethod="post" value="Save Post">
-                <div class="input-group">
-                    <input type="text" class="form-control" name="sp-headline"><br><br>
-                    <textarea type="text" class="form-control" name="sp-content" id="sp_WYSWIG"></textarea>
-                    <input type="submit" formmethod="post" value="Save Post">
-
-                </div>
+                <input type="submit" formmethod="post" value="Save Changes">
             </form>
         </div>
     </div>
