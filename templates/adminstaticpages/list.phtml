@@ -48,7 +48,7 @@ $this->headScript()->appendFile("https://code.jquery.com/ui/1.12.1/jquery-ui.js"
                     <span class="sp-page-visibility"
                           href="<?= $this->url('adminstaticpages/json', ['method' => 'visible', 'id' => $row->id]) ?>">
                         <?= ($row->visible == 1) ? $visibilitySymbols['visible'] : $visibilitySymbols['unvisible']; ?></span>
-                    <a href="<?= $this->url('adminstaticpages/view', ['id' => $row->id]) ?>"><?= $row->headline ?></a>
+                    <a href="<?= $this->url('adminstaticpages/preview', ['id' => $row->id]) ?>"><?= $row->headline ?></a>
                 </div>
                 <div class="col-xs-12 col-sm-2">
                     <a href="<?= $this->url('adminstaticpages/edit', ['id' => $row->id]) ?>">

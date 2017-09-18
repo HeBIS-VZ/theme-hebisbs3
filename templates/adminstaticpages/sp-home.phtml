@@ -1,0 +1,25 @@
+<?
+// Set page title.
+$this->headTitle($this->translate('Static Pages'));
+
+?>
+
+<div class="row">
+
+    <h3><b>Static Pages</b></h3>
+
+    <? foreach ($this->rows as $row) : ?>
+        <div class="col-sm-6 col-md-4">
+            <a href="<?= $this->url('staticpages/view', ['id' => $row->id]) ?>" class="thumbnail">
+                <span class="hds-icon-journal" style="font-size: 300%"></span>
+                <div class="caption">
+                    <h3><?= $row->headline ?></h3>
+                    <?
+                    $content = $row->content;
+                    echo substr($content, 0, strpos($content, "</p>")) . '  >>>';
+                    ?>
+                </div>
+            </a>
+        </div>
+    <? endforeach; ?>
+</div>

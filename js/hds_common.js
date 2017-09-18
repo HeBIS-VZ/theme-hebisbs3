@@ -49,8 +49,6 @@ $(document).ready(function () {
         height: 250,
         minHeight: null,
         maxHeight: null,
-        focus: true,
-        placeholder: 'Text here...'
     });
 
     /* –––––––––––– End of Static Pages ––––––––––––– */

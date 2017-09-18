@@ -11,12 +11,16 @@ $this->headScript()->appendFile('http://cdnjs.cloudflare.com/ajax/libs/summernot
                     class="hds-icon-plus-circled"></span><i><?= $this->translate('Add New Page') ?></i></h4>
 
         <div class="form-group" style="width: 85%">
+
             <form id="new post">
-                <p><textarea id="sp_headline" name="headline" rows="1"
-                             style="width: 100%; font-size: large; font-weight: 500">Headline</textarea>
-                <p><textarea id="sp_WYSWIG" name="content"></textarea>
-                <p><input type="submit" formmethod="post" value="Save Post">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="sp-headline" placeholder="Headline"><br><br>
+                    <textarea type="text" class="form-control" name="sp-content" id="sp_WYSWIG"></textarea>
+                    <input type="submit" formmethod="post" value="Save Post">
+
+                </div>
             </form>
+
         </div>
 
     </div>

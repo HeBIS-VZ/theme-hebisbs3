@@ -16,6 +16,12 @@ $this->headScript()->appendFile('http://cdnjs.cloudflare.com/ajax/libs/summernot
                 <p><textarea id="sp_WYSWIG" name="content"
                              style="width: 100%"><?= $this->row->content ?></textarea></p>
                 <input type="submit" formmethod="post" value="Save Post">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="sp-headline"><br><br>
+                    <textarea type="text" class="form-control" name="sp-content" id="sp_WYSWIG"></textarea>
+                    <input type="submit" formmethod="post" value="Save Post">
+
+                </div>
             </form>
         </div>
 
