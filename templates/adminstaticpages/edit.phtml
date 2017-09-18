@@ -1,7 +1,7 @@
 <?
 $this->headTitle('VuFind Administration - ' . $this->translate('Static Pages - Edit'));
-$this->headLink(['rel' => 'stylesheet', 'href' => 'http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css']);
-$this->headScript()->appendFile('http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js');
+$this->headLink(['rel' => 'stylesheet', 'href' => 'http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote-lite.css']);
+$this->headScript()->appendFile('http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote-lite.js');
 ?>
 
 <div class="row">
@@ -24,8 +24,6 @@ $this->headScript()->appendFile('http://cdnjs.cloudflare.com/ajax/libs/summernot
                 </div>
             </form>
         </div>
-
-
     </div>
     <div class="<?= $this->layoutClass('sidebar') ?>">
         <?= $this->render("admin/menu.phtml") ?>
