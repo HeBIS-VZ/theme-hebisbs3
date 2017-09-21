@@ -1,28 +1,32 @@
 <?php
 $this->headTitle('VuFind Administration - ' . $this->translate('Static Pages - Add'));
-$this->headLink(['rel' => 'stylesheet', 'href' => 'http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css']);
-$this->headScript()->appendFile('http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js');
+$this->headLink(['rel' => 'stylesheet', 'href' => $this->basePath() . "/themes/hebisbs3/js/wysiwyg-editor/summernote.css"]);
+$this->headScript()->appendFile($this->basePath() . "/themes/hebisbs3/js/wysiwyg-editor/summernote.min.js");
 
 ?>
 
 <div class="row">
     <div class="<?= $this->layoutClass('mainbody') ?>">
-        <h4 style="color: #00A5E3"><span
-                    class="hds-icon-plus-circled"></span><i><?= $this->translate('Add New Page') ?></i></h4>
-
+        <h4 style="color: #00A5E3"><i><?= $this->translate('Add New Page') ?></i></h4>
         <div class="form-group" style="width: 85%">
-
-            <form id="new post">
-                <div class="input-group">
-                    <input type="text" class="form-control" name="sp-headline" placeholder="Headline"><br><br>
+            <form id="new post" method="post">
+                <input type="hidden" value="<?= $this->pid ?>"/>
+                <div class="pull-right">
+                    <div class="btn-group btn-group-xs" data-toggle="buttons" role="group" id="sp-lang-select">
+                        <? foreach ($this->langs as $code => $language) : ?>
+                            <label class="btn btn-default">
+                                <input type="radio" name="sp-lang" id="<?= $language ?>" autocomplete="off"
+                                       checked><?= $code ?>
+                            </label>
+                        <? endforeach; ?>
+                    </div>
+                </div>
+        </div>
+        <input type="text" class="form-control" name="sp-headline" placeholder="Headline"><br>
                     <textarea type="text" class="form-control" name="sp-content" id="sp_WYSWIG"></textarea>
                     <input type="submit" formmethod="post" value="Save Post">
-
-                </div>
             </form>
-
         </div>
-
     </div>
 
     <div class="<?= $this->layoutClass('sidebar') ?>">

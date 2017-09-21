@@ -63,7 +63,7 @@ $(document).ready(function () {
 
     $('.list-group.facet .list-group-item.toggle-less').click(function(event) {
         event.preventDefault();
-        id = $(this).data("group");
+        var id = $(this).data("group");
         $('.' + id).addClass('hidden');
         $('#more-' + id).removeClass('hidden');
         return false;
@@ -90,7 +90,7 @@ $(document).ready(function () {
     //var origOffsetX = container.left;
     function scroll() {
         if (document.body.clientWidth >= 768) {
-            if ($(window).scrollTop() > (origOffsetY)) {
+            if (window.scrollTop() > (origOffsetY)) {
                 $('#height-offset-workaround').height(origOffsetY*2).show();
                 navbar.addClass('sticky');
                 menu.hide();
@@ -119,7 +119,7 @@ $(document).ready(function () {
     // support "jump menu" dropdown boxes
     $('select.jumpMenu').change(function() {
 
-        $form = $(this).parent('form');
+        var $form = $(this).parent('form');
 
         if($form.length < 1) {
             $form = $(this).parentsUntil('form').parent();
