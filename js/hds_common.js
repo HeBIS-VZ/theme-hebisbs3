@@ -200,7 +200,7 @@ function processOtherEditions() {
     $("#other-editions").each(function(e) {
         var $otherEditionsContainer = $(this);
         var xid = $(this).data('xid');
-        var url = VuFind.path + "/xisbn/xid?isbn="+xid;
+        var url = VuFind.path + "/xisbn/xid?type=xid&lookfor=" + xid;
 
         $.get(url, function (result) {
             $otherEditionsContainer.append(result);
