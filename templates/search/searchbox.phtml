@@ -29,7 +29,7 @@ if (!function_exists('getActiveHandler')) {
         return $first;
     }
 }
-
+$lookfor = $this->lookfor;
 ?>
 
     <form role="search" class="" method="get" action="<?= $this->url($basicSearch) ?>"
@@ -49,7 +49,7 @@ if (!function_exists('getActiveHandler')) {
                        id="searchForm_lookfor"
                        name="lookfor"
                        placeholder="<?= $this->translate('Search') ?>"
-                       value="<?= !$advSearch ? $this->escapeHtmlAttr($this->lookfor) : '' ?>"/>
+                       value="<?= $this->searchType != "advanced" ? $this->escapeHtmlAttr($lookfor) : '' ?>"/>
 
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

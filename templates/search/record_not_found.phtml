@@ -17,7 +17,7 @@ $advSearch = $options->getAdvancedSearchAction();
 
 $this->layout()->breadcrumbs = false;
 
-$lookfor = isset($this->lookfor) ? $this->lookfor : "";
+$lookfor = is_array($this->lookfor) ? "" : $this->lookfor;
 $ppnSearch = false;
 
 $params = $this->params;
@@ -52,7 +52,12 @@ $this->layout()->searchbox = $this->context($this)->renderInContext(
             <? else : ?>
                 <h2><?= $this->transEsc("not_in_stock")?></h2>
                 <div class="lead">
-                    <p><?= $this->transEsc("not_in_stock.check_search") ?></p>
+                    <p>
+                        <? if ($this->searchType === "advanced") : ?>
+                        <?= $this->translate("not_in_stock.check_search", ["%1" => ""]) ?></p>
+                        <? else : ?>
+                            <?= $this->translate("not_in_stock.check_search", ["%1" => $this->lookfor]) ?></p>
+                        <? endif; ?>
                        <?= $this->translate("not_in_stock.search_tips") ?>
                         <? if ($this->searchType === "advanced") : ?>
 
