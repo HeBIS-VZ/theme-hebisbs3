@@ -169,20 +169,12 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                 <div class="bold col-sm-12 col-md-3 col-lg-2">
                                     <?= $this->translate('Dates of publication/Sequential designation'); ?>:
                                 </div>
-                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $datesOfPublication ?></div>
+                                <div class="col-sm-12 col-md-9 col-lg-10">
+                                    <?= $datesOfPublication ?>
+                                </div>
                             </div>
                         <? endif; ?>
 
-
-                        <!-- Published in
-                    <? //$marcJournal = $this->singleRecordMarcJournal($this->driver); ?>
-                    <? if ($marcJournal) : ?>
-                        <div class="row">
-                            <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->translate('Marc Journal') ?>:</div>
-                            <div class="col-sm-12 col-md-9 col-lg-10"><?= $marcJournal ?></div>
-                        </div>
-                    <? endif; ?>
-                    -->
 
                         <!-- Manufacture / Entstehung-->
                         <? $manufacture = $this->singleRecordManufacture($this->driver); ?>
@@ -192,7 +184,9 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                     class="bold col-sm-12 col-md-3 col-lg-2">
                                     <?= $this->translate('Manufacture'); ?>:
                                 </div>
-                                <div class="col-sm-12 col-md-9 col-lg-10"><bdi><?= $manufacture ?></bdi></div>
+                                <div class="col-sm-12 col-md-9 col-lg-10">
+                                    <bdi><?= $manufacture ?></bdi>
+                                </div>
                             </div>
                         <? endif; ?>
 
@@ -214,14 +208,20 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                             </div>
                         <? endif; ?>
 
-                        <? $yearOfPublication = $this->singleRecordPublicationYear($this->driver); ?>
-                        <? if (!empty($yearOfPublication)) : ?>
-                            <div class="row">
-                                <div class="bold col-sm-12 col-md-3 col-lg-2">
-                                    <?= $this->translate('Year of Publication'); ?>:
+
+                        <!-- Erscheinungsjahr -->
+                        <? if ($this->showPublicationDate) : ?>
+                            <? $yearOfPublication = $this->singleRecordPublicationYear($this->driver); ?>
+                            <? if (!empty($yearOfPublication)) : ?>
+                                <div class="row">
+                                    <div class="bold col-sm-12 col-md-3 col-lg-2">
+                                        <?= $this->translate('Year of Publication'); ?>:
+                                    </div>
+                                    <div class="col-sm-12 col-md-9 col-lg-10">
+                                        <?= $yearOfPublication ?>
+                                    </div>
                                 </div>
-                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $yearOfPublication ?></div>
-                            </div>
+                            <? endif; ?>
                         <? endif; ?>
 
                         <!-- Production / Herstellung -->
