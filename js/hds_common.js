@@ -45,17 +45,23 @@ $(document).ready(function () {
     });
 
     /* Summernote Editor run */
-    $('#sp_WYSWIG').summernote({
-        height: 250,
-        minHeight: null,
-        maxHeight: null,
+    $('.wysiwig-text').summernote({
+        height: 200
+        //minHeight: null,
+        //maxHeight: null,
     });
+
+    $('#lang-tabs a[href|="#German"]').tab('show');
+    // TODO Current lang
+    $("#German-form").addClass('in active');
+
+
 
     /* –––––––––––– End of Static Pages ––––––––––––– */
 
     $('.list-group.facet .list-group-item.toggle-more').click(function(event) {
         event.preventDefault();
-        id = $(this).data("group");
+        var id = $(this).data("group");
         $('.' + id).removeClass('hidden');
         $('#more-' + id).addClass('hidden');
         return false;
