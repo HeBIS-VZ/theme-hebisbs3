@@ -4,14 +4,12 @@ $this->headLink(['rel' => 'stylesheet', 'href' => $this->basePath() . "/themes/h
 $this->headScript()->appendFile($this->basePath() . "/themes/hebisbs3/js/wysiwyg-editor/summernote.min.js");
 $activeLang = $this->layout()->userLang;
 ?>
-
 <div class="row">
+
     <div class="<?= $this->layoutClass('mainbody') ?>">
-        <? if ($this->alertMsg) : ?>
-            <div class="bg-danger">
-                <?= $this->transEsc($this->alertMsg); ?>
-            </div>
-        <? endif; ?>
+        <div class="alert alert-warning alert-dismissible" role="alert" id="multilang-warning" style="display: none">
+            <p>Language is empty</p>
+        </div>
         <h4 style="color: #00A5E3"><i><?= $this->translate('Add New Page') ?></i></h4>
         <ul class="nav nav-tabs">
             <? foreach ($this->langs as $code => $language) : ?>
@@ -31,10 +29,10 @@ $activeLang = $this->layout()->userLang;
                         <input type="hidden" class="form-control" name="sp-lang[]" value="<?= $code ?>">
                         <div class="form-group">
                             <input type="text" class="form-control" name="sp-headline[]" placeholder="Headline"
-                                   id="sp-headline">
+                                   id="sp-headline" style="font-size: large">
                         </div>
                         <div class="form-group">
-                            <textarea type="text" class="form-control wysiwig-text" name="sp-content[]"></textarea>
+                            <input type="text" class="form-control wysiwig-text" name="sp-content[]">
                         </div>
                     </div>
                 <? endforeach; ?>
@@ -48,7 +46,7 @@ $activeLang = $this->layout()->userLang;
                 </div>
             </div>
 
-            <button class="btn btn-default"><?= $this->transEsc('Save'); ?></button>
+            <button class="btn btn-default" id="sp-save"><?= $this->transEsc('Save'); ?></button>
         </form>
     </div>
     <div class="<?= $this->layoutClass('sidebar') ?>">

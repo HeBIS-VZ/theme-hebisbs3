@@ -55,6 +55,17 @@ $(document).ready(function () {
     // TODO Current lang
     $("#German-form").addClass('in active');
 
+    $('#sp-save').click(function () {
+        var $allInputs = $(":input");
+
+        function callback() {
+            alert($allInputs.size());
+            $('#multilang-warning').show('fast');
+        }
+
+    });
+
+
 
 
     /* –––––––––––– End of Static Pages ––––––––––––– */
