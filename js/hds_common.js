@@ -45,28 +45,46 @@ $(document).ready(function () {
     });
 
     /* Summernote Editor run */
-    $('.wysiwig-text').summernote({
+    var $wysiwygEditor = $('.wysiwig-text');
+    $wysiwygEditor.summernote({
         height: 200
-        //minHeight: null,
-        //maxHeight: null,
     });
 
     $('#lang-tabs a[href|="#German"]').tab('show');
-    // TODO Current lang
-    $("#German-form").addClass('in active');
 
-    $('#sp-save').click(function () {
-        var $allInputs = $(":input");
+    /* select current lang tab */
+    $("#de-form").addClass('in active');
 
-        function callback() {
-            alert($allInputs.size());
-            $('#multilang-warning').show('fast');
-        }
+    // /* check multilang */
+    // $('#sp-save').on( "mouseenter", function() {
+    //     /*$('#new-post').on('click', function(event) {
+    //     var inputs = $(this).serialize();
+    //     console.log(inputs.each().val());
+    //
+    //         });*/
+    //     event.preventDefault();
+    //     $wysiwygEditor.each(function(idx, value) {
+    //         var content = $($(this).summernote('code')).text();
+    //         var $headline = $('.sp-headline');
+    //         var $headline1 = $headline.get(idx);
+    //         var headline1content = $($headline1).val();
+    //         if (content.length <= 0 || headline1content.length <= 0) {
+    //             $('#sp-save').popover('toggle');
+    //         }
+    //     });
+    //
+    // });
+    // $('#sp-save').on("mouseleave", function() {
+    //     $('#sp-save').popover('destroy');
+    // });
+    //
+
+    $("#new-post").submit(function (event) {
+        event.preventDefault();
+        var arr = $(this).serializeArray();
+        console.log(arr);
 
     });
-
-
-
 
     /* –––––––––––– End of Static Pages ––––––––––––– */
 
@@ -90,6 +108,7 @@ $(document).ready(function () {
         var target = this;
         return target.split(search).join(replacement);
     };
+
     /** language switch */
     $('.lang-switch').click(function (event) {
         event.preventDefault();
