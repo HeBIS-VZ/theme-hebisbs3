@@ -8,22 +8,19 @@ $activeLang = $this->layout()->userLang;
 
     <div class="<?= $this->layoutClass('mainbody') ?>">
         <h4 style="color: #00A5E3"><i><?= $this->translate('Add New Page') ?></i></h4>
+
         <ul class="nav nav-tabs">
             <? foreach ($this->langs as $code => $language) : ?>
-                <li data-href="<?= $language ?>" id="lang-tabs"><a data-toggle="tab"
-                                                                   href="#<?= $code ?>-form"><?= $this->transEsc($language) ?></a>
+                <li class="sp-form-<?= $code ?>" data-href="<?= $language ?>" id="lang-tabs">
+                    <a data-toggle="tab" href="#<?= $code ?>-form"><?= $this->transEsc($language) ?></a>
                 </li>
             <? endforeach; ?>
-            <!--li data-href="other-lang" id="lang-tabs"><a data-toggle="tab"
-                                                         href="#other-lang-form"><span
-                            class="hds-icon-plus-squared-alt"></span></a>
-            </li-->
         </ul>
 
         <form id="new-post" method="post">
             <div class="tab-content">
                 <? foreach ($this->langs as $code => $language) : ?>
-                    <div id="<?= $code ?>-form" class="tab-pane fade">
+                    <div id="<?= $code ?>-form" class="sp-form-<?= $code ?> tab-pane fade">
                         <input type="hidden" class="form-control" name="sp-lang[]" value="<?= $code ?>">
                         <div class="form-group">
                             <input type="text" class="form-control sp-headline" name="sp-headline[]"
@@ -36,7 +33,7 @@ $activeLang = $this->layout()->userLang;
                     </div>
                 <? endforeach; ?>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="sp-author">
                 <div class="input-group">
                     <span class="input-group-addon" id="sp-<?= $this->transEsc('author'); ?>"><span
                                 class="hds-icon-user-1"></span></span>
@@ -45,7 +42,7 @@ $activeLang = $this->layout()->userLang;
                 </div>
             </div>
 
-            <button class="btn btn-default" data-trigger="hover" data-toggle="popover" data-placement="right"
+            <button class="btn btn-default" data-toggle="popover" data-placement="right"
                     title="<?= $this->transEsc('Please Note:') ?>"
                     data-content="<?= $this->transEsc('Other languages are empty!') ?>"
                     id="sp-save"><?= $this->transEsc('Save'); ?></button>
