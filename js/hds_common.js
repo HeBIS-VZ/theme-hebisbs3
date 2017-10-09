@@ -6,6 +6,8 @@ userIsLoggedIn = false;
 
 $(document).ready(function () {
 
+    $('[data-toggle="popover"]').popover();
+
     /* Static Pages: Toggle the visibility symbol */
     $('.sp-page-visibility').click(function () {
         var _this = this;
@@ -54,43 +56,16 @@ $(document).ready(function () {
     /* select current lang tab */
     $('.sp-form-de').addClass('in active');
 
-    // /* check multilang */
-    // $('#sp-save').on( "mouseenter", function() {
-    //     /*$('#new-post').on('click', function(event) {
-    //     var inputs = $(this).serialize();
-    //     console.log(inputs.each().val());
-    //
-    //         });*/
-    //     event.preventDefault();
-    //     $wysiwygEditor.each(function(idx, value) {
-    //         var content = $($(this).summernote('code')).text();
-    //         var $headline = $('.sp-headline');
-    //         var $headline1 = $headline.get(idx);
-    //         var headline1content = $($headline1).val();
-    //         if (content.length <= 0 || headline1content.length <= 0) {
-    //             $('#sp-save').popover('toggle');
-    //         }
-    //     });
-    //
-    // });
-    // $('#sp-save').on("mouseleave", function() {
-    //     $('#sp-save').popover('destroy');
-    // });
-    //
 
     $("#new-post").submit(function (event) {
 
         var inputs = $(this).serializeArray();
-        inputs = inputs.filter(function (object) {
-            if (object.name == "sp-content[]") {
-                return false;
-            }
-            return true;
-        });
-        var author = inputs[4].value;
+        var author = inputs[6].value;
         var $contents = $('.wysiwig-text');
+        var i = -1;
         $contents.each(function () {
-            inputs.push(
+
+            inputs.splice(i += 3, 1,
                 {
                     name: "sp-content[]",
                     value: $($(this).summernote('code')).text()
@@ -98,27 +73,25 @@ $(document).ready(function () {
             );
         });
 
-        console.log($contents);
-        console.log(inputs);
-        event.preventDefault();
-
-
         if (author == "") {
+            $('#sp-author').addClass('has-error ');
+            event.preventDefault();
+        }
+        else $('#sp-author').removeClass('has-error');
 
-            $('#sp-author').addClass('has-error');
-
+        if (inputs.every(hasNoEmptyValue))
+            $('#sp-save').popover('destroy');
+        else {
+            $('#sp-save').popover('show');
+            event.preventDefault();
         }
 
-        if ($.each(inputs, function (value) {
-                if (value == "")
-                    return true;
-                return false;
-            })) {
-            $('#sp-save').popover();
-
-        }
-        return false;
     });
+
+    function hasNoEmptyValue(input) {
+        return input.value.length > 0;
+    }
+
 
     /* –––––––––––– End of Static Pages ––––––––––––– */
 
@@ -158,7 +131,7 @@ $(document).ready(function () {
     var largelogo = $('.navbar-header');
     var origOffsetY = $('.searchbox').offset().top;
 
-    //var origOffsetX = container.left;
+//var origOffsetX = container.left;
     function scroll() {
         if (document.body.clientWidth >= 768) {
             if (window.scrollTop() > (origOffsetY)) {
@@ -187,7 +160,7 @@ $(document).ready(function () {
     processWikipediaLinks();
     processOtherEditions();
 
-    // support "jump menu" dropdown boxes
+// support "jump menu" dropdown boxes
     $('select.jumpMenu').change(function () {
 
         var $form = $(this).parent('form');
@@ -205,7 +178,8 @@ $(document).ready(function () {
         $('#selected-handler').text(label);
         return event;
     });
-});
+})
+;
 
 
 function processWikipediaLinks() {
