@@ -51,7 +51,6 @@ $this->layout()->breadcrumbs .= !empty($shortTitle) ? '<li class="active">'.$thi
     </ul>
 <? endif; ?>
 
-<!-- <div class="row"> -->
     <div class="view-record">
         <div class="record recordId source<?= $this->escapeHtmlAttr($this->driver->getResourceSource()) ?>" id="record">
             <input type="hidden" value="<?= $this->escapeHtmlAttr($this->driver->getUniqueId()) ?>" class="hiddenId"
@@ -64,5 +63,3 @@ $this->layout()->breadcrumbs .= !empty($shortTitle) ? '<li class="active">'.$thi
 
 
     </div>
-
-<!-- </div> -->
