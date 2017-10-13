@@ -1,32 +1,30 @@
 <!-- <table class="table-condensed" style="width:100%"> -->
         <div class="col-md-8 title">
             <div>
-                <a href="<?= $this->recordLink()->getUrl($this->driver) ?>" class="title">
-                    <?
-                    /*
-                    $summHighlightedTitle = $this->driver->getHighlightedTitle();
-                    $summTitle = $this->driver->getTitle();
-                    if (!empty($summHighlightedTitle)) {
-                        echo $this->highlight($this->addEllipsis($summHighlightedTitle, $summTitle));
-                    } else if (!empty($summTitle)) {
-                        echo $this->escapeHtml($this->truncate($summTitle, 180));
-                    } else {
-                        echo $this->transEsc('Title not available');
-                    }*/
+                <?
+                /*
+                $summHighlightedTitle = $this->driver->getHighlightedTitle();
+                $summTitle = $this->driver->getTitle();
+                if (!empty($summHighlightedTitle)) {
+                    echo $this->highlight($this->addEllipsis($summHighlightedTitle, $summTitle));
+                } else if (!empty($summTitle)) {
+                    echo $this->escapeHtml($this->truncate($summTitle, 180));
+                } else {
+                    echo $this->transEsc('Title not available');
+                }*/
 
-                    $title = $this->resultListOWTitleStatement($this->driver);
+                $title = $this->resultListOWTitleStatement($this->driver);
+                if (!empty($title)) {
+                    echo $title;
+                } else {
+                    $title = $this->resultListTitleStatement($this->driver);
                     if (!empty($title)) {
                         echo $title;
                     } else {
-                        $title = $this->resultListTitleStatement($this->driver);
-                        if (!empty($title)) {
-                            echo $title;
-                        } else {
-                            echo $this->transEsc('Title not available');
-                        }
+                        echo $this->transEsc('Title not available');
                     }
-                    ?>
-                </a>
+                }
+                ?>
             </div>
             <? $author = $this->resultListOWPersonalName($this->driver); ?>
             <? if (!empty($author)) : ?>
