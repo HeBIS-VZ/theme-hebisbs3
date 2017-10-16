@@ -1,4 +1,7 @@
 <?= $this->doctype('HTML5') ?>
+<? $nav = $this->staticPageNavigation();
+
+?>
 <html lang="<?= $this->layout()->userLang ?>">
 <head>
     <?$this->headThemeResources()?>
@@ -233,7 +236,12 @@ if (!isset($this->layout()->searchbox)) {
                                 </li>
                             <? endif; ?>
                             <li class="dropdown">
-                                <a href="asd" class="dropdown-toggle" data-toggle="dropdown">Hello <b class="caret"></b></a>
+                                <a href="asd" class="dropdown-toggle"
+                                   data-toggle="dropdown"><?= $this->transEsc('Static Pages') ?><b
+                                            class="caret"></b></a>
+                                <? //$stp = new \Hebis\Controller\StaticPagesController();
+
+                                ?>
                                 <ul class="dropdown-menu">
                                     <li><a href="">Blubb</a></li>
                                 </ul>
@@ -255,6 +263,8 @@ if (!isset($this->layout()->searchbox)) {
     </div>
 
 </header>
+
+<?= $nav->getNav(); ?>
 <div id="main-content" role="main" class="main template-dir-<?= $this->templateDir ?> template-name-<?= $this->templateName ?>">
 
     <div class="container">
