@@ -29,8 +29,22 @@ if (!isset($this->searchTabs) && !empty($lookfor))  {
       });
     });
 EDSSCRIPT;
-            $this->headScript()->appendScript($var);
-        endif; ?>
+        $this->headScript()->appendScript($var); ?>
+
+        <? elseif  ($tab['id'] === "Solr" && !$tab['selected']): ?>
+            <? $url = str_replace("/Results", "/ajax", $tab["url"]);
+
+                $var = <<<EDSSCRIPT
+    var url = "{$url}";
+        $(document).ready(function() {
+        $.getJSON(url, function (data) {
+        $("#Solr > a").append(" <small id=\"solr-count\">("+data["data"]+")</small>");
+    });
+});
+EDSSCRIPT;
+            $this->headScript()->appendScript($var); ?>
+        <? endif; ?>
+
       </li>
     <? endforeach; ?>
   </ul>

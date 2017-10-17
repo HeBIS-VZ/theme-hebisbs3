@@ -112,7 +112,7 @@ ENDSCRIPT;
           </a>
         </span><br/>
             <? endif; ?>
-            <? if (strpos($ftCustomLinks[0]['Url'], "www.redi-bw.de") !== false) : ?>
+            <? if (isset($ftCustomLinks[0]) && strpos($ftCustomLinks[0]['Url'], "www.redi-bw.de") !== false) : ?>
                 <div id="redi"><!-- --></div>
             <? endif; ?>
             <? if (!empty($customLinks) || !empty($ftCustomLinks)) : ?>

@@ -110,8 +110,12 @@
               );
             }
             $this->headScript()->appendScript(
-              'var userIsLoggedIn = ' . ($this->auth()->isLoggedIn() ? 'true' : 'false') . ';'
+              'var userIsLoggedIn = ' . ($this->auth()->isLoggedIn() ? 'true' : 'false') . ';
+               $(function () {
+                   $(\'[data-toggle="tooltip"]\').tooltip()
+               });'
             );
+
           }
 
           // Session keep-alive

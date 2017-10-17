@@ -465,8 +465,12 @@ img.recordcover {
     line-height: 1.5;
     padding: 0 0.5em;
   }
-  .item.selected {
-    background-color: lightgoldenrodyellow;
+  .item.selected,
+  .item:hover {
+    background-color: lightgoldenrodyellow !important;
+  }
+  .item:hover {
+    cursor: pointer;
   }
   background-color: #fff;
 }
