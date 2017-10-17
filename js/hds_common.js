@@ -37,7 +37,7 @@ $(document).ready(function () {
 
     var navbar = $('.header');
     var menu = $('.menu-bar');
-    var smalllogo = $('.input-group-addon');
+    var smalllogo = $('.small-logo');
     var largelogo = $('.navbar-header');
     var origOffsetY = $('.searchbox').offset().top;
     //var origOffsetX = container.left;
@@ -52,6 +52,7 @@ $(document).ready(function () {
                 $("#main-content").css({marginTop: $("header.header").height()+origOffsetY});
                 //$('.main-content').addClass('menu-padding');
                 //container.offset({left: origOffsetX});
+                $(".indent-button-grp").css({marginLeft: 60});
             } else {
                 //$('#height-offset-workaround').hide();
                 navbar.removeClass('sticky');
@@ -59,6 +60,7 @@ $(document).ready(function () {
                 smalllogo.addClass('hidden-sm').addClass('hidden-md').addClass('hidden-lg');
                 largelogo.show();
                 $("#main-content").css({marginTop: 0});
+                $(".indent-button-grp").css({marginLeft: 0});
                 //$('.main-content').removeClass('menu-padding');
             }
         }
