@@ -8,12 +8,12 @@ $searchMemory = $this->searchMemory();
 //$this->searchId = $this->results->getSearchId();
 //$this->searchClassId = $this->params->getSearchClassId();
 
-if (!isset($this->searchTabs) && !empty($lookfor))  {
-    if (isset($this->params)) {
+if (!isset($this->searchTabs) && !empty($lookfor)
+    && (isset($this->params) && is_object($this->params))) {
         $query = $this->params->getQuery();
         $type = ($query !== null && $query instanceof \VuFindSearch\Query\QueryGroup) ? 'advanced' : 'basic';
-    }
-    $searchTabs = $this->searchtabs()->getTabConfig($this->searchClassId, $lookfor, $searchIndex, $type);
+        $searchTabs = $this->searchtabs()->getTabConfig($this->searchClassId, $lookfor, $searchIndex, $type);
+
 } else {
     $searchTabs = $this->searchtabs()->getTabConfig($this->searchClassId, $lookfor, $searchIndex, $this->searchType, $this->hiddenFilters);
 }

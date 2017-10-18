@@ -53,13 +53,13 @@ function getActiveHandler($handlers) {
             <? if (!empty($tabs)): ?></div><? endif; ?>
     </div>
     -->
-    <form class="searchForm navbar-form navbar-left flip" style="width:100%;" method="get" action="<?=$this->url($basicSearch)?>" name="searchForm" autocomplete="off">
-        <div style="float:left;">
+    <form class="searchForm navbar-form navbar-left flip" method="get" action="<?=$this->url($basicSearch)?>" name="searchForm" autocomplete="off">
+        <div>
             <?= $this->context($this)->renderInContext('search/searchTabs', ['hiddenFilters' => $hiddenFilters]); ?>
             <? $handler = getActiveHandler($handlers);?>
             <div class="col-xs-12">
                 <input type="hidden" name="type" id="search-option-type" value="<?= $this->escapeHtmlAttr($handler['value']) ?>" />
-                <div class="input-group" style="width:100%;">
+                <div class="input-group">
                     <div class="input-group-addon hidden-sm hidden-md hidden-lg small-logo">
                         <a title="<?=$this->transEsc("Home"); ?>" href="<?=$this->config()->homeUrl()?>"><img class="img" src="<?=$this->basePath().$this->config()->themePath()?>/images/uni-logo-klein.svg" alt="<?= $this->config()->title()?>" /></a>
                     </div>
@@ -101,6 +101,7 @@ function getActiveHandler($handlers) {
                         <? endif; ?>
                     </div>
                 </div>
+                <br class="clearfix" />
             </div>
             <div class="col-xs-12 indent-button-grp">
                 <? if ($this->searchType == 'advanced'): ?>
@@ -170,7 +171,9 @@ function getActiveHandler($handlers) {
                 }
                 ?>
             </div>
+
         </div>
+
     </form>
         <script type="text/javascript">$(".searchForm_lookfor:visible").focus()</script>
 
