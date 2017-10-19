@@ -13,11 +13,11 @@ $(document).ready(function () {
         var _this = this;
         var url = $(this).attr('href');
         $.getJSON(url)
-            .done(function (JSONoutput) {
-                if (JSONoutput.data == 1) {
+            .done(function (output) {
+                if (output.data == true) {
                     $(_this).find('span').addClass('hds-icon-eye green');
                     $(_this).find('span').removeClass('hds-icon-eye-off red');
-                } else if (JSONoutput.data == 0) {
+                } else if (output.data == false) {
                     $(_this).find('span').addClass('hds-icon-eye-off red');
                     $(_this).find('span').removeClass('hds-icon-eye green');
                 }
@@ -57,15 +57,15 @@ $(document).ready(function () {
     $('.sp-form-de').addClass('in active');
 
 
-    $("#new-post").submit(function (event) {
+    /* $("#new-post").submit(function (event) {
 
         var inputs = $(this).serializeArray();
-        var author = inputs[6].value;
+        var author = inputs[8].value;
         var $contents = $('.wysiwig-text');
         var i = -1;
         $contents.each(function () {
 
-            inputs.splice(i += 3, 1,
+            inputs.splice(i += 4, 1,
                 {
                     name: "sp-content[]",
                     value: $($(this).summernote('code')).text()
@@ -90,7 +90,7 @@ $(document).ready(function () {
 
     function hasNoEmptyValue(input) {
         return input.value.length > 0;
-    }
+    }*/
 
 
     /* –––––––––––– End of Static Pages ––––––––––––– */
@@ -179,7 +179,6 @@ $(document).ready(function () {
         return event;
     });
 })
-;
 
 
 function processWikipediaLinks() {

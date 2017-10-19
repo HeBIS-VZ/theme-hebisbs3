@@ -1,7 +1,5 @@
 <?= $this->doctype('HTML5') ?>
-<? $nav = $this->staticPageNavigation();
 
-?>
 <html lang="<?= $this->layout()->userLang ?>">
 <head>
     <?$this->headThemeResources()?>
@@ -243,7 +241,10 @@ if (!isset($this->layout()->searchbox)) {
 
                                 ?>
                                 <ul class="dropdown-menu">
-                                    <li><a href="">Blubb</a></li>
+                                    <? $nav = $this->staticPageNavigation()->getNav(); ?>
+                                    <? foreach ($nav as $item) : ?>
+                                        <li><a href="<?= $item['uid'] ?>"><?= $item['title'] ?></a></li>
+                                    <? endforeach; ?>
                                 </ul>
                             </li>
                         </ul>
@@ -263,8 +264,6 @@ if (!isset($this->layout()->searchbox)) {
     </div>
 
 </header>
-
-<?= $nav->getNav(); ?>
 <div id="main-content" role="main" class="main template-dir-<?= $this->templateDir ?> template-name-<?= $this->templateName ?>">
 
     <div class="container">
