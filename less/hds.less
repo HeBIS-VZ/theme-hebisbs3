@@ -603,6 +603,10 @@ footer {
 
 
 .searchForm.navbar-form {
+  input.searchForm_lookfor,
+  .input-group-btn .btn-default{
+    border-color: @brand-primary;
+  }
   margin-bottom: 0;
   .nav {
     border-bottom: none;
@@ -615,18 +619,21 @@ footer {
       }
       >a:hover,>a:active, >a:focus {
         background-color: lighten(@brand-primary, 10%);
-        border-top-color: rgb(204, 204, 204);
-        border-left-color: rgb(204, 204, 204);
-        border-right-color: rgb(204, 204, 204);
+        color: #fff;
+        border-top-color: @brand-primary;
+        border-left-color: @brand-primary;
+        border-right-color: @brand-primary;
+        box-shadow: 0 0 5px lighten(@brand-secondary, 10%);
       }
     }
     >li.active {
       >a {
         background-color: lighten(@brand-primary, 10%);
         color: #fff;
-        border-top-color: rgb(204, 204, 204);
-        border-left-color: rgb(204, 204, 204);
-        border-right-color: rgb(204, 204, 204);
+        border-top-color: @brand-primary;
+        border-left-color: @brand-primary;
+        border-right-color: @brand-primary;
+        box-shadow: 0 0 5px lighten(@brand-secondary, 10%);
       }
     }
   }
