@@ -12,7 +12,7 @@ if (!isset($this->searchTabs) && !empty($lookfor)
     && (isset($this->params) && is_object($this->params))) {
         $query = $this->params->getQuery();
         $type = ($query !== null && $query instanceof \VuFindSearch\Query\QueryGroup) ? 'advanced' : 'basic';
-        $searchTabs = $this->searchtabs()->getTabConfig($this->searchClassId, $lookfor, $searchIndex, $type);
+        $searchTabs = $this->searchtabs()->getTabConfig($this->searchClassId, $lookfor, $searchIndex, $type, $this->results->getResultTotal());
 
 } else {
     $last = $searchMemory->getLastUrl($this->searchClassId);
@@ -21,41 +21,16 @@ if (!isset($this->searchTabs) && !empty($lookfor)
 }
 ?>
 <? if (count($searchTabs) > 0): ?>
-  <ul class="nav nav-tabs indent-button-grp">
+
+  <ul id="search-tabs" class="nav nav-tabs indent-button-grp">
     <? foreach ($searchTabs as $tab): ?>
         <? //$img =($tab['id'] === "Solr") ? '<img style="width:26px;" src="'.$this->basePath().'/themes/hebisbs3/images/book_black.svg" />' : ''; ?>
       <li id="<?=$tab["id"]?>"<?=$tab['selected'] ? ' class="active"' : ''?>>
-        <a <?=$tab['selected'] ? '' : 'href="' . $this->escapeHtmlAttr($tab['url']) . '"' ?>>
+        <a data-id="<?=$tab["id"]?>" <?=$tab['selected'] ? '' : 'href="' . $this->escapeHtmlAttr($tab['url']) . '"' ?>>
             <? //$img ?>
             <?=$this->transEsc($tab['label']); ?>
+            <?= isset($tab["count"]) ? ' <small id=\"eds-count\">('.$tab["count"].')</small>' : ''; ?>
         </a>
-        <? if ($tab["id"] === "EDS" && !$tab['selected'] && !empty($lookfor)) :
-            $url = str_replace("/Search", "/ajax", $tab["url"]);
-
-            $var = <<<EDSSCRIPT
-    var url = "{$url}";
-    $(document).ready(function() {
-      $.getJSON(url, function (data) {
-        $("#EDS > a").append(" <small id=\"eds-count\">("+data["data"]+")</small>");
-      });
-    });
-EDSSCRIPT;
-        $this->headScript()->appendScript($var); ?>
-
-        <? elseif  ($tab['id'] === "Solr" && !$tab['selected']): ?>
-            <? $url = str_replace("/Results", "/ajax", $tab["url"]);
-
-                $var = <<<EDSSCRIPT
-    var url = "{$url}";
-        $(document).ready(function() {
-        $.getJSON(url, function (data) {
-        $("#Solr > a").append(" <small id=\"solr-count\">("+data["data"]+")</small>");
-    });
-});
-EDSSCRIPT;
-            $this->headScript()->appendScript($var); ?>
-        <? endif; ?>
-
       </li>
     <? endforeach; ?>
   </ul>

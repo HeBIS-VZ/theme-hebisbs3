@@ -39,7 +39,7 @@
     $advSearch = $options->getAdvancedSearchAction();
     if ($this->searchType == 'advanced') {
         $ignoreHiddenFilterMemory = isset($this->ignoreHiddenFilterMemory) && $this->ignoreHiddenFilterMemory;
-        $hiddenFilterParams = $this->searchtabs()->getCurrentHiddenFilterParams($this->searchClassId, $ignoreHiddenFilterMemory, '?');
+        //$hiddenFilterParams = $this->searchtabs()->getCurrentHiddenFilterParams($this->searchClassId, $ignoreHiddenFilterMemory, '?');
         $this->layout()->breadcrumbs .= '<li class="active"><a data-toggle="tooltip" data-placement="auto" title="'.$this->transEsc('tooltip_edit_advanced_search').'" href="' . $this->url($advSearch) . '?edit=' . $this->escapeHtmlAttr($this->searchId) . '">' . $this->transEsc('Advanced Search') . '</a>: ' . $this->escapeHtml($lookfor) . '</li>';
     } else {
         $this->layout()->breadcrumbs .= '<li class="active">' . $this->transEsc('Search') . ': ' . $this->escapeHtml($lookfor) . '</li>';
