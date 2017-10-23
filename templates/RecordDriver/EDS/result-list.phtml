@@ -4,35 +4,11 @@
   $restrictedView = empty($accessLevel) ? false : true;
   $coverDetails = $this->record($this->driver)->getCoverDetails('result-list', 'medium', $this->recordLink()->getUrl($this->driver));
 ?>
-<?
-  $thumbnail = false;
-  $thumbnailAlignment = $this->record($this->driver)->getThumbnailAlignment('result'); ?>
-  <?
-  ob_start(); ?>
-  <div class="media-<?=$thumbnailAlignment ?> <?=$this->escapeHtml($coverDetails['size'])?>">
-    <? if ($coverDetails['cover']): ?>
-      <a href="<?=$this->recordLink()->getUrl($this->driver)?>" class="_record_link">
-        <img src="<?=$this->escapeHtmlAttr($coverDetails['cover'])?>" class="recordcover" alt="<?=$this->transEsc('Cover Image')?>"/>
-      </a>
-    <? else: ?>
-      <span class="recordcover pt-icon pt-<?=$this->driver->getPubTypeId()?>"></span>
-      <div><?=$this->driver->getPubType()?></div>
-    <? endif; ?>
-  </div>
 
-<? $thumbnail = ob_get_contents(); ?>
-<? ob_end_clean(); ?>
 <input type="hidden" value="<?=$this->escapeHtmlAttr($this->driver->getUniqueID())?>" class="hiddenId" />
 <input type="hidden" value="<?=$this->escapeHtmlAttr($this->driver->getSourceIdentifier())?>" class="hiddenSource" />
 
-<div class="row result-list-item">
-    <div class="hidden-xs col-md-2 text-center title-thumb">
-        <div class="sr-only"><?= $this->driver->getFields()['ResultId']; ?></div>
-        <? if ($thumbnail) : ?>
-            <?=$thumbnail ?>
-        <? endif; ?>
-    </div>
-    <div class="col-md-7 title">
+    <div class="col-md-8 title">
         <? $items = $this->driver->getItems();
            $recordInfo = $this->driver->getFields()['RecordInfo'];
            $title = ""; ?>
@@ -141,14 +117,36 @@
         <? endif; ?>
     </div>
     <div class="col-sm-3 hidden-print">
+        <!-- img-responsive img-thumbnail -->
+        <?
+        $thumbnail = false;
+        //$thumbnailAlignment = $this->record($this->driver)->getThumbnailAlignment('result'); ?>
+        <?
+        ob_start(); ?>
+        <div class="hidden-xs text-center title-thumb <?=$this->escapeHtml($coverDetails['size'])?>">
+            <? if ($coverDetails['cover']): ?>
+                <a href="<?=$this->recordLink()->getUrl($this->driver)?>">
+                    <img src="<?=$this->escapeHtmlAttr($coverDetails['cover'])?>" class="recordcover img-responsive img-thumbnail " alt="<?=$this->transEsc('Cover Image')?>"/>
+                </a>
+            <? else: ?>
+                <span class="recordcover pt-icon pt-<?=$this->driver->getPubTypeId()?>"></span>
+                <div><?=$this->driver->getPubType()?></div>
+            <? endif; ?>
+        </div>
+
+        <? $thumbnail = ob_get_contents(); ?>
+        <? ob_end_clean(); ?>
+        <? if ($thumbnail) : ?>
+            <?=$thumbnail ?>
+        <? endif; ?>
         <? if ($this->userlist()->getMode() !== 'disabled'): ?>
             <? /* Add to favorites */ ?>
-            <span class="hds-icon-star-empty" aria-hidden="true"><!-- --></span> <a href="<?=$this->recordLink()->getActionUrl($this->driver, 'Save')?>" class="save-record" data-lightbox id="<?=$this->driver->getUniqueId() ?>" title="<?=$this->transEsc('Add to favorites')?>"><?=$this->transEsc('Add to favorites')?></a><br/>
+            <span class="hds-icon-star-empty" aria-hidden="true"><!-- --></span>  <a href="<?=$this->recordLink()->getActionUrl($this->driver, 'Save')?>" data-lightbox class="save-record" data-id="<?=$this->escapeHtmlAttr($this->driver->getUniqueId()) ?>"><?=$this->transEsc('Add to favorites')?></a><br/>
+            <br/>
 
             <? /* Saved lists */ ?>
             <div class="savedLists alert alert-info hidden">
-                <strong><?=$this->transEsc("Saved in")?>:</strong>
+                <strong><?= $this->transEsc("Saved in") ?>:</strong>
             </div>
         <? endif; ?>
     </div>
-</div>
