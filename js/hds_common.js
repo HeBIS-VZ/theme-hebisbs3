@@ -88,12 +88,12 @@ $(document).ready(function () {
         var label = $(this).data('label');
         $('#search-option-type').val(value);
         $('#selected-handler').text(label);
-        $('#select-search-handler li.active a span.hds-icon-check').remove();
-        $('#select-search-handler li.active a').prepend($('<span class="hds-icon-check-empty"></span>'));
+        //$('#select-search-handler li.active a span.hds-icon-check').remove();
+        //$('#select-search-handler li.active a').prepend($('<span class="hds-icon-check-empty"></span>'));
         $('#select-search-handler li.active').removeClass('active');
         $(this).parent().addClass('active');
-        $(this).find('span.hds-icon-check-empty').remove();
-        $(this).prepend($('<span class="hds-icon-check"></span>'));
+        //$(this).find('span.hds-icon-check-empty').remove();
+        //$(this).prepend($('<span class="hds-icon-check"></span>'));
         return event;
     });
     var urls = {};

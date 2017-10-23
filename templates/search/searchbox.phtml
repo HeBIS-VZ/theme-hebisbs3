@@ -65,7 +65,7 @@ function getActiveHandler($handlers) {
                                     <a href="#"
                                        data-value="<?= $this->escapeHtmlAttr($handler['value']) ?>"
                                        data-label="<?=$handler['indent'] ? '-- ' : ''?><?=$this->transEsc($handler['label'])?>">
-                                        <?= $handler['selected'] ? '<span class="hds-icon-check"></span>' : '<span class="hds-icon-check-empty"></span>' ?>
+                                        <!-- <?= $handler['selected'] ? '<span class="hds-icon-check"></span>' : '<span class="hds-icon-check-empty"></span>' ?> -->
                                         <?= $handler['indent'] ? '-- ' : ''?><?=$this->transEsc($handler['label']) ?>
                                     </a>
                                 </li>
