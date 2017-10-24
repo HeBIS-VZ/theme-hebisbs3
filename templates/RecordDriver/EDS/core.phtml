@@ -123,7 +123,7 @@ ENDSCRIPT;
                                 <? $url = isset($ftCustomLinks[0]['Url']) ? $ftCustomLinks[0]['Url'] : '';
                                 $mot = isset($ftCustomLinks[0]['MouseOverText']) ? $ftCustomLinks[0]['MouseOverText'] : '';
                                 $icon = isset ($ftCustomLinks[0]['Icon']) ? $ftCustomLinks[0]['Icon'] : '';
-                                $name = isset($ftCustomLinks[0]['Text']) ? $ftCustomLinks[0]['Text'] : '';
+                                $name = isset($ftCustomLinks[0]['Text']) ? $this->translate($ftCustomLinks[0]['Text']) : '';
                                 ?>
                                 <li>
                             <span>
@@ -141,7 +141,7 @@ ENDSCRIPT;
                                 <? $url = isset($customLink['Url']) ? $customLink['Url'] : '';
                                 $mot = isset($customLink['MouseOverText']) ? $customLink['MouseOverText'] : '';
                                 $icon = isset ($customLink['Icon']) ? $customLink['Icon'] : '';
-                                $name = isset($customLink['Text']) ? $customLink['Text'] : '';
+                                $name = isset($customLink['Text']) ? $this->translate($customLink['Text']) : '';
                                 ?>
                                 <li>
                         <span>
