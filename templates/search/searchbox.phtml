@@ -51,7 +51,7 @@ function getActiveHandler($handlers) {
         <div class="col-xs-12">
             <input type="hidden" name="type" id="search-option-type" value="<?= $this->escapeHtmlAttr($handler['value']) ?>" />
             <div class="input-group">
-                <input class="searchForm_lookfor form-control search-query<? if($this->searchbox()->autocompleteEnabled($this->searchClassId)):?> autocomplete searcher:<?=$this->escapeHtmlAttr($this->searchClassId) ?><? endif ?>" type="text" name="lookfor" value="<?=($this->searchType != 'advanced') ? $this->escapeHtmlAttr($this->lookfor) : '' ?>"/>
+                <input class="searchForm_lookfor form-control search-query autocomplete searcher:Solr" type="text" name="lookfor" value="<?=($this->searchType != 'advanced') ? $this->escapeHtmlAttr($this->lookfor) : '' ?>"/>
                 <div class="input-group-btn">
                     <? if ($handlerCount > 1): ?>
                         <!-- Button and dropdown menu -->
