@@ -26,6 +26,7 @@ return [
             'record' => 'Hebis\View\Helper\Root\Factory::getRecord',
             'citation' => 'Hebis\View\Helper\Root\Factory::getCitation',
             'searchmemory' => 'Hebis\View\Helper\Root\Factory::getSearchMemory',
+            'searchtabs' => 'Hebis\View\Helper\Root\Factory::getSearchTabs',
             'multipartItems' => 'Hebis\View\Helper\Hebisbs3\Factory::getMultipartItems',
             'ppnlink' => 'Hebis\View\Helper\Hebisbs3\Factory::getPpnLink'
         ]

@@ -8,7 +8,7 @@ $(document).ready(function () {
 
     $('.list-group.facet .list-group-item.toggle-more').click(function(event) {
         event.preventDefault();
-        id = $(this).data("group");
+        var id = $(this).data("group");
         $('.' + id).removeClass('hidden');
         $('#more-' + id).addClass('hidden');
         return false;
@@ -16,7 +16,7 @@ $(document).ready(function () {
 
     $('.list-group.facet .list-group-item.toggle-less').click(function(event) {
         event.preventDefault();
-        id = $(this).data("group");
+        var id = $(this).data("group");
         $('.' + id).addClass('hidden');
         $('#more-' + id).removeClass('hidden');
         return false;
@@ -37,7 +37,7 @@ $(document).ready(function () {
 
     var navbar = $('.header');
     var menu = $('.menu-bar');
-    var smalllogo = $('.input-group-addon');
+    var smalllogo = $('.small-logo');
     var largelogo = $('.navbar-header');
     var origOffsetY = $('.searchbox').offset().top;
     //var origOffsetX = container.left;
@@ -52,6 +52,7 @@ $(document).ready(function () {
                 $("#main-content").css({marginTop: $("header.header").height()+origOffsetY});
                 //$('.main-content').addClass('menu-padding');
                 //container.offset({left: origOffsetX});
+                $(".indent-button-grp").css({marginLeft: 60});
             } else {
                 //$('#height-offset-workaround').hide();
                 navbar.removeClass('sticky');
@@ -59,6 +60,7 @@ $(document).ready(function () {
                 smalllogo.addClass('hidden-sm').addClass('hidden-md').addClass('hidden-lg');
                 largelogo.show();
                 $("#main-content").css({marginTop: 0});
+                $(".indent-button-grp").css({marginLeft: 0});
                 //$('.main-content').removeClass('menu-padding');
             }
         }
@@ -86,10 +88,35 @@ $(document).ready(function () {
         var label = $(this).data('label');
         $('#search-option-type').val(value);
         $('#selected-handler').text(label);
+        //$('#select-search-handler li.active a span.hds-icon-check').remove();
+        //$('#select-search-handler li.active a').prepend($('<span class="hds-icon-check-empty"></span>'));
+        $('#select-search-handler li.active').removeClass('active');
+        $(this).parent().addClass('active');
+        //$(this).find('span.hds-icon-check-empty').remove();
+        //$(this).prepend($('<span class="hds-icon-check"></span>'));
         return event;
     });
-
-
+    var urls = {};
+    $("#search-tabs > li > a").each(function(){
+        var url = $(this).attr('href');
+        var id  = $(this).data('id');
+        urls[id] = url;
+    });
+    Object.keys(urls).forEach(function(key) {
+        var url = "";
+        if (typeof urls[key] != "undefined" && urls[key].match(/lookfor/i)) {
+            if (key === "EDS") {
+                url = urls[key].replace("Search", "ajax");
+            } else {
+                url = urls[key].replace("Results", "ajax");
+            }
+        }
+        if (url !== "") {
+            $.getJSON(url, function (data) {
+                $("#" + key + " > a").append(" <small id=\"eds-count\">(" + data["data"] + ")</small>");
+            });
+        }
+    });
 });
 
 function processRvkLinks() {
