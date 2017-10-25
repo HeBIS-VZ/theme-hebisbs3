@@ -241,9 +241,9 @@ if (!isset($this->layout()->searchbox)) {
 
                                 ?>
                                 <ul class="dropdown-menu">
-                                    <? $nav = $this->staticPageNavigation()->getNav(); ?>
+                                    <? $nav = $this->staticPageNavigation()->getNav($this->layout()->userLang); ?>
                                     <? foreach ($nav as $item) : ?>
-                                        <li><a href="<?= $item['uid'] ?>"><?= $item['title'] ?></a></li>
+                                        <li><a href="<?= $item['pid'] ?>"><?= $item['title'] ?></a></li>
                                     <? endforeach; ?>
                                 </ul>
                             </li>
