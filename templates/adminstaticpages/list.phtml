@@ -43,18 +43,18 @@ $this->headScript()->appendFile("https://code.jquery.com/ui/1.12.1/jquery-ui.js"
             'unvisible' => '<span class="hds-icon-eye-off red"></span>',
         ); ?>
         <? foreach ($this->rows as $row) : ?>
-            <div class="post" id="<?= $row->id ?>" data-href="<?= $row->headline ?>">
+            <div class="post" id="<?= $row->uid ?>" data-href="<?= $row->headline ?>">
                 <div class="col-xs-12 col-sm-10">
                     <span class="sp-page-visibility"
-                          href="<?= $this->url('adminstaticpages/json', ['method' => 'visible', 'id' => $row->id]) ?>">
+                          href="<?= $this->url('adminstaticpages/json', ['method' => 'visible', 'id' => $row->uid]) ?>">
                         <?= ($row->visible == 1) ? $visibilitySymbols['visible'] : $visibilitySymbols['unvisible']; ?></span>
-                    <a href="<?= $this->url('adminstaticpages/preview', ['id' => $row->id]) ?>"><?= $row->headline ?></a>
+                    <a href="<?= $this->url('adminstaticpages/preview', ['id' => $row->uid]) ?>"><?= $row->headline ?></a>
                 </div>
                 <div class="col-xs-12 col-sm-2">
-                    <a href="<?= $this->url('adminstaticpages/edit', ['id' => $row->id]) ?>">
+                    <a href="<?= $this->url('adminstaticpages/edit', ['id' => $row->uid]) ?>">
                         <span class="hds-icon-edit"><!--></span></a>
-                    <span class="sp-delete-button" id="<?= $row->id ?>"
-                          href="<?= $this->url('adminstaticpages/json', ['method' => 'delete', 'id' => $row->id]) ?>">
+                    <span class="sp-delete-button" id="<?= $row->uid ?>"
+                          href="<?= $this->url('adminstaticpages/json', ['method' => 'delete', 'id' => $row->uid]) ?>">
                         <span class="hds-icon-trash"><!--></span>
                     </span>
                 </div>
