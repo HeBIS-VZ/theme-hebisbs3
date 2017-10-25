@@ -30,26 +30,35 @@ if (empty($hiddenFilters) && !$ignoreHiddenFilterMemory) {
     }
 }
 $hiddenFilterParams = $this->searchtabs()->getCurrentHiddenFilterParams($this->searchClassId, $ignoreHiddenFilterMemory, '?');
-
+$last = $this->searchMemory()->getLastUrl($this->searchClassId);
+$handlerName = $this->searchtabs()->extractQueryAndHandlerAndType($last)[1];
 /**
  * @param $handlers
  * @param $params
  * @return mixed
  */
-function getActiveHandler($handlers, $params) {
+function getActiveHandler($handlers, $params, $handlerName) {
+
+
     $first = current($handlers);
-
-    $ret = array_filter($handlers, function($item) {
-        if ($item['selected']) {
-            return true;
-        }
-    });
-
-
-    if (empty($ret)) {
-        $ret = array_filter($handlers, function($item) use ($params) {
+    $ret = null;
+    $filterFunctions = [
+        function ($item) {
+            return $item['selected'];
+        },
+        function ($item) use ($params) {
+            if (is_array($params)) {
                 return $item['value'] === $params['type'];
-        });
+            }
+            return false;
+        },
+        function ($item) use ($handlerName) {
+            return $item['value'] === $handlerName;
+        }
+    ];
+
+    for ($i = 0; $i < count($filterFunctions) && empty($ret); ++$i) {
+        $ret = array_filter($handlers, $filterFunctions[$i]);
     }
 
     return empty($ret) ? $first : array_shift($ret);
@@ -61,7 +70,7 @@ function getActiveHandler($handlers, $params) {
 <form class="searchForm flip" method="get" action="<?=$this->url($basicSearch)?>" id="searchForm" name="searchForm" autocomplete="off">
     <div>
         <?= $this->context($this)->renderInContext('search/searchTabs', ['hiddenFilters' => $hiddenFilters]); ?>
-        <? $handler = getActiveHandler($handlers, $this->params);?>
+        <? $handler = getActiveHandler($handlers, $this->params, $handlerName);?>
         <div class="col-xs-12">
             <input type="hidden" name="type" id="search-option-type" value="<?= $this->escapeHtmlAttr($handler['value']) ?>" />
             <div class="input-group">
