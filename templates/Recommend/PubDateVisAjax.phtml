@@ -66,6 +66,8 @@
         </div>
     <? endforeach; ?>
     <?php
+    // Setting to 'true' for rtl layout causes a wrong co-ordination of right handle and left bars and vice-versa,
+    // if 'reversed': {$reversed} for slider
     $reversed = $this->layout()->rtl ? 'true' : 'false';
     $script = <<<JS
 $(document).ready(function() {
@@ -116,6 +118,10 @@ $(document).ready(function() {
         if (rangeFrom === rangeTo) { rangeTo++; maxYear++; }
         $('#min-year').append($('<p>'+minYear+'</p>'));
         $('#max-year').append($('<p>'+(maxYear+1)+'</p>'));
+
+        // if rtl then reverse the date array
+        if ({$reversed}) { val_['data'].reverse() };
+
         for (var i = 0; i < val_['data'].length; i++) {
             var current = val_['data'][i];
             var year = current[0];
@@ -157,7 +163,7 @@ $(document).ready(function() {
                 'min':minYear,
                 'max':maxYear+1,
                 'value':[rangeFrom,rangeTo+1],
-                'reversed': {$reversed}
+                'reversed':false
             })
             .on('slide', fillTexts)
             .data('slider');
