@@ -15,9 +15,15 @@ if (!isset($this->searchTabs) && !empty($lookfor)
         $searchTabs = $this->searchtabs()->getTabConfig($this->searchClassId, $lookfor, $searchIndex, $type, $this->results->getResultTotal());
 
 } else {
+    /** @var \Hebis\View\Helper\Root\SearchTabs $searchTabsHelper */
+    $searchTabsHelper = $this->searchtabs();
     $last = $searchMemory->getLastUrl($this->searchClassId);
     $searchType = (strpos(urldecode($last), "lookfor0[]") === false) ? "basic" : "advanced";
-    $searchTabs = $this->searchtabs()->getTabConfig($this->searchClassId, $lookfor, $searchIndex, $searchType, $this->hiddenFilters);
+    $lookfor = (empty($lookfor)) ? $searchTabsHelper->extractQueryAndHandlerAndType($last)[0] : $lookfor;
+    $handler = (empty($handler)) ? $searchTabsHelper->extractQueryAndHandlerAndType($last)[1] : $handler;
+    $searchType = (empty($searchType)) ? $searchTabsHelper->extractQueryAndHandlerAndType($last)[2] : $searchType;
+
+    $searchTabs = $searchTabsHelper->getTabConfig($this->searchClassId, $lookfor, $handler, $searchType, $this->hiddenFilters);
 }
 ?>
 <? if (count($searchTabs) > 0): ?>
