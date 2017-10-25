@@ -319,7 +319,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <? if (!empty($editionStatement)) : ?>
                             <div class="row">
                                 <div class="bold col-sm-12 col-md-3 col-lg-2">
-                                    <?= $this->translate('edition') ?>:
+                                    <?= $this->translate('Edition') ?>:
                                 </div>
                                 <div class="col-sm-12 col-md-9 col-lg-10"><bdi><?= $editionStatement ?></bdi></div>
                             </div>
@@ -448,7 +448,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <? if (!empty($keywords)) : ?>
                             <div class="row">
                                 <div
-                                        class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->translate('Subject Added Keywords'); ?></div>
+                                    class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->translate('Subject Added Keywords'); ?>:</div>
                                 <div class="col-sm-12 col-md-9 col-lg-10">
                                     <div class="keywords">
                                         <form method="get" action="<?= $this->basePath() ?>/Search/Results"
@@ -638,7 +638,9 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
 
             <div class="tab-content" id="record-tabs">
                 <div class="tab-pane active" id="<?= $this->activeTab ?>-tab">
-                    <?= isset($activeTabObj) ? $this->record($this->driver)->getTab($activeTabObj) : '' ?>
+                    <? if (isset($activeTabObj)) {
+                        echo $this->record($this->driver)->getTab($activeTabObj);
+                    } ?>
                 </div>
             </div>
         </div>
