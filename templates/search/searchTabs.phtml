@@ -20,7 +20,10 @@ if (!isset($this->searchTabs) && !empty($lookfor)
     $last = $searchMemory->getLastUrl($this->searchClassId);
     $searchType = (strpos(urldecode($last), "lookfor0[]") === false) ? "basic" : "advanced";
     $lookfor = (empty($lookfor)) ? $searchTabsHelper->extractQueryAndHandlerAndType($last)[0] : $lookfor;
-    $searchTabs = $searchTabsHelper->getTabConfig($this->searchClassId, $lookfor, $searchIndex, $searchType, $this->hiddenFilters);
+    $handler = (empty($handler)) ? $searchTabsHelper->extractQueryAndHandlerAndType($last)[1] : $handler;
+    $searchType = (empty($searchType)) ? $searchTabsHelper->extractQueryAndHandlerAndType($last)[2] : $searchType;
+
+    $searchTabs = $searchTabsHelper->getTabConfig($this->searchClassId, $lookfor, $handler, $searchType, $this->hiddenFilters);
 }
 ?>
 <? if (count($searchTabs) > 0): ?>

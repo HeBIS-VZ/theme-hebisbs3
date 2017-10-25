@@ -31,14 +31,28 @@ if (empty($hiddenFilters) && !$ignoreHiddenFilterMemory) {
 }
 $hiddenFilterParams = $this->searchtabs()->getCurrentHiddenFilterParams($this->searchClassId, $ignoreHiddenFilterMemory, '?');
 
-function getActiveHandler($handlers) {
+/**
+ * @param $handlers
+ * @param $params
+ * @return mixed
+ */
+function getActiveHandler($handlers, $params) {
     $first = current($handlers);
-    foreach ($handlers as $handler) {
-        if ($handler['selected']) {
-            return $handler;
+
+    $ret = array_filter($handlers, function($item) {
+        if ($item['selected']) {
+            return true;
         }
+    });
+
+
+    if (empty($ret)) {
+        $ret = array_filter($handlers, function($item) use ($params) {
+                return $item['value'] === $params['type'];
+        });
     }
-    return $first;
+
+    return empty($ret) ? $first : array_shift($ret);
 }
 
 
@@ -47,7 +61,7 @@ function getActiveHandler($handlers) {
 <form class="searchForm flip" method="get" action="<?=$this->url($basicSearch)?>" id="searchForm" name="searchForm" autocomplete="off">
     <div>
         <?= $this->context($this)->renderInContext('search/searchTabs', ['hiddenFilters' => $hiddenFilters]); ?>
-        <? $handler = getActiveHandler($handlers);?>
+        <? $handler = getActiveHandler($handlers, $this->params);?>
         <div class="col-xs-12">
             <input type="hidden" name="type" id="search-option-type" value="<?= $this->escapeHtmlAttr($handler['value']) ?>" />
             <div class="input-group">
