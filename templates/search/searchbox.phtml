@@ -32,38 +32,41 @@ if (empty($hiddenFilters) && !$ignoreHiddenFilterMemory) {
 $hiddenFilterParams = $this->searchtabs()->getCurrentHiddenFilterParams($this->searchClassId, $ignoreHiddenFilterMemory, '?');
 $last = $this->searchMemory()->getLastUrl($this->searchClassId);
 $handlerName = $this->searchtabs()->extractQueryAndHandlerAndType($last)[1];
-/**
- * @param $handlers
- * @param $params
- * @return mixed
- */
-function getActiveHandler($handlers, $params, $handlerName) {
 
 
-    $first = current($handlers);
-    $ret = null;
-    $filterFunctions = [
-        function ($item) {
-            return $item['selected'];
-        },
-        function ($item) use ($params) {
-            if (is_array($params)) {
-                return $item['value'] === $params['type'];
+if (!function_exists('getActiveHandler')) {
+    /**
+     * @param $handlers
+     * @param $params
+     * @return mixed
+     */
+    function getActiveHandler($handlers, $params, $handlerName) {
+
+
+        $first = current($handlers);
+        $ret = null;
+        $filterFunctions = [
+            function ($item) {
+                return $item['selected'];
+            },
+            function ($item) use ($params) {
+                if (is_array($params)) {
+                    return $item['value'] === $params['type'];
+                }
+                return false;
+            },
+            function ($item) use ($handlerName) {
+                return $item['value'] === $handlerName;
             }
-            return false;
-        },
-        function ($item) use ($handlerName) {
-            return $item['value'] === $handlerName;
+        ];
+
+        for ($i = 0; $i < count($filterFunctions) && empty($ret); ++$i) {
+            $ret = array_filter($handlers, $filterFunctions[$i]);
         }
-    ];
 
-    for ($i = 0; $i < count($filterFunctions) && empty($ret); ++$i) {
-        $ret = array_filter($handlers, $filterFunctions[$i]);
+        return empty($ret) ? $first : array_shift($ret);
     }
-
-    return empty($ret) ? $first : array_shift($ret);
 }
-
 
 ?>
 
