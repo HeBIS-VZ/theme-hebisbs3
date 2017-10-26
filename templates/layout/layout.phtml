@@ -159,7 +159,7 @@ if (!isset($this->layout()->searchbox)) {
             <div class="navbar-header hidden-xs col-sm-3 col-md-3 col-lg-2">
                 <?= $this->render('logo.phtml') ?>
             </div>
-            <section class="searchbox col-xs-12 col-sm-6 col-md-6 col-lg-6" style="min-height:60px;">
+            <section class="searchbox col-xs-12 col-sm-9 col-md-9 col-lg-10" style="min-height:60px;">
                 <?=$this->layout()->searchbox ?>
             </section>
 
@@ -174,7 +174,7 @@ if (!isset($this->layout()->searchbox)) {
             <? if ((!isset($this->layout()->showBreadcrumbs) || $this->layout()->showBreadcrumbs == true)
                 && !empty($this->layout()->breadcrumbs)
             ): ?>
-                <ul class="breadcrumb hidden-print hidden-xs hidden-xs">
+                <ul class="breadcrumb hidden-print">
                     <li>
                         <a href="<?= $this->url('home') ?>"><span class="hds-icon-home"><!-- --></span></a>
                     </li>
