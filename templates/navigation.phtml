@@ -1,14 +1,13 @@
 <div class="col-md-12 menu-bar">
 
     <? $account = $this->auth()->getManager(); ?>
+    <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#header-collapse">
             <span class="sr-only">Toggle navigation</span>
             <span class="hds-icon-menu"></span>
         </button>
-        <!--
-    <a role="logo" class="navbar-brand" href="<?= $this->url('home') ?>">VuFind</a>
-    -->
+        <a id="small-logo" role="logo" class="navbar-brand hidden-sm hidden-md hidden-lg" href="<?=$this->url('home')?>"><img style="max-height: 30px; position: relative; top: -5px;" class="img-responsive" src="<?=$this->basePath().$this->config()->themePath()?>/images/uni-logo-klein.svg" /></a>
     </div>
 
     <? if (!isset($this->layout()->renderingError)): ?>
