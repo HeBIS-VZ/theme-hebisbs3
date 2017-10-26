@@ -66,6 +66,8 @@
         </div>
     <? endforeach; ?>
     <?php
+    // Setting to 'true' for rtl layout causes a wrong co-ordination of right handle and left bars and vice-versa,
+    // if 'reversed': {$reversed} for slider
     $reversed = $this->layout()->rtl ? 'true' : 'false';
     $script = <<<JS
 $(document).ready(function() {
@@ -80,6 +82,20 @@ $(document).ready(function() {
         $('#{$this->escapeHtmlAttr($title)}from').val(toIso($('#{$this->escapeHtmlAttr($title)}from').val()));
         $('#{$this->escapeHtmlAttr($title)}to').val(toIso($('#{$this->escapeHtmlAttr($title)}to').val()));
         return true;
+  });
+  
+  var timeLineInitialized = false;
+  
+  $(window).resize(function() {
+      if (timeLineInitialized) {
+          var bars = $('.year-count-bar');
+          var numOfBars = bars.size();
+          var liWidth = ($('.timeline-list').width()-2) / numOfBars;
+          bars.each(function () {
+              $(this).width(liWidth);
+              $(this).find("a").width(liWidth - 1);
+          });
+      }
   });
   
   $.getJSON(url, function (data) {
@@ -102,6 +118,10 @@ $(document).ready(function() {
         if (rangeFrom === rangeTo) { rangeTo++; maxYear++; }
         $('#min-year').append($('<p>'+minYear+'</p>'));
         $('#max-year').append($('<p>'+(maxYear+1)+'</p>'));
+
+        // if rtl then reverse the date array
+        if ({$reversed}) { val_['data'].reverse() };
+
         for (var i = 0; i < val_['data'].length; i++) {
             var current = val_['data'][i];
             var year = current[0];
@@ -112,7 +132,7 @@ $(document).ready(function() {
             var liWidth = ($('.timeline-list').width()-2) / val_['data'].length; 
             var aWidth = liWidth-1;
             var inrange = (applied) ? ' in-range' : '';
-            var bar = '<li style="width:'+liWidth+'px;" data-year="'+year+'" class="year-count-bar'+inrange+'"></li>';
+            var bar = '<li style="width:'+liWidth+'px;" data-year="'+year+'" class="year-count-bar year-count-bar'+inrange+'"></li>';
             var a = $('<a href="#" data-toggle="tooltip" data-placement="top" title="'+year+': '+count+'" data-year="'+year+'" data-count="'+count+'" style="height:'+height+'px;width:'+aWidth+'px;"><!-- --></a>').tooltip();
             
             $('.timeline-list').append($(bar).append(a));
@@ -143,12 +163,13 @@ $(document).ready(function() {
                 'min':minYear,
                 'max':maxYear+1,
                 'value':[rangeFrom,rangeTo+1],
-                'reversed': {$reversed}
+                'reversed':false
             })
             .on('slide', fillTexts)
             .data('slider');
         });
     }
+    timeLineInitialized = true;
   });
 });
 JS;

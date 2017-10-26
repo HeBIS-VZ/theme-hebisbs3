@@ -9,7 +9,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
 
 <div class="row">
 
-    <div class="col-md-9<?// $this->layoutClass('mainbody') ?>">
+    <div class="col-md-9 <? //$this->layoutClass('mainbody') ?>">
 
         <? $format = $this->physicalDescriptionFormat($this->driver);//$this->driver->getFormats(); if (!empty($formats)): ?>
         <div vocab="http://schema.org/" resource="#record" typeof="<?= $this->driver->getSchemaOrgFormats() ?> Product">
@@ -53,13 +53,6 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                  alt="<?= $this->translate('No Cover Image') ?>"/>
                         <? endif; ?>
                     </div>
-                    <? $multipartViewHelper = $this->multiPartItems($this->driver);
-                    if ($multipartViewHelper->isMultipartItem() && !empty($multipartItem = $multipartViewHelper->renderShowAllVolumesLink())) : ?>
-                        <br />
-                        <div class="text-center multipartItems">
-                            <span class="hds-icon-list-bullet"> <? echo $multipartItem; ?></span>
-                        </div>
-                    <? endif; ?>
                 </div>
                 <div class="col-sm-9">
                     <h3 property="name">
@@ -68,7 +61,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <?= $this->escapeHtml($this->singleRecordTitleStatementHeadline($this->driver)) ?>
                     </h3>
 
-                    <? $summary = $this->driver->getSummary();
+                    <? /*$summary = $this->driver->getSummary();
                     $summary = isset($summary[0]) ? $this->escapeHtml($summary[0]) : false; ?>
                     <? if ($summary): ?>
                         <p><?= $this->truncate($summary, 300) ?></p>
@@ -78,7 +71,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                 <a href='<?= $this->recordLink()->getTabUrl($this->driver, 'Description') ?>#tabnav'><?= $this->translate('Full description') ?></a>
                             </p>
                         <? endif; ?>
-                    <? endif; ?>
+                    <? endif; */?>
 
                     <? if ($this->userlist()->getMode() !== 'disabled'): ?>
                         <? /* Display the lists that this record is saved to */ ?>
@@ -104,7 +97,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         </div>
 
                         <!-- Unterreihe -->
-                        <? $sectionOfWork = $this->singleRecordSectionOfAWork($this->driver); ?>
+                        <? $sectionOfWork = $this->singleRecordSectionOfAWork($this->driver)->render(); ?>
                         <? if ($sectionOfWork) : ?>
                             <div class="row">
                                 <div class="bold col-sm-12 col-md-3 col-lg-2">
@@ -131,7 +124,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <? if (!empty($authors)) : ?>
                             <div class="row">
                                 <div
-                                    class="bold col-sm-12 col-md-3 col-lg-2">
+                                        class="bold col-sm-12 col-md-3 col-lg-2">
                                     <?= $this->translate('Author/editor-in-chief') ?>:
                                 </div>
                                 <div class="col-sm-12 col-md-9 col-lg-10" property="author">
@@ -142,14 +135,17 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <? endif; ?>
 
                         <!-- Körperschaft -->
-                        <? $corporate = $this->singleRecordCorporateName($this->driver); ?>
-                        <? if (!empty($corporate)) : ?>
+                        <? $corporates = $this->singleRecordCorporateName($this->driver, true); ?>
+                        <? if (!empty($corporates)) : ?>
                             <div class="row">
                                 <div class="bold col-sm-12 col-md-3 col-lg-2">
                                     <?= $this->translate('Corporate') ?>:
                                 </div>
                                 <div class="col-sm-12 col-md-9 col-lg-10" property="author">
-                                    <a href="<?= $this->record($this->driver)->getLink('other', html_entity_decode($corporate)); ?>"><?= $corporate ?></a>
+                                    <? foreach ($corporates as $corporate) : ?>
+                                        <a href="<?= $this->record($this->driver)->getLink('other', html_entity_decode($corporate)); ?>"><?= $corporate ?></a><br />
+                                    <? endforeach; ?>
+
                                 </div>
                             </div>
                         <? endif; ?>
@@ -173,30 +169,24 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                 <div class="bold col-sm-12 col-md-3 col-lg-2">
                                     <?= $this->translate('Dates of publication/Sequential designation'); ?>:
                                 </div>
-                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $datesOfPublication ?></div>
+                                <div class="col-sm-12 col-md-9 col-lg-10">
+                                    <?= $datesOfPublication ?>
+                                </div>
                             </div>
                         <? endif; ?>
 
-
-                        <!-- Published in
-                    <? //$marcJournal = $this->singleRecordMarcJournal($this->driver); ?>
-                    <? if ($marcJournal) : ?>
-                        <div class="row">
-                            <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->translate('Marc Journal') ?>:</div>
-                            <div class="col-sm-12 col-md-9 col-lg-10"><?= $marcJournal ?></div>
-                        </div>
-                    <? endif; ?>
-                    -->
 
                         <!-- Manufacture / Entstehung-->
                         <? $manufacture = $this->singleRecordManufacture($this->driver); ?>
                         <? if (!empty($manufacture)) : ?>
                             <div class="row">
                                 <div
-                                    class="bold col-sm-12 col-md-3 col-lg-2">
+                                        class="bold col-sm-12 col-md-3 col-lg-2">
                                     <?= $this->translate('Manufacture'); ?>:
                                 </div>
-                                <div class="col-sm-12 col-md-9 col-lg-10"><bdi><?= $manufacture ?></bdi></div>
+                                <div class="col-sm-12 col-md-9 col-lg-10">
+                                    <bdi><?= $manufacture ?></bdi>
+                                </div>
                             </div>
                         <? endif; ?>
 
@@ -218,14 +208,20 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                             </div>
                         <? endif; ?>
 
-                        <? $yearOfPublication = $this->singleRecordPublicationYear($this->driver); ?>
-                        <? if (!empty($yearOfPublication)) : ?>
-                            <div class="row">
-                                <div class="bold col-sm-12 col-md-3 col-lg-2">
-                                    <?= $this->translate('Year of Publication'); ?>:
+
+                        <!-- Erscheinungsjahr -->
+                        <? if ($this->showPublicationDate) : ?>
+                            <? $yearOfPublication = $this->singleRecordPublicationYear($this->driver); ?>
+                            <? if (!empty($yearOfPublication)) : ?>
+                                <div class="row">
+                                    <div class="bold col-sm-12 col-md-3 col-lg-2">
+                                        <?= $this->translate('Year of Publication'); ?>:
+                                    </div>
+                                    <div class="col-sm-12 col-md-9 col-lg-10">
+                                        <?= $yearOfPublication ?>
+                                    </div>
                                 </div>
-                                <div class="col-sm-12 col-md-9 col-lg-10"><?= $yearOfPublication ?></div>
-                            </div>
+                            <? endif; ?>
                         <? endif; ?>
 
                         <!-- Production / Herstellung -->
@@ -275,7 +271,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <? if (!empty($reproduction)) : ?>
                             <div class="row">
                                 <div
-                                    class="bold col-sm-12 col-md-3 col-lg-2" property="bookEdition"><?= $this->translate('Reproduction note') ?>:</div>
+                                        class="bold col-sm-12 col-md-3 col-lg-2" property="bookEdition"><?= $this->translate('Reproduction note') ?>:</div>
                                 <div class="col-sm-12 col-md-9 col-lg-10"><?= $reproduction ?></div>
                             </div>
                         <? endif; ?>
@@ -319,6 +315,27 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                             </div>
                         <? endif; ?>
 
+                        <? $editionStatement = $this->singleRecordEditionStatement($this->driver); ?>
+                        <? if (!empty($editionStatement)) : ?>
+                            <div class="row">
+                                <div class="bold col-sm-12 col-md-3 col-lg-2">
+                                    <?= $this->translate('Edition') ?>:
+                                </div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><bdi><?= $editionStatement ?></bdi></div>
+                            </div>
+                        <? endif; ?>
+
+                        <?php $cartographics = $this->singleRecordCartographicMathematicalData($this->driver); ?>
+                        <? if (!empty($cartographics)) : ?>
+                            <div class="row">
+                                <div class="bold col-sm-12 col-md-3 col-lg-2">
+                                    <?= $this->translate('scale') ?>:
+                                </div>
+                                <div class="col-sm-12 col-md-9 col-lg-10"><bdi><?= $cartographics ?></bdi></div>
+                            </div>
+                        <? endif; ?>
+
+
                         <!-- Other Edition Entry-->
                         <? $otherEditionEntry = $this->singleRecordOtherEditionEntry($this->driver); ?>
                         <? if (!empty($otherEditionEntry)) : ?>
@@ -330,16 +347,6 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                             </div>
                         <? endif; ?>
 
-                        <!-- Ausgabe
-                        <? $edition = $this->driver->getEdition();
-                        if (!empty($edition)): ?>
-                            <div class="row">
-                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->translate('Edition') ?>:</div>
-                                <div class="col-sm-12 col-md-9 col-lg-10"
-                                     property="bookEdition"><?= $this->escapeHtml($edition) ?></div>
-                            </div>
-                        <? endif; ?>
-                        -->
                         <!-- Title Contains -->
                         <? $titleContains = $this->singleRecordTitleContains($this->driver); ?>
                         <? if (!empty($titleContains)) : ?>
@@ -393,19 +400,18 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                             <div class="row">
                                 <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->translate('Format') ?>:</div>
                                 <div class="col-sm-12 col-md-9 col-lg-10"><span
-                                        class="label label-info hds-icon-<?= $format ?>">
+                                            class="label label-info hds-icon-<?= $format ?>">
                                     <?= $this->translate($format); ?>
                                 </span></div>
                             </div>
                         <? endif; ?>
 
-                        <? $langs = $this->driver->getLanguages();
-                        if (!empty($langs)): ?>
+                        <? $langs = $this->singleRecordLanguageCode($this->driver); ?>
+                        <? if (!empty($langs)): ?>
                             <div class="row">
                                 <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->translate('Language') ?>:</div>
                                 <div
-                                    class="col-sm-12 col-md-9 col-lg-10"><? foreach ($langs as $lang): ?><?= $this->translate($lang) ?>
-                                        <br/><? endforeach; ?></div>
+                                        class="col-sm-12 col-md-9 col-lg-10"><?= $langs ?></div>
                             </div>
                         <? endif; ?>
 
@@ -422,12 +428,12 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                             <a class="rvk-link"
                                                href="<?= $this->basePath() ?>/Search/Results?lookfor=rvk_full%3A%22<?= $this->transEsc($r) ?>%22&type=allfields"><?= $this->translate($r) ?></a>&nbsp
                                             <span
-                                                role="button"
-                                                style="padding-bottom: 1px; font-size: 80%; font-weight: lighter; cursor: pointer"
-                                                data-id="<?= $r ?>"
-                                                data-container="body"
-                                                data-popover-content="#rvk_<?= $rvkId ?>"
-                                                class="rvk_popover label label-info">rvk</span>
+                                                    role="button"
+                                                    style="padding-bottom: 1px; font-size: 80%; font-weight: lighter; cursor: pointer"
+                                                    data-id="<?= $r ?>"
+                                                    data-container="body"
+                                                    data-popover-content="#rvk_<?= $rvkId ?>"
+                                                    class="rvk_popover label label-info">rvk</span>
                                         </span>
                                         <div class="hidden" id="rvk_<?= $rvkId ?>"><div class="popover-heading"></div><div class="popover-body"></div></div>
                                         &nbsp;&nbsp;
@@ -442,7 +448,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <? if (!empty($keywords)) : ?>
                             <div class="row">
                                 <div
-                                    class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->translate('Subject Added Keywords'); ?></div>
+                                    class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->translate('Subject Added Keywords'); ?>:</div>
                                 <div class="col-sm-12 col-md-9 col-lg-10">
                                     <div class="keywords">
                                         <form method="get" action="<?= $this->basePath() ?>/Search/Results"
@@ -479,8 +485,15 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                 <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->translate('series_multipart') ?>:</div>
                                 <div class="col-sm-12 col-md-9 col-lg-10">
                                     <?= $parent ?>
-                                    <br />
-                                    <?= $multipartViewHelper->renderShowAllVolumesLink(); ?>
+                                </div>
+                            </div>
+                        <? endif; ?>
+                        <? $multipartViewHelper = $this->multiPartItems($this->driver);
+                        if ($multipartViewHelper->isMultipartItem() && !empty($multipartItem = $multipartViewHelper->renderShowAllVolumesLink())) : ?>
+                            <div class="row">
+                                <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->translate('volumes') ?>:</div>
+                                <div class="col-sm-12 col-md-9 col-lg-10">
+                                    <? echo $multipartItem; ?>
                                 </div>
                             </div>
                         <? endif; ?>
@@ -499,7 +512,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                     <table>
 
                         <? $childRecordCount = $this->driver->tryMethod('getChildRecordCount');
-                        if ($childRecordCount): ?>
+                    if ($childRecordCount): ?>
                             <tr>
                                 <th><?= $this->translate('child_records') ?>:</th>
                                 <td>
@@ -510,10 +523,10 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
 
 
                         <?
-                        //$openUrl = $this->driver->openURLActive('record') ? $this->driver->getOpenURL() : false;
-                        // Account for replace_other_urls setting
-                        $urls = $this->record($this->driver)->getLinkDetails();
-                        ?>
+                    //$openUrl = $this->driver->openURLActive('record') ? $this->driver->getOpenURL() : false;
+                    // Account for replace_other_urls setting
+                    $urls = $this->record($this->driver)->getLinkDetails();
+                    ?>
                         <? /* if (!empty($urls)): ?>
                             <tr>
                                 <th><?= $this->translate('Online Access') ?>:</th>
@@ -537,8 +550,8 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                         <br/>
                                     <? endforeach; ?>
                                     <? /* if we have record links, display relevant explanatory notes */
-                                    $related = $this->driver->getRelationshipNotes();
-                                    if (!empty($related)): ?>
+                        $related = $this->driver->getRelationshipNotes();
+                        if (!empty($related)): ?>
                                         <? foreach ($related as $field): ?>
                                             <?= $this->escapeHtml($field) ?><br/>
                                         <? endforeach; ?>
@@ -569,7 +582,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                     <div id="tagList">
                                         <? if (count($tagList) > 0): ?>
                                             <? $i = 0;
-                                            foreach ($tagList as $tag): ?><?= ($i++ == 0) ? '' : ', ' ?><a href="<?= $this->url('tag-home') ?>?lookfor=<?= urlencode($tag->tag) ?>"><?= $this->escapeHtml($tag->tag) ?></a> (<?= $this->escapeHtml($tag->cnt) ?>)<? endforeach; ?>
+                        foreach ($tagList as $tag): ?><?= ($i++ == 0) ? '' : ', ' ?><a href="<?= $this->url('tag-home') ?>?lookfor=<?= urlencode($tag->tag) ?>"><?= $this->escapeHtml($tag->tag) ?></a> (<?= $this->escapeHtml($tag->cnt) ?>)<? endforeach; ?>
                                         <? else: ?>
                                             <?= $this->translate('No Tags') ?>, <?= $this->translate('Be the first to tag this record') ?>!
                                         <? endif; ?>
@@ -613,8 +626,8 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         ?>
                         <li<?= count($tab_classes) > 0 ? ' class="' . implode(' ', $tab_classes) . '"' : '' ?>>
                             <? if ($hasContents) : ?>
-                            <a id="<?= strtolower($tab) ?>"
-                               href="<?= $this->recordLink()->getTabUrl($this->driver, $tab) ?>#tabnav"><?= $this->translate($desc) ?></a>
+                                <a id="<?= strtolower($tab) ?>"
+                                   href="<?= $this->recordLink()->getTabUrl($this->driver, $tab) ?>#tabnav"><?= $this->translate($desc) ?></a>
                             <? else : ?>
                                 <a id="<?= strtolower($tab) ?>" href="#tabnav"><?= $this->translate($desc) ?></a>
                             <? endif; ?>
@@ -625,7 +638,9 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
 
             <div class="tab-content" id="record-tabs">
                 <div class="tab-pane active" id="<?= $this->activeTab ?>-tab">
-                    <?= isset($activeTabObj) ? $this->record($this->driver)->getTab($activeTabObj) : '' ?>
+                    <? if (isset($activeTabObj)) {
+                        echo $this->record($this->driver)->getTab($activeTabObj);
+                    } ?>
                 </div>
             </div>
         </div>

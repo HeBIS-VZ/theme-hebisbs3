@@ -34,7 +34,16 @@
   if (isset($this->overrideTitle)) {
     $this->layout()->breadcrumbs .= '<li class="active">' . $this->escapeHtml($this->overrideTitle) . '</li>';
   } else {
-    $this->layout()->breadcrumbs .= '<li class="active">' . $this->transEsc('Search') . ': ' . $this->escapeHtml($lookfor) . '</li>';
+    // Load search actions and settings (if any):
+    $options = $this->searchOptions($this->searchClassId);
+    $advSearch = $options->getAdvancedSearchAction();
+    if ($this->searchType == 'advanced') {
+        $ignoreHiddenFilterMemory = isset($this->ignoreHiddenFilterMemory) && $this->ignoreHiddenFilterMemory;
+        //$hiddenFilterParams = $this->searchtabs()->getCurrentHiddenFilterParams($this->searchClassId, $ignoreHiddenFilterMemory, '?');
+        $this->layout()->breadcrumbs .= '<li class="active"><a data-toggle="tooltip" data-placement="auto" title="'.$this->transEsc('tooltip_edit_advanced_search').'" href="' . $this->url($advSearch) . '?edit=' . $this->escapeHtmlAttr($this->searchId) . '">' . $this->transEsc('Advanced Search') . '</a>: ' . $this->escapeHtml($lookfor) . '</li>';
+    } else {
+        $this->layout()->breadcrumbs .= '<li class="active">' . $this->transEsc('Search') . ': ' . $this->escapeHtml($lookfor) . '</li>';
+    }
   }
 
   // Enable cart if appropriate:
@@ -46,16 +55,13 @@
   $this->headScript()->appendFile("check_item_statuses.js");
   $this->headScript()->appendFile("check_save_statuses.js");
 ?>
-<?= $this->render('search/searchTabs'); ?>
-<div class="tab-content">
-  <div class="tab-pane active">
     <div class="row">
       <div class="<?=$this->layoutClass('mainbody')?>">
         <? $recordTotal = $this->results->getResultTotal()?>
         <?=$this->flashmessages()?>
         <div class="hidden-print search-controls row">
             <div class="clearfix" style="border-bottom: 1px solid #aaa; ">
-              <div class="hidden-xs col-md-8" style="height: 38px;">
+              <div class="hidden-xs col-md-6" style="height: 38px;">
                 <? if ($recordTotal > 0): ?>
                   <?=$this->transEsc("Showing")?>
                   <strong><?=$this->localizedNumber($this->results->getStartRecord())?></strong> - <strong><?=$this->localizedNumber($this->results->getEndRecord())?></strong>
@@ -76,7 +82,7 @@
                   <h2><?=$this->transEsc('nohit_heading')?></h2>
                 <? endif; ?>
               </div>
-              <div class="col-md-4 text-right">
+              <div class="col-md-6 text-right">
                   <?=$this->render('search/controls/sort.phtml')?>
               </div>
         </div>
@@ -158,5 +164,3 @@
       </div>
       <? /* End Narrow Search Options */ ?>
     </div>
-  </div>
-</div>

@@ -4,29 +4,15 @@
 <? $i = $this->indexStart; ?>
 
 <div class="result-list">
-
     <? foreach ($this->results->getResults() as $current): ?>
-
-        <?= $this->record($current)->getSearchResult('list') ?>
-        <!--
-        <? /*
-        $recordNumber = $this->results->getStartRecord() + $i - $this->indexStart; ?>
-                <tr id="row result<?= $i++ ?>" class="result">
-                    <td class="hidden-xs col-sm-1 record-number hidden-print<? if ($showCheckboxes): ?> checkbox<? endif; ?>">
-                        <label>
-                            <? if ($showCheckboxes): ?>
-                                <?= $this->record($current)->getCheckbox() ?>
-                            <? endif; ?>
-                            <?= $recordNumber ?>
-                        </label>
-                    </td>
-                    <td class="col-xs-12 col-sm-11">
-
-                    </td>
-                </tr>
-        */ ?>
-        -->
+        <? $recordNumber = $this->results->getStartRecord() + $i - $this->indexStart; ?>
+        <div id="result-<?=$i++ ?>" class="row result-list-item<?= $current->supportsAjaxStatus() ? ' ajaxItem':''?>">
+            <div class="col-xs-1">
+                <?= $recordNumber ?>
+            </div>
+            <?= $this->record($current)->getSearchResult('list') ?>
+        </div>
     <? endforeach; ?>
     <br />
-    <div class="alert alert-info" role="alert"><?= $this->transEsc('custom_text_below_search_result');?></div>
+    <div class="alert alert-info" role="alert"><?= $this->translate('custom_text_below_search_result');?></div>
 </div>
