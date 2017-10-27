@@ -98,19 +98,22 @@ $this->headScript()->appendScript($popOverJs);
             <div class="row">
                 <div class="<?= $this->layoutClass('mainbody') ?>">
                     <h2><?= $this->transEsc('Advanced Search') ?></h2>
-                    <br />
-                    <ul class="nav nav-tabs">
-                        <li id="Solr"<?= $this->controllerName() === "Search" ? ' class="active"' : ''?>>
-                            <a href="<?= $this->controllerName() === "Search" ? '#' : $this->url('home').'Search/Advanced' ?>">
-                                <?= $this->translate('Catalog'); ?>
-                            </a>
-                        </li>
-                        <li id="EDS"<?= $this->controllerName() !== "Search" ? ' class="active"' : ''?>>
-                            <a href="<?= $this->controllerName() !== "Search" ? '#' : $this->url('home') . 'EDS/Advanced' ?>">
-                                <?= $this->translate('Article and more'); ?>
-                            </a>
-                        </li>
-                    </ul>
+                    <? /** @var Hebis\View\Helper\Root\SearchTabs $searchTabs */ ?>
+                    <? $searchTabsHelper = $this->searchTabs(); ?>
+                    <? $handler = $this->controllerName() === "Search" ? "Solr" : $this->controllerName() ?>
+                    <? $searchTabs = $searchTabsHelper->getAdvancedTabConfig($handler); ?>
+                    <? if (!empty($searchTabs)) : ?>
+                        <br />
+                        <ul class="nav nav-tabs">
+                            <? foreach($searchTabs as $tab) : ?>
+                                <li id="<?=$tab["id"]?>"<?=$tab['selected'] ? ' class="active"' : ''?>>
+                                    <a  <?=$tab['selected'] ? '' : 'href="' . $this->escapeHtmlAttr($tab['url']) . '"' ?>>
+                                        <?=$this->transEsc($tab['label']); ?>
+                                    </a>
+                                </li>
+                            <? endforeach; ?>
+                        </ul>
+                    <? endif; ?>
                     <div class="tab-content">
 
                         <? $lastSort = $this->searchMemory()->getLastSort($this->searchClassId); ?>
