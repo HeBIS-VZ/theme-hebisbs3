@@ -26,7 +26,7 @@ if (!isset($this->searchTabs) && !empty($lookfor)
     $searchTabs = $searchTabsHelper->getTabConfig($this->searchClassId, $lookfor, $handler, $searchType, $this->hiddenFilters);
 }
 ?>
-<? if (count($searchTabs) > 0): ?>
+<? if (count($searchTabs) > 1): ?>
 
   <ul id="search-tabs" class="nav nav-tabs indent-button-grp">
     <? foreach ($searchTabs as $tab): ?>

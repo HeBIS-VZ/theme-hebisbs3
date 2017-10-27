@@ -102,7 +102,7 @@ $this->headScript()->appendScript($popOverJs);
                     <? $searchTabsHelper = $this->searchTabs(); ?>
                     <? $handler = $this->controllerName() === "Search" ? "Solr" : $this->controllerName() ?>
                     <? $searchTabs = $searchTabsHelper->getAdvancedTabConfig($handler); ?>
-                    <? if (!empty($searchTabs)) : ?>
+                    <? if (count($searchTabs) > 1) : ?>
                         <br />
                         <ul class="nav nav-tabs">
                             <? foreach($searchTabs as $tab) : ?>
