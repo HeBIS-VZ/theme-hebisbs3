@@ -24,7 +24,7 @@ $activeLang = $this->layout()->userLang;
                         <div class="form-group">
                             <input type="text" class="form-control sp-headline input-lg" name="sp-headline[]"
                                    placeholder="Headline"
-                                   id="sp-headline" style="font-size: large" autocomplete="off">
+                                   id="sp-headline" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <input type="text" class="form-control sp-nav-title input-sm" name="sp-nav-title[]"
@@ -32,7 +32,7 @@ $activeLang = $this->layout()->userLang;
                                    id="sp-headline" style="font-size: small" autocomplete="off">
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control wysiwig-text" name="sp-content[]">
+                            <textarea type="text" class="wysiwig-text form-control" name="sp-content[]"></textarea>
                         </div>
                     </div>
                 <? endforeach; ?>

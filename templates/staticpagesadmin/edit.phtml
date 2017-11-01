@@ -1,0 +1,39 @@
+<?
+$this->headTitle('VuFind Administration - ' . $this->translate('Static Pages - Edit'));
+$this->headLink(['rel' => 'stylesheet', 'href' => $this->basePath() . "/themes/hebisbs3/js/wysiwyg-editor/summernote.css"]);
+$this->headScript()->appendFile($this->basePath() . "/themes/hebisbs3/js/wysiwyg-editor/summernote.min.js");
+?>
+
+<div class="row">
+    <div class="<?= $this->layoutClass('mainbody') ?>">
+        <h3 style="color: #00A5E3"><span class="hds-icon-pencil-1"></span><i><?= $this->translate('Edit Page') ?></i>
+        </h3>
+        <form id="edit-post" method="post">
+            <div class="form-group">
+                <input type="text" class="form-control sp-headline input-lg" name="sp-headline"
+                       id="sp-headline" autocomplete="off" value="<?= $this->row->headline ?>">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control sp-nav-title input-sm" name="sp-nav-title"
+                       placeholder="<?= $this->translate('navigation Title') ?>"
+                       id="sp-headline" style="font-size: small" autocomplete="off">
+            </div>
+            <div class="form-group">
+                                <textarea type="text" class="wysiwig-text form-control" name="sp-content">
+                                    <?= $this->row->content ?>
+                                </textarea>
+            </div>
+            <div class="form-group">
+                <button tabindex="0" class="btn btn-default" data-ignore="true"
+                        data-toggle="popover" data-placement="auto right"
+                        data-trigger="focus" data-title="Please Note"
+                        id="sp-save"><?= $this->transEsc('Save'); ?>
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="<?= $this->layoutClass('sidebar') ?>">
+        <?= $this->render("admin/menu.phtml") ?>
+    </div>
+</div>
+

@@ -31,7 +31,7 @@ $this->headScript()->appendFile("https://code.jquery.com/ui/1.12.1/jquery-ui.js"
         <div class="post">
             <div class="col-xs-12 col-sm-10">
                 <span class="hds-icon-plus-circled"></span>
-                <a href="<?= $this->url('adminstaticpages/add') ?>"><i>Neue Seite Hinzufügen</i></a>
+                <a href="<?= $this->url('staticpagesadmin/add') ?>"><i>Neue Seite Hinzufügen</i></a>
             </div>
             <div class="col-xs-12 col-sm-2">
 
@@ -46,15 +46,15 @@ $this->headScript()->appendFile("https://code.jquery.com/ui/1.12.1/jquery-ui.js"
             <div class="post" id="<?= $row->uid ?>" data-href="<?= $row->headline ?>">
                 <div class="col-xs-12 col-sm-10">
                     <span class="sp-page-visibility"
-                          href="<?= $this->url('adminstaticpages/json', ['method' => 'visible', 'id' => $row->uid]) ?>">
+                          href="<?= $this->url('staticpagesadmin/json', ['method' => 'visible', 'id' => $row->uid]) ?>">
                         <?= ($row->visible == 1) ? $visibilitySymbols['visible'] : $visibilitySymbols['unvisible']; ?></span>
-                    <a href="<?= $this->url('adminstaticpages/preview', ['id' => $row->uid]) ?>"><?= $row->headline ?></a>
+                    <a href="<?= $this->url('staticpagesadmin/preview', ['uid' => $row->uid]) ?>"><?= $row->headline ?></a>
                 </div>
                 <div class="col-xs-12 col-sm-2">
-                    <a href="<?= $this->url('adminstaticpages/edit', ['id' => $row->uid]) ?>">
+                    <a href="<?= $this->url('staticpagesadmin/edit', ['id' => $row->uid]) ?>">
                         <span class="hds-icon-edit"><!--></span></a>
                     <span class="sp-delete-button" id="<?= $row->uid ?>"
-                          href="<?= $this->url('adminstaticpages/json', ['method' => 'delete', 'id' => $row->uid]) ?>">
+                          href="<?= $this->url('staticpagesadmin/json', ['method' => 'delete', 'id' => $row->uid]) ?>">
                         <span class="hds-icon-trash"><!--></span>
                     </span>
                 </div>

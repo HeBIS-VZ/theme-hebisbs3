@@ -178,7 +178,7 @@ $(document).ready(function () {
         $('#selected-handler').text(label);
         return event;
     });
-})
+});
 
 
 function processWikipediaLinks() {

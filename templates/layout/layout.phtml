@@ -237,13 +237,10 @@ if (!isset($this->layout()->searchbox)) {
                                 <a href="asd" class="dropdown-toggle"
                                    data-toggle="dropdown"><?= $this->transEsc('Static Pages') ?><b
                                             class="caret"></b></a>
-                                <? //$stp = new \Hebis\Controller\StaticPagesController();
-
-                                ?>
                                 <ul class="dropdown-menu">
-                                    <? $nav = $this->staticPageNavigation()->getNav($this->layout()->userLang); ?>
+                                    <? $nav = $this->staticPagesNavigation()->getNav($this->layout()->userLang); ?>
                                     <? foreach ($nav as $item) : ?>
-                                        <li><a href="<?= $item['pid'] ?>"><?= $item['title'] ?></a></li>
+                                        <li><a href="<?= $item['url'] ?>"><?= $item['title'] ?></a></li>
                                     <? endforeach; ?>
                                 </ul>
                             </li>
