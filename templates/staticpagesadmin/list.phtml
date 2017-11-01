@@ -42,23 +42,28 @@ $this->headScript()->appendFile("https://code.jquery.com/ui/1.12.1/jquery-ui.js"
             'visible' => '<span class="hds-icon-eye green"></span>',
             'unvisible' => '<span class="hds-icon-eye-off red"></span>',
         ); ?>
+        <? $oldpid = -1; ?>
         <? foreach ($this->rows as $row) : ?>
-            <div class="post" id="<?= $row->uid ?>" data-href="<?= $row->headline ?>">
+            <? $pid = $row->pid; ?>
+            <? if ($pid !== $oldpid) : ?>
+            <div class="post" id="<?= $pid ?>" data-href="<?= $row->headline ?>">
                 <div class="col-xs-12 col-sm-10">
                     <span class="sp-page-visibility"
-                          href="<?= $this->url('staticpagesadmin/json', ['method' => 'visible', 'id' => $row->uid]) ?>">
+                          href="<?= $this->url('staticpagesadmin/json', ['method' => 'visible', 'id' => $pid]) ?>">
                         <?= ($row->visible == 1) ? $visibilitySymbols['visible'] : $visibilitySymbols['unvisible']; ?></span>
-                    <a href="<?= $this->url('staticpagesadmin/preview', ['uid' => $row->uid]) ?>"><?= $row->headline ?></a>
+                    <a href="<?= $this->url('staticpagesadmin/preview', ['pid' => $pid]) ?>"><?= $row->headline ?></a>
                 </div>
                 <div class="col-xs-12 col-sm-2">
-                    <a href="<?= $this->url('staticpagesadmin/edit', ['id' => $row->uid]) ?>">
+                    <a href="<?= $this->url('staticpagesadmin/edit', ['id' => $pid]) ?>">
                         <span class="hds-icon-edit"><!--></span></a>
-                    <span class="sp-delete-button" id="<?= $row->uid ?>"
-                          href="<?= $this->url('staticpagesadmin/json', ['method' => 'delete', 'id' => $row->uid]) ?>">
+                    <span class="sp-delete-button" id="<?= $pid ?>"
+                          href="<?= $this->url('staticpagesadmin/json', ['method' => 'delete', 'id' => $pid]) ?>">
                         <span class="hds-icon-trash"><!--></span>
                     </span>
                 </div>
             </div>
+            <? endif; ?>
+            <? $oldpid = $pid; ?>
         <? endforeach; ?>
 
     </div>
