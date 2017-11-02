@@ -2,6 +2,7 @@
 $this->headTitle('VuFind Administration - ' . $this->translate('Static Pages - Add'));
 $this->headLink(['rel' => 'stylesheet', 'href' => $this->basePath() . "/themes/hebisbs3/js/wysiwyg-editor/summernote.css"]);
 $this->headScript()->appendFile($this->basePath() . "/themes/hebisbs3/js/wysiwyg-editor/summernote.min.js");
+$this->headScript()->appendFile($this->basePath() . '/themes/hebisbs3' . "/js/admin.js");
 $activeLang = $this->layout()->userLang;
 ?>
 <div class="row">
