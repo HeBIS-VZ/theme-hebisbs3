@@ -2,30 +2,41 @@
 
 $lookfor = $this->lookfor;
 $searchIndex = $this->searchIndex;
-if (!isset($this->searchTabs))  {
-    $searchTabs = $this->searchtabs()->getTabConfig($this->searchClassId, $lookfor, $searchIndex);
+$searchMemory = $this->searchMemory();
+//$this->searchIndex = $this->params->getSearchHandler();
+//$this->searchType = $this->params->getSearchType();
+//$this->searchId = $this->results->getSearchId();
+//$this->searchClassId = $this->params->getSearchClassId();
+
+if (!isset($this->searchTabs) && !empty($lookfor)
+    && (isset($this->params) && is_object($this->params))) {
+        $query = $this->params->getQuery();
+        $type = ($query !== null && $query instanceof \VuFindSearch\Query\QueryGroup) ? 'advanced' : 'basic';
+        $searchTabs = $this->searchtabs()->getTabConfig($this->searchClassId, $lookfor, $searchIndex, $type, $this->results->getResultTotal());
+
 } else {
-    $searchTabs = $this->searchtabs()->getTabConfig($this->searchClassId, $lookfor, $searchIndex, $this->searchType, $this->hiddenFilters);
+    /** @var \Hebis\View\Helper\Root\SearchTabs $searchTabsHelper */
+    $searchTabsHelper = $this->searchtabs();
+    $last = $searchMemory->getLastUrl($this->searchClassId);
+    $searchType = (strpos(urldecode($last), "lookfor0[]") === false) ? "basic" : "advanced";
+    $lookfor = (empty($lookfor)) ? $searchTabsHelper->extractQueryAndHandlerAndType($last)[0] : $lookfor;
+    $handler = (empty($handler)) ? $searchTabsHelper->extractQueryAndHandlerAndType($last)[1] : $handler;
+    $searchType = (empty($searchType)) ? $searchTabsHelper->extractQueryAndHandlerAndType($last)[2] : $searchType;
+
+    $searchTabs = $searchTabsHelper->getTabConfig($this->searchClassId, $lookfor, $handler, $searchType, $this->hiddenFilters);
 }
 ?>
-<? if (count($searchTabs) > 0): ?>
-  <ul class="nav nav-tabs">
-    <? foreach ($searchTabs as $tab): ?>
-      <li id="<?=$tab["id"]?>"<?=$tab['selected'] ? ' class="active"' : ''?>>
-        <a <?=$tab['selected'] ? '' : 'href="' . $this->escapeHtmlAttr($tab['url']) . '"' ?>><?=$this->transEsc($tab['label']); ?></a>
-        <? if ($tab["id"] === "EDS" && !$tab['selected']) :
-            $url = str_replace("/Search", "/ajax", $tab["url"]);
+<? if (count($searchTabs) > 1): ?>
 
-            $var = <<<EDSSCRIPT
-    var url = "{$url}";
-    $(document).ready(function() {
-      $.getJSON(url, function (data) {
-        $("#EDS > a").append(" <small id=\"eds-count\">("+data["data"]+")</small>");
-      });
-    });
-EDSSCRIPT;
-            $this->headScript()->appendScript($var);
-        endif; ?>
+  <ul id="search-tabs" class="nav nav-tabs indent-button-grp">
+    <? foreach ($searchTabs as $tab): ?>
+        <? //$img =($tab['id'] === "Solr") ? '<img style="width:26px;" src="'.$this->basePath().'/themes/hebisbs3/images/book_black.svg" />' : ''; ?>
+      <li id="<?=$tab["id"]?>"<?=$tab['selected'] ? ' class="active"' : ''?>>
+        <a data-id="<?=$tab["id"]?>" <?=$tab['selected'] ? '' : 'href="' . $this->escapeHtmlAttr($tab['url']) . '"' ?>>
+            <? //$img ?>
+            <?=$this->transEsc($tab['label']); ?>
+            <?= isset($tab["count"]) ? ' <small id=\"eds-count\">('.$tab["count"].')</small>' : ''; ?>
+        </a>
       </li>
     <? endforeach; ?>
   </ul>

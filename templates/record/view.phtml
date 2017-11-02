@@ -12,11 +12,17 @@ if ($this->export()->recordSupportsFormat($this->driver, 'RDF')) {
     $this->headLink()->appendAlternate($this->recordLink()->getActionUrl($this->driver, 'RDF'), 'application/rdf+xml', 'RDF Representation');
 }
 
-// Set up breadcrumbs:
-$lastSearchTerm = $this->searchMemory()->getLastSearchTerm();
-$shortTitle = strpos($this->searchClassId, "EDS") !== false ? $this->edsShortTitle($this->driver) : $this->singleRecordTitleStatementHeadline($this->driver);
+if ($driver instanceof \Hebis\RecordDriver\SolrMarc) {
+    $searchClassId = "Solr";
+} else {
+    $searchClassId = "EDS";
+}
 
-$this->layout()->breadcrumbs = !empty($lastSearchTerm) ? "<li>" . $this->searchMemory()->getLastSearchLink($this->transEsc('Search').': '.$lastSearchTerm, '', '</li> ') : '';
+// Set up breadcrumbs:
+$lastSearchTerm = $this->searchMemory()->getLastSearchTerm($searchClassId);
+$shortTitle = strpos($searchClassId, "EDS") !== false ? $this->edsShortTitle($this->driver) : $this->singleRecordTitleStatementHeadline($this->driver);
+
+$this->layout()->breadcrumbs = !empty($lastSearchTerm) ? "<li>" . $this->searchMemory()->getLastSearchLinkOfSearchClassId($this->transEsc('Search').': '.$lastSearchTerm, $searchClassId, '', '</li> ') : '';
 $this->layout()->breadcrumbs .= !empty($shortTitle) ? '<li class="active">'.$this->truncate($shortTitle, 30).'</li>' : "";
 
 
@@ -45,7 +51,7 @@ $this->layout()->breadcrumbs .= !empty($shortTitle) ? '<li class="active">'.$thi
     </ul>
 <? endif; ?>
 
-<!-- <div class="row"> -->
+
     <div class="view-record">
         <div class="record recordId source<?= $this->escapeHtmlAttr($this->driver->getResourceSource()) ?>" id="record">
             <input type="hidden" value="<?= $this->escapeHtmlAttr($this->driver->getUniqueId()) ?>" class="hiddenId"
@@ -59,4 +65,3 @@ $this->layout()->breadcrumbs .= !empty($shortTitle) ? '<li class="active">'.$thi
 
     </div>
 
-<!-- </div> -->
