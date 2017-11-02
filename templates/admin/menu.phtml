@@ -13,6 +13,6 @@
        class="list-group-item<?= strtolower($this->layout()->templateName) == "tags" ? ' active' : '' ?>"><?= $this->transEsc('Tag Maintenance') ?></a>
     <a href="<?= $this->url('adminlogs') ?>"
        class="list-group-item<?= strtolower($this->layout()->templateName) == "logs" ? ' active' : '' ?>"><?= $this->transEsc('Logs') ?></a>
-    <a href="<?= $this->url('staticpagesadmin') ?>"<? $templateStaticPages = in_array(strtolower($this->layout()->templateName), array('list', 'add', 'view', 'edit', 'delete')); ?>
+    <a href="<?= $this->url('pageadmin') ?>"<? $templateStaticPages = in_array(strtolower($this->layout()->templateName), array('list', 'add', 'view', 'edit', 'delete')); ?>
        class="list-group-item<?= $templateStaticPages ? ' active' : '' ?>"><?= $this->transEsc('Static Pages') ?></a>
 </div>

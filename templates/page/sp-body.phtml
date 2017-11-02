@@ -3,8 +3,10 @@
     <small style="color: #466666"><i>Autor: <b><?= $this->row->author ?></b></i></small>
     <br>
     <small id="create-date" style="color: #74c2c1">Create Date:&nbsp;<?= $this->cDate ?></small>
-    <br>
-    <small id="modify-date" style="color: #6579c2">Last modified:&nbsp;<?= $this->modDate ?></small>
+    <? if (!empty($this->modDate)) : ?>
+        <br>
+        <small id="modify-date" style="color: #6579c2">Last modified:&nbsp;<?= $this->modDate ?></small>
+    <? endif; ?>
     <hr>
     <article style="width: inherit"><?= $this->row->content ?></article>
 </div>

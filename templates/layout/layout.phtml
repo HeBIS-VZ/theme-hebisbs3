@@ -238,9 +238,9 @@ if (!isset($this->layout()->searchbox)) {
                                    data-toggle="dropdown"><?= $this->transEsc('Static Pages') ?><b
                                             class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <? $nav = $this->staticPagesNavigation()->getNav($this->layout()->userLang); ?>
+                                    <? $nav = $this->pageNavigation()->getNav($this->layout()->userLang); ?>
                                     <? foreach ($nav as $item) : ?>
-                                        <li><a href="<?= $item['url'] ?>"><?= $item['title'] ?></a></li>
+                                        <li><a href="<?= $item['url'] ?>"><?= !empty($item["nav_title"]) ? $item['nav_title'] : $this->truncate($item['headline'], 10); ?></a></li>
                                     <? endforeach; ?>
                                 </ul>
                             </li>
