@@ -42,6 +42,8 @@ $(document).ready(function() {
         height: 200
     });
 
+    $('.bc-toggle').bootstrapToggle();
+
     $('#lang-tabs a[href|="#German"]').tab('show');
 
     /* select current lang tab */

@@ -11,7 +11,6 @@ return [
         'vendor/bootstrap.min.js',
         'vendor/bootstrap-accessibility.min.js',
         'hds_common.js',
-        'nicEdit/nicEdit.js'
     ],
     /*
     "less" => [

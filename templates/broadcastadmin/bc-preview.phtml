@@ -1,0 +1,13 @@
+<?
+$this->headTitle('VuFind Administration - ' . 'Broadcast ' . $this->transEsc('Preview'));
+?>
+
+<div class="row">
+    <div class="alert alert-<?= $this->row->type ?>" style="text-align: center"><?= $this->row->message ?></div>
+    <div class="<?= $this->layoutClass('mainbody') ?>">
+
+    </div>
+    <div class="<?= $this->layoutClass('sidebar') ?>">
+        <?= $this->render("admin/menu.phtml") ?>
+    </div>
+</div>
