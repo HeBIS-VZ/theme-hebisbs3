@@ -8,6 +8,6 @@
     <? endforeach; ?>
 <? else : ?>
     <? if (!empty($this->rediLink)) : ?>
-        <a title="<?= $this->translate($this->rediLink['Text']) ?>" href="<?= $this->rediLink['Url'] ?>" target="_blank"><?= $this->translate($this->rediLink['Text']) ?></a></span>
+        <a title="<?= $this->translate("CL-" . $this->rediLink['Text']) ?>" href="<?= $this->rediLink['Url'] ?>" target="_blank"><?= $this->translate("CL-" . $this->rediLink['Text']) ?></a></span>
     <? endif; ?>
 <? endif; ?>
