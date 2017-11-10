@@ -85,7 +85,7 @@ $this->headScript()->appendScript($rediLinks); ?>
                     <? endif; ?>
                     <? if ($pdfLink): ?>
                         <span>
-                    <a target="_blank" href="<?= $pdfLink ?>" class="icon pdf fulltext">
+                    <a title="<?= $this->transEsc('PDF Full Text')?>" target="_blank" href="<?= $pdfLink ?>" class="icon pdf fulltext">
                         <?= $this->transEsc('PDF Full Text') ?>
                     </a>
                 </span>
@@ -128,7 +128,7 @@ ENDSCRIPT;
                                 <li>
                             <span>
                                 <a href="<?= $this->escapeHtmlAttr($url) ?>" target="_blank"
-                                   title="<?= $this->escapeHtmlAttr($mot) ?>"
+                                   title="<?= $this->escapeHtmlAttr($this->translate($mot)) ?>"
                                    class="custom-link">
                                     <? if ($icon): ?><img
                                         src="<?= $this->escapeHtmlAttr($icon) ?>" /> <? endif; ?><?= $this->escapeHtml($name) ?>
@@ -146,7 +146,7 @@ ENDSCRIPT;
                                 <li>
                         <span>
                             <a href="<?= $this->escapeHtmlAttr($url) ?>" target="_blank"
-                               title="<?= $this->escapeHtmlAttr($mot) ?>"
+                               title="<?= $this->escapeHtmlAttr($this->translate($mot)) ?>"
                                class="custom-link">
                                 <? if ($icon): ?><img
                                     src="<?= $this->escapeHtmlAttr($icon) ?>" /> <? endif; ?><?= $this->escapeHtml($name) ?>
