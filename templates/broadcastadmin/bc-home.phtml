@@ -31,46 +31,37 @@ $lang = $this->layout()->userLang;
     <div class="<?= $this->layoutClass('mainbody') ?>">
         <h3><span class="hds-icon-bullseye"></span><b>Broadcasts</b></h3>
         <hr>
-        <div class="post">
-            <div class="col-xs-12 col-sm-10">
-                <span class="hds-icon-plus-circled"></span>
-                <a href="<?= $this->url('broadcastadmin', ['action' => 'add']) ?>"><i><?= $this->transEsc('Add New Broadcast') ?></i></a>
-            </div>
-            <div class="col-xs-12 col-sm-2">
-
-            </div>
-        </div>
         <?
         $visibilitySymbols = array(
             'visible' => '<span class="hds-icon-eye green"></span>',
             'unvisible' => '<span class="hds-icon-eye-off red"></span>',
         ); ?>
         <? $oldbcid = -1; ?>
-        <? foreach ($this->rows as $row) : ?>
-            <? if ($row->language !== $lang) {
-                continue;
-            } ?>
-            <? $bcid = $row->bcid; ?>
-            <? if ($bcid !== $oldbcid) : ?>
-                <div class="broadcast" id="<?= $bcid ?>" data-href="<?= $row->message ?>">
-                    <div class="col-xs-12 col-sm-10">
-                        <input class="bc-toggle" type="checkbox" <?= ($row->show == 1) ? 'checked' : '' ?>
-                               data-toggle="toggle" data-size="mini">
-                        <a href="<?= $this->url('broadcastadmin', ['action' => 'preview', 'bcid' => $bcid]) ?>"><?= $row->message ?></a>
-                    </div>
-                    <div class="col-xs-12 col-sm-2">
-                        <a href="<?= $this->url('broadcastadmin', ['action' => 'edit', 'bcid' => $bcid]) ?>">
-                            <span class="hds-icon-edit"><!--></span></a>
-                        <span class="bc-delete-button" id="<?= $bcid ?>"
-                              href="<!--?= $this->url('broadcastadmin/json', ['method' => 'delete', 'bcid' => $bcid]) ?-->">
-                        <span class="hds-icon-trash"><!--></span>
-                    </span>
-                    </div>
-                </div>
-            <? endif; ?>
-            <? $oldbcid = $bcid; ?>
-        <? endforeach; ?>
 
+        <ul id="bc-list">
+            <li>
+                <div class="post">
+                    <span class="hds-icon-plus-circled"></span>
+                    <a href="<?= $this->url('broadcastadmin', ['action' => 'add']) ?>"><i><?= $this->transEsc('Add New Broadcast') ?></i></a>
+                </div>
+            </li>
+            <? foreach ($this->rows as $row) : ?>
+                <? if ($row->language !== $lang) {
+                    continue;
+                } ?>
+                <? $bcid = $row->bcid; ?>
+                <? if ($bcid !== $oldbcid) : ?>
+                    <li>
+                        <div class="broadcast" id="<?= $bcid ?>">
+                            <a href="<?= $this->url('broadcastadmin', ['action' => 'edit', 'bcid' => $bcid]) ?>">
+                                <span class="hds-icon-edit"><!--></span>
+                            </a><?= $this->escapeHtml(strip_tags($row->message)); ?>
+                        </div>
+                    </li>
+                <? endif; ?>
+                <? $oldbcid = $bcid; ?>
+            <? endforeach; ?>
+        </ul>
 
     </div>
     <div class="<?= $this->layoutClass('sidebar') ?>">

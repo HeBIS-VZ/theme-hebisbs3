@@ -1,5 +1,11 @@
+document.addEventListener("keyup", function (e) {
+    e.target.id
+});
+
 $(document).ready(function() {
     /* Static Pages: Toggle the visibility symbol */
+
+    var userLang = $('html').attr('lang');
     $('.sp-page-visibility').click(function () {
         var _this = this;
         var url = $(this).attr('href');
@@ -37,17 +43,32 @@ $(document).ready(function() {
         })
     });
 
-    /* instantiate Summernote Editor */
-    $('.wysiwig-text').summernote({
-        height: 200
+
+    /* ~~~~~~~~~~~~~~~~~~~~Broadcasts~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+    $('.bc-types input[type=radio]').on('change', function () {
+
+        $('.bc-alert').removeClass(function (index, className) {
+            var match = className.match(/alert-([a-z]+)/g);
+            return match.shift();
+        }).addClass('alert-' + this.value);
     });
 
-    $('.bc-toggle').bootstrapToggle();
+    $('.a[data-toggle="tab"]').on('click', function () {
+        var selectedLang = $(this).attr('lang');
+    });
 
-    $('#lang-tabs a[href|="#German"]').tab('show');
+    $('.bc-message').keyup(function () {
+        $(this).parent().parent().find('.bc-alert').html($(this).val());
+    });
+
+    $('#bc-lang-tab-' + userLang).tab('show');
+    /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+    $('#sp-lang-tab-' + userLang).tab('show');
 
     /* select current lang tab */
-    $('.sp-form-de').addClass('in active');
+    //$('.sp-form-' + userLang).addClass('active in');
 
 
     /* $("#new-post").submit(function (event) {
@@ -85,6 +106,9 @@ $(document).ready(function() {
         return input.value.length > 0;
     }*/
 
+    /* instantiate Summernote Editor */
+    $('.wysiwig-text').summernote({
+        height: 200
+    });
 
-    /* –––––––––––– End of Static Pages ––––––––––––– */
 });

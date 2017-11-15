@@ -669,3 +669,21 @@ footer {
 #save-static-post {
   float: right;
 }
+
+#bc-list {
+  padding-left: 0;
+  display: block;
+  li {
+    display: block;
+    > div {
+      display: block;
+      padding: 0.5em 1em;
+    }
+  }
+  li:nth-child(odd) > div {
+    background-color: lighten(@gray-base, 95%);
+  }
+  li:nth-child(even) > div {
+    background-color: lighten(@gray-base, 98%);
+  }
+}

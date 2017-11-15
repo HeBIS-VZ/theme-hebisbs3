@@ -12,8 +12,9 @@ $activeLang = $this->layout()->userLang;
 
         <ul class="nav nav-tabs">
             <? foreach ($this->langs as $code => $language) : ?>
-                <li class="sp-form-<?= $code ?>" data-href="<?= $language ?>" id="lang-tabs">
-                    <a data-toggle="tab" href="#<?= $code ?>-form"><?= $this->transEsc($language) ?></a>
+                <li class="sp-form-<?= $code ?>" data-href="<?= $language ?>">
+                    <a data-toggle="tab" href="#<?= $code ?>-form"
+                       id="sp-lang-tab-<?= $code ?>"><?= $this->transEsc($language) ?></a>
                 </li>
             <? endforeach; ?>
         </ul>
