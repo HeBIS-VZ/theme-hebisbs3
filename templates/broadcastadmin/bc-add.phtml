@@ -1,13 +1,19 @@
 <?php
 $this->headTitle('VuFind Administration - ' . $this->translate('Broadcasts - Add'));
-$this->headScript()->appendFile($this->basePath() . '/themes/hebisbs3/js/admin.js');
+$this->headLink(['rel' => 'stylesheet', 'href' => $this->basePath() . "/themes/hebisbs3/js/datepicker/css/bootstrap-datepicker3.css"]);
+$this->headScript()
+    ->appendFile($this->basePath() . '/themes/hebisbs3/js/admin.js')
+    ->appendFile($this->basePath() . '/themes/hebisbs3/js/datepicker/js/bootstrap-datepicker.js');
+
 $activeLang = $this->layout()->userLang;
 ?>
 <div class="row">
 
     <div class="<?= $this->layoutClass('mainbody') ?>">
 
-        <form id="new-post" method="post">
+        <form id="new-bc" method="post">
+
+            <!-- Language Tabs -->
 
             <ul class="nav nav-tabs">
                 <? foreach ($this->langs as $code => $language) : ?>
@@ -20,50 +26,56 @@ $activeLang = $this->layout()->userLang;
                 <? endforeach; ?>
             </ul>
 
+            <!-- Tab Contents -->
+
             <div class="tab-content">
                 <? foreach ($this->langs as $code => $language) : ?>
-                    <div id="<?= $code ?>-form" lang="<?= $code ?>" class="bc-form-<?= $code ?> tab-pane fade">
 
-                        <div class="bc-alert alert alert-warning"></div>
+                    <div lang="<?= $code ?>" class="bc-form-<?= $code ?> tab-pane fade" id="<?= $code ?>-form">
+
+                        <div class="bc-alert alert alert-warning">&nbsp;</div>
 
                         <input type="hidden" class="form-control" name="bc-lang[]" value="<?= $code ?>">
 
-                        <div class="form-group">
+                        <div class="input-group form-group">
                             <input type="text" class="form-control bc-message input-md" name="bc-message[]"
                                    placeholder="<?= $this->translate('Broadcast Message') ?>"
-                                   style="font-size: small" autocomplete="off" id="bc-message-<?= $code ?>">
+                                   autocomplete="off" id="bc-message-<?= $code ?>">
+
+                            <div class="input-group-btn bc-types" data-toggle="buttons">
+                                <label class="btn btn-success">
+                                    <input class="form-control" type="radio" name="bc-type" value="success"
+                                           autocomplete="off">&nbsp;
+                                </label>
+                                <label class="btn btn-info">
+                                    <input class="form-control" type="radio" name="bc-type" value="info"
+                                           autocomplete="off">&nbsp;
+                                </label>
+                                <label class="btn btn-warning active">
+                                    <input class="form-control" type="radio" name="bc-type" value="warning"
+                                           autocomplete="off" checked>&nbsp;
+                                </label>
+                                <label class="btn btn-danger">
+                                    <input class="form-control" type="radio" name="bc-type" value="danger"
+                                           autocomplete="off">&nbsp;
+                                </label>
+                            </div>
                         </div>
 
                     </div>
                 <? endforeach; ?>
             </div>
 
-            <div class="form-group">
-                <div class="btn-group btn-group-xs bc-types" data-toggle="buttons">
-                    <label class="btn btn-success btn-xs">
-                        <input type="radio" name="bc-type" value="success" autocomplete="off"
-                               checked> <?= $this->transEsc('bc-success') ?>
-                    </label>
-                    <label class="btn btn-info btn-xs">
-                        <input type="radio" name="bc-type" value="info"
-                               autocomplete="off"> <?= $this->transEsc('bc-info') ?>
-                    </label>
-                    <label class="btn btn-warning btn-xs active">
-                        <input type="radio" name="bc-type" value="warning"
-                               autocomplete="off"> <?= $this->transEsc('bc-warning') ?>
-                    </label>
-                    <label class="btn btn-danger btn-xs">
-                        <input type="radio" name="bc-type" value="danger"
-                               autocomplete="off"><?= $this->transEsc('bc-danger') ?>
-                    </label>
+            <div class="form-group pull-left">
+                <div class="input-group date" data-provide="datepicker">
+                    <input type="text" class="form-control" name="bc-expireDate">
+                    <div class="input-group-addon hds-icon-calendar-empty"></div>
                 </div>
             </div>
 
             <div class="form-group">
                 <button tabindex="0" class="btn btn-default" data-ignore="true"
                         data-toggle="popover" data-placement="auto right"
-                        data-trigger="focus" data-title="Please Note"
-                        data-content="<?= $this->transEsc('input fields of other languages might be empty!') ?>"
                         id="bc-save"><?= $this->transEsc('Save'); ?>
                 </button>
             </div>
