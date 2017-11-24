@@ -1,9 +1,11 @@
 <?php
+$activeLang = $this->layout()->userLang;
+$datePickerScript = '$(".input-group.date").datepicker({format: "dd.mm.yyyy", language: "de"});';
 $this->headTitle('VuFind Administration - ' . $this->translate('Static Pages - Add'));
 $this->headLink(['rel' => 'stylesheet', 'href' => $this->basePath() . "/themes/hebisbs3/js/wysiwyg-editor/summernote.css"]);
-$this->headScript()->appendFile($this->basePath() . "/themes/hebisbs3/js/wysiwyg-editor/summernote.min.js");
-$this->headScript()->appendFile($this->basePath() . '/themes/hebisbs3' . "/js/admin.js");
-$activeLang = $this->layout()->userLang;
+$this->headScript()
+    ->appendFile($this->basePath() . '/themes/hebisbs3/js/admin.js')
+    ->appendFile($this->basePath() . '/themes/hebisbs3/js/wysiwyg-editor/summernote.min.js');
 ?>
 <div class="row">
 
@@ -12,34 +14,43 @@ $activeLang = $this->layout()->userLang;
 
         <ul class="nav nav-tabs">
             <? foreach ($this->langs as $code => $language) : ?>
-                <li class="sp-form-<?= $code ?>" data-href="<?= $language ?>">
-                    <a data-toggle="tab" href="#<?= $code ?>-form"
-                       id="sp-lang-tab-<?= $code ?>"><?= $this->transEsc($language) ?></a>
+                <li class="bc-form">
+                    <a data-toggle="tab"
+                       lang="<?= $code ?>"
+                       href="#admin-<?= $code ?>-form"
+                       id="admin-lang-tab-<?= $code ?>"><?= $this->transEsc($language) ?></a>
                 </li>
             <? endforeach; ?>
         </ul>
+        <!-- Tab Contents -->
+
         <form id="new-post" method="post">
             <div class="tab-content">
-                <? if ($this->error) : ?>
+                <? /* if ($this->error) : */ ?><!--
                     <div class="alert alert-danger">
-                        <?= $this->translate("Fill out the form"); ?>
+                        <? /*= $this->translate("Fill out the form"); */ ?>
                     </div>
-                <? endif; ?>
+                --><? /* endif; */ ?>
                 <? foreach ($this->langs as $code => $language) : ?>
-                    <div id="<?= $code ?>-form" class="sp-form-<?= $code ?> tab-pane fade">
+
+                    <div class="tab-pane fade" id="admin-<?= $code ?>-form">
+
                         <input type="hidden" class="form-control" name="sp-lang[]" value="<?= $code ?>">
+
                         <div class="form-group">
                             <input type="text" class="form-control sp-headline input-lg" name="sp-headline[]"
                                    placeholder="Headline"
                                    id="sp-headline" autocomplete="off">
                         </div>
+
                         <div class="form-group">
                             <input type="text" class="form-control sp-nav-title input-sm" name="sp-nav-title[]"
                                    placeholder="<?= $this->translate('navigation Title') ?>"
                                    id="sp-headline" style="font-size: small" autocomplete="off">
                         </div>
+
                         <div class="form-group">
-                            <textarea type="text" class="wysiwig-text form-control" name="sp-content[]"></textarea>
+                            <textarea type="text" class="form-control wysiwig-editor" name="sp-content[]"></textarea>
                         </div>
                     </div>
                 <? endforeach; ?>

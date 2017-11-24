@@ -57,18 +57,12 @@ $(document).ready(function() {
     });
 
     $('.bc-message').keyup(function () {
-        $(this).parent().parent().find('.bc-alert').html($(this).val());
+        $(this).parent().parent().parent().parent().find('.bc-alert').html($(this).val());
     });
 
-    $('#bc-lang-tab-' + userLang).tab('show');
     /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-    $('#sp-lang-tab-' + userLang).tab('show');
-
-    /* select current lang tab */
-    //$('.sp-form-' + userLang).addClass('active in');
-
-
+    $('#admin-lang-tab-' + userLang).tab('show');
     /* $("#new-post").submit(function (event) {
 
         var inputs = $(this).serializeArray();
@@ -104,14 +98,5 @@ $(document).ready(function() {
         return input.value.length > 0;
     }*/
 
-    $('.input-group.date').datepicker({
-        format: "dd.mm.yyyy",
-        language: "DE-de"
-    });
-
-    /* Call Summernote Editor */
-    $('.wysiwig-text').summernote({
-        height: 200
-    })
 
 });
