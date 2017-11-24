@@ -11,7 +11,7 @@ $activeLang = $this->layout()->userLang;
 
     <div class="<?= $this->layoutClass('mainbody') ?>">
 
-        <form id="new-bc" method="post">
+
 
             <!-- Language Tabs -->
 
@@ -27,38 +27,67 @@ $activeLang = $this->layout()->userLang;
             </ul>
 
             <!-- Tab Contents -->
-
+            <form id="new-bc" class="form-horizontal" method="post">
             <div class="tab-content">
+
                 <? foreach ($this->langs as $code => $language) : ?>
 
                     <div lang="<?= $code ?>" class="bc-form-<?= $code ?> tab-pane fade" id="<?= $code ?>-form">
+                        <div class="form-group">
+                            <div class="col-sm-offset-2">
+                                <div class="bc-alert alert alert-warning" style="margin: 0 1em;">&nbsp;</div>
+                            </div>
+                        </div>
 
-                        <div class="bc-alert alert alert-warning">&nbsp;</div>
 
                         <input type="hidden" class="form-control" name="bc-lang[]" value="<?= $code ?>">
 
-                        <div class="input-group form-group">
-                            <input type="text" class="form-control bc-message input-md" name="bc-message[]"
-                                   placeholder="<?= $this->translate('Broadcast Message') ?>"
-                                   autocomplete="off" id="bc-message-<?= $code ?>">
-
-                            <div class="input-group-btn bc-types" data-toggle="buttons">
-                                <label class="btn btn-success">
-                                    <input class="form-control" type="radio" name="bc-type" value="success"
-                                           autocomplete="off">&nbsp;
-                                </label>
-                                <label class="btn btn-info">
-                                    <input class="form-control" type="radio" name="bc-type" value="info"
-                                           autocomplete="off">&nbsp;
-                                </label>
-                                <label class="btn btn-warning active">
-                                    <input class="form-control" type="radio" name="bc-type" value="warning"
-                                           autocomplete="off" checked>&nbsp;
-                                </label>
-                                <label class="btn btn-danger">
-                                    <input class="form-control" type="radio" name="bc-type" value="danger"
-                                           autocomplete="off">&nbsp;
-                                </label>
+                        <div class="form-group">
+                            <label for="bc-expireDate" class="col-sm-2 control-label"><?= $this->transEsc('message') ?></label>
+                            <div class="col-sm-10">
+                                <div class="input-group">
+                                <input type="text" class="form-control bc-message input-md" name="bc-message[]"
+                                       placeholder="<?= $this->translate('Broadcast Message') ?>"
+                                       autocomplete="off" id="bc-message-<?= $code ?>">
+                                    <div class="input-group-btn bc-types" data-toggle="buttons">
+                                        <label class="btn btn-success">
+                                            <input class="form-control" type="radio" name="bc-type" value="success"
+                                                   autocomplete="off">&nbsp;
+                                        </label>
+                                        <label class="btn btn-info">
+                                            <input class="form-control" type="radio" name="bc-type" value="info"
+                                                   autocomplete="off">&nbsp;
+                                        </label>
+                                        <label class="btn btn-warning active">
+                                            <input class="form-control" type="radio" name="bc-type" value="warning"
+                                                   autocomplete="off" checked>&nbsp;
+                                        </label>
+                                        <label class="btn btn-danger">
+                                            <input class="form-control" type="radio" name="bc-type" value="danger"
+                                                   autocomplete="off">&nbsp;
+                                        </label>
+                                    </div>
+                                </div>
+                                <!--
+                                <div class="input-group-btn bc-types" data-toggle="buttons">
+                                    <label class="btn btn-success">
+                                        <input class="form-control" type="radio" name="bc-type" value="success"
+                                               autocomplete="off">&nbsp;
+                                    </label>
+                                    <label class="btn btn-info">
+                                        <input class="form-control" type="radio" name="bc-type" value="info"
+                                               autocomplete="off">&nbsp;
+                                    </label>
+                                    <label class="btn btn-warning active">
+                                        <input class="form-control" type="radio" name="bc-type" value="warning"
+                                               autocomplete="off" checked>&nbsp;
+                                    </label>
+                                    <label class="btn btn-danger">
+                                        <input class="form-control" type="radio" name="bc-type" value="danger"
+                                               autocomplete="off">&nbsp;
+                                    </label>
+                                </div>
+                                -->
                             </div>
                         </div>
 
@@ -66,20 +95,25 @@ $activeLang = $this->layout()->userLang;
                 <? endforeach; ?>
             </div>
 
-            <div class="form-group pull-left">
-                <div class="input-group date" data-provide="datepicker">
-                    <input type="text" class="form-control" name="bc-expireDate">
-                    <div class="input-group-addon hds-icon-calendar-empty"></div>
+            <div class="form-group">
+                <label for="bc-expireDate" class="col-sm-2 control-label"><?= $this->transEsc('expire date') ?></label>
+                <div class="col-sm-10">
+                    <div class="input-group date" data-provide="datepicker">
+                        <input type="text" class="form-control" id="bc-expireDate" name="bc-expireDate">
+                        <div class="input-group-addon hds-icon-calendar-empty"></div>
+                    </div>
                 </div>
             </div>
 
             <div class="form-group">
-                <button tabindex="0" class="btn btn-default" data-ignore="true"
-                        data-toggle="popover" data-placement="auto right"
-                        id="bc-save"><?= $this->transEsc('Save'); ?>
-                </button>
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button tabindex="0" class="btn btn-default" data-ignore="true"
+                            data-toggle="popover" data-placement="auto right"
+                            id="bc-save"><?= $this->transEsc('Save'); ?>
+                    </button>
+                </div>
             </div>
-        </form>
+            </form>
 
     </div>
     <div class="<?= $this->layoutClass('sidebar') ?>">
