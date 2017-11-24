@@ -1,10 +1,11 @@
 <?
 $this->headTitle('VuFind Administration - ' . $this->translate('Static Pages - Home'));
 $this->headScript()->appendFile($this->basePath() . '/themes/hebisbs3' . "/js/admin.js");
+$lang = $this->layout()->userLang;
 ?>
 
 <!--Modal-->
-<div class="modal fade" id="sp-delete-confirmation" role="dialog">
+<div class="modal fade" id="admin-delete-confirmation" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
@@ -12,7 +13,7 @@ $this->headScript()->appendFile($this->basePath() . '/themes/hebisbs3' . "/js/ad
                 <div class="pull-left col-md-2" style="font-size:300%">
                     <span class="hds-icon-trash-empty"><!-- --></span>
                 </div>
-                <p id="sp-delete-question">Bist du sicher, dass du die folgende Seite löschen willst?<i></p>
+                <p id="admin-delete-question"><?= $this->translate('Are you sure?') ?><i></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default"
@@ -24,51 +25,44 @@ $this->headScript()->appendFile($this->basePath() . '/themes/hebisbs3' . "/js/ad
     </div>
 </div>
 <!--End of Modal-->
+
 <div class="row">
     <div class="<?= $this->layoutClass('mainbody') ?>">
         <h3><span class="hds-icon-journal"></span>&nbsp;Static<b>Pages</b></h3>
         <hr>
-        <div class="post">
-            <div class="col-xs-12 col-sm-10">
-                <span class="hds-icon-plus-circled"></span>
-                <a href="<?= $this->url('pageadmin/add') ?>"><i>Neue Seite Hinzufügen</i></a>
-            </div>
-            <div class="col-xs-12 col-sm-2">
-
-            </div>
-        </div>
-        <?
-        $lang = $this->layout()->userLang;
-        $visibilitySymbols = array(
-            'visible' => '<span class="hds-icon-eye green"></span>',
-            'unvisible' => '<span class="hds-icon-eye-off red"></span>',
-        ); ?>
         <? $oldpid = -1; ?>
-        <? foreach ($this->rows as $row) : ?>
-            <? if ($row->language !== $lang) {
-                continue;
-            } ?>
-            <? $pid = $row->pid; ?>
-            <? if ($pid !== $oldpid) : ?>
-            <div class="post" id="<?= $pid ?>" data-href="<?= $row->headline ?>">
-                <div class="col-xs-12 col-sm-10">
-                    <span class="sp-page-visibility"
-                          href="<?= $this->url('pageadmin/json', ['method' => 'visible', 'pid' => $pid]) ?>">
-                        <?= ($row->visible == 1) ? $visibilitySymbols['visible'] : $visibilitySymbols['unvisible']; ?></span>
-                    <a href="<?= $this->url('pageadmin/preview', ['pid' => $pid]) ?>"><?= $row->headline ?></a>
+        <ul id="admin-list">
+            <li>
+                <div class="sp">
+                    <span class="hds-icon-plus-circled"></span>
+                    <a href="<?= $this->url('pageadmin/add') ?>"><i><?= $this->transEsc('Add New Page') ?></a>
                 </div>
-                <div class="col-xs-12 col-sm-2">
-                    <a href="<?= $this->url('pageadmin/edit', ['pid' => $pid]) ?>">
-                        <span class="hds-icon-edit"><!--></span></a>
-                    <span class="sp-delete-button" id="<?= $pid ?>"
-                          href="<?= $this->url('pageadmin/json', ['method' => 'delete', 'pid' => $pid]) ?>">
-                        <span class="hds-icon-trash"><!--></span>
-                    </span>
-                </div>
-            </div>
-            <? endif; ?>
-            <? $oldpid = $pid; ?>
-        <? endforeach; ?>
+            </li>
+            <? foreach ($this->rows as $row) : ?>
+                <? if ($row->language !== $lang) {
+                    continue;
+                } ?>
+                <? $pid = $row->pid;
+                $headline = $row->headline; ?>
+                <? if ($pid !== $oldpid) : ?>
+                    <li>
+                        <div class="sp">
+                            <span class="admin-delete-button hds-icon-trash"
+                                  data-href="<?= $headline ?>"
+                                  href="<?= $this->url('pageadmin/json', ['method' => 'delete', 'pid' => $pid]) ?>"
+                                  id="<?= $pid ?>">
+                            </span>
+                            <span class="sp-page-visibility <?= ($row->visible == 1) ? "hds-icon-eye green" : "hds-icon-eye-off red" ?>"
+                                  href="<?= $this->url('pageadmin/json', ['method' => 'visible', 'pid' => $pid]) ?>">
+                            </span>
+                            <a class="hds-icon-edit" href="<?= $this->url('pageadmin/edit', ['pid' => $pid]) ?>"></a>
+                            <a href="<?= $this->url('pageadmin/preview', ['pid' => $pid]) ?>"><?= $headline ?></a>
+                        </div>
+                    </li>
+                <? endif; ?>
+                <? $oldpid = $pid; ?>
+            <? endforeach; ?>
+        </ul>
 
     </div>
     <div class="<?= $this->layoutClass('sidebar') ?>">

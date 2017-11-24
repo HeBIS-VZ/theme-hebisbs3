@@ -1,5 +1,11 @@
+/*document.addEventListener("keyup", function (e) {
+});*/
+
 $(document).ready(function() {
     /* Static Pages: Toggle the visibility symbol */
+
+    var userLang = $('html').attr('lang');
+
     $('.sp-page-visibility').click(function () {
         var _this = this;
         var url = $(this).attr('href');
@@ -16,36 +22,51 @@ $(document).ready(function() {
             });
     });
 
-    /* Toggle the visibility icon of static page */
-    $('.sp-delete-button').on('click', function () {
+    $('.admin-delete-button').on('click', function () {
         var url = $(this).attr('href');
-        var $parentRow = $(this).parent().parent();
 
         /* customize the header in modal confirmation question */
-        $('#sp-del-header').remove();
-        $('#sp-delete-question').after("<p id='sp-del-header'><i>\"<strong>" + $parentRow.data('href') + "</strong>\"</i></p>");
-        $('#sp-delete-confirmation').modal();
+        $('#admin-del-header').remove();
+        $('#admin-delete-question').after("<p id='admin-del-header'><i>\"<strong>" + $(this).data('href') + "</strong>\"</i></p>");
+        $('#admin-delete-confirmation').modal();
 
         $('#delete-confirmation-button').on('click', function () {
             $.getJSON(url)
                 .done(function (JSONoutput) {
                     if (JSONoutput.data === 1) {
-                        $parentRow.fadeOut();
+                        $(this).parent().fadeOut();
                     }
                     else alert(JSONoutput.status);
                 });
         })
     });
 
-    /* instantiate Summernote Editor */
-    $('.wysiwig-text').summernote({
-        height: 200
+
+    /* ~~~~~~~~~~~~~~~~~~~~Broadcasts~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+    $('.bc-types input[type=radio]').on('change', function () {
+
+        $('.bc-alert').removeClass(function (index, className) {
+            var match = className.match(/alert-([a-z]+)/g);
+            return match.shift();
+        }).addClass('alert-' + this.value);
     });
 
-    $('#lang-tabs a[href|="#German"]').tab('show');
+    $('.a[data-toggle="tab"]').on('click', function () {
+        var selectedLang = $(this).attr('lang');
+    });
+
+    $('.bc-message').keyup(function () {
+        $(this).parent().parent().find('.bc-alert').html($(this).val());
+    });
+
+    $('#bc-lang-tab-' + userLang).tab('show');
+    /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+    $('#sp-lang-tab-' + userLang).tab('show');
 
     /* select current lang tab */
-    $('.sp-form-de').addClass('in active');
+    //$('.sp-form-' + userLang).addClass('active in');
 
 
     /* $("#new-post").submit(function (event) {
@@ -83,6 +104,14 @@ $(document).ready(function() {
         return input.value.length > 0;
     }*/
 
+    $('.input-group.date').datepicker({
+        format: "dd.mm.yyyy",
+        language: "DE-de"
+    });
 
-    /* –––––––––––– End of Static Pages ––––––––––––– */
+    /* Call Summernote Editor */
+    $('.wysiwig-text').summernote({
+        height: 200
+    })
+
 });
