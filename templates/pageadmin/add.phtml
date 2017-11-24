@@ -19,6 +19,11 @@ $activeLang = $this->layout()->userLang;
         </ul>
         <form id="new-post" method="post">
             <div class="tab-content">
+                <? if ($this->error) : ?>
+                    <div class="alert alert-danger">
+                        <?= $this->translate("Fill out the form"); ?>
+                    </div>
+                <? endif; ?>
                 <? foreach ($this->langs as $code => $language) : ?>
                     <div id="<?= $code ?>-form" class="sp-form-<?= $code ?> tab-pane fade">
                         <input type="hidden" class="form-control" name="sp-lang[]" value="<?= $code ?>">

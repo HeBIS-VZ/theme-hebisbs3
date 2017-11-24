@@ -38,12 +38,16 @@ $this->headScript()->appendFile($this->basePath() . '/themes/hebisbs3' . "/js/ad
             </div>
         </div>
         <?
+        $lang = $this->layout()->userLang;
         $visibilitySymbols = array(
             'visible' => '<span class="hds-icon-eye green"></span>',
             'unvisible' => '<span class="hds-icon-eye-off red"></span>',
         ); ?>
         <? $oldpid = -1; ?>
         <? foreach ($this->rows as $row) : ?>
+            <? if ($row->language !== $lang) {
+                continue;
+            } ?>
             <? $pid = $row->pid; ?>
             <? if ($pid !== $oldpid) : ?>
             <div class="post" id="<?= $pid ?>" data-href="<?= $row->headline ?>">
