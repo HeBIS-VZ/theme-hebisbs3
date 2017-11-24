@@ -7,12 +7,9 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
 }
 ?>
 
-<div class="row">
 
-    <div class="col-md-9 <? //$this->layoutClass('mainbody') ?>">
-
-        <? $format = $this->physicalDescriptionFormat($this->driver);//$this->driver->getFormats(); if (!empty($formats)): ?>
-        <div vocab="http://schema.org/" resource="#record" typeof="<?= $this->driver->getSchemaOrgFormats() ?> Product">
+<? $format = $this->physicalDescriptionFormat($this->driver);//$this->driver->getFormats(); if (!empty($formats)): ?>
+<div vocab="http://schema.org/" resource="#record" typeof="<?= $this->driver->getSchemaOrgFormats() ?> Product">
 
             <div class="row">
                 <div class="col-sm-3 hidden-xs">
@@ -60,18 +57,6 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <span class="hds-icon-<?= $format ?>"></span>
                         <?= $this->escapeHtml($this->singleRecordTitleStatementHeadline($this->driver)) ?>
                     </h3>
-
-                    <? /*$summary = $this->driver->getSummary();
-                    $summary = isset($summary[0]) ? $this->escapeHtml($summary[0]) : false; ?>
-                    <? if ($summary): ?>
-                        <p><?= $this->truncate($summary, 300) ?></p>
-
-                        <? if (strlen($summary) > 300): ?>
-                            <p>
-                                <a href='<?= $this->recordLink()->getTabUrl($this->driver, 'Description') ?>#tabnav'><?= $this->translate('Full description') ?></a>
-                            </p>
-                        <? endif; ?>
-                    <? endif; */?>
 
                     <? if ($this->userlist()->getMode() !== 'disabled'): ?>
                         <? /* Display the lists that this record is saved to */ ?>
@@ -508,180 +493,11 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                             </div>
                         <? endif; ?>
                     </div> <!-- /.record-details -->
-                    <!--
-                    <table>
 
-                        <? $childRecordCount = $this->driver->tryMethod('getChildRecordCount');
-                    if ($childRecordCount): ?>
-                            <tr>
-                                <th><?= $this->translate('child_records') ?>:</th>
-                                <td>
-                                    <a href="<?= $this->recordLink()->getChildRecordSearchUrl($this->driver) ?>"><?= $this->translate('child_record_count', array('%%count%%' => $childRecordCount)) ?></a>
-                                </td>
-                            </tr>
-                        <? endif; ?>
-
-
-                        <?
-                    //$openUrl = $this->driver->openURLActive('record') ? $this->driver->getOpenURL() : false;
-                    // Account for replace_other_urls setting
-                    $urls = $this->record($this->driver)->getLinkDetails();
-                    ?>
-                        <? /* if (!empty($urls)): ?>
-                            <tr>
-                                <th><?= $this->translate('Online Access') ?>:</th>
-                                <td>
-                                    <? foreach ($urls as $current): ?>
-                                        <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($current['url'])) ?>"><?= $this->escapeHtml($current['desc']) ?></a>
-                                        <br/>
-                                    <? endforeach; ?>
-                                </td>
-                            </tr>
-                        <? endif; */ ?>
-
-                        <? $recordLinks = $this->driver->getAllRecordLinks(); ?>
-                        <? if (!empty($recordLinks)): ?>
-                            <tr>
-                                <th><?= $this->translate('Related Items') ?>:</th>
-                                <td>
-                                    <? foreach ($recordLinks as $recordLink): ?>
-                                        <?= $this->translate($recordLink['title']) ?>:
-                                        <a href="<?= $this->recordLink()->related($recordLink['link']) ?>"><?= $this->escapeHtml($recordLink['value']) ?></a>
-                                        <br/>
-                                    <? endforeach; ?>
-                                    <? /* if we have record links, display relevant explanatory notes */
-                        $related = $this->driver->getRelationshipNotes();
-                        if (!empty($related)): ?>
-                                        <? foreach ($related as $field): ?>
-                                            <?= $this->escapeHtml($field) ?><br/>
-                                        <? endforeach; ?>
-                                    <? endif; ?>
-
-                                    <?= $this->bibTip($this->driver); ?>
-                                </td>
-                            </tr>
-                        <? endif; ?>
-
-                        <? if ($this->usertags()->getMode() !== 'disabled'): ?>
-                            <? $tagList = $this->driver->getTags(); ?>
-                            <tr>
-                                <th><?= $this->translate('Tags') ?>:</th>
-                                <td>
-                                    <a class="tag-record btn btn-link pull-right flip"
-                                       href="<?= $this->recordLink()->getActionUrl($this->driver, 'AddTag') ?>"
-                                       data-lightbox>
-                                        <i class="fa fa-plus"></i> <?= $this->translate('Add Tag') ?>
-                                    </a>
-
-                                    <span class="pull-right">
-                                        <i class="fa fa-plus"></i> <a id="tagRecord" class="modal-link" href="<?= $this->recordLink()->getActionUrl($this->driver, 'AddTag') ?>" title="<?= $this->translate('Add Tag') ?>"><?= $this->translate('Add Tag') ?></a>
-                                    </span>
-
-                                    <?= $this->context($this)->renderInContext('record/tagcloud', array('tagList' => $tagList, 'loggedin' => $loggedin)) ?>
-
-                                    <div id="tagList">
-                                        <? if (count($tagList) > 0): ?>
-                                            <? $i = 0;
-                        foreach ($tagList as $tag): ?><?= ($i++ == 0) ? '' : ', ' ?><a href="<?= $this->url('tag-home') ?>?lookfor=<?= urlencode($tag->tag) ?>"><?= $this->escapeHtml($tag->tag) ?></a> (<?= $this->escapeHtml($tag->cnt) ?>)<? endforeach; ?>
-                                        <? else: ?>
-                                            <?= $this->translate('No Tags') ?>, <?= $this->translate('Be the first to tag this record') ?>!
-                                        <? endif; ?>
-                                    </div>
-
-                                </td>
-                            </tr>
-                        <? endif; ?>
-                    </table>
-                    -->
                     <? /* End Main Details */ ?>
                 </div>
             </div>
         </div>
 
-        <div class="tab-description">
-            <? if (count($this->tabs) > 0): ?>
-                <a name="tabnav"></a>
-                <ul class="recordTabs nav nav-tabs nav-justified">
-                    <?
-                    /** @var \Hebis\RecordTab\TabInterface $obj */
-                    foreach ($this->tabs as $tab => $obj): ?>
-                        <? // add current tab to breadcrumbs if applicable:
-                        $desc = $obj->getDescription();
-                        $hasContents = $obj->hasContents();
-                        $tab_classes = array();
-                        if (0 === strcasecmp($this->activeTab, $tab)) {
-                            $tab_classes[] = 'active';
-                            $breadcrumbs = $this->layout()->breadcrumbs .= '<li class="active">' . $this->translate($desc) . '</li>';
-                            $activeTabObj = $obj;
-                        }
-                        if (!$obj->isVisible()) {
-                            $tab_classes[] = 'hidden';
-                        }
-                        if (!$obj->supportsAjax()) {
-                            $tab_classes[] = 'noajax';
-                        }
-                        if (!$hasContents) {
-                            $tab_classes[] = 'disabled';
-                        }
-                        ?>
-                        <li<?= count($tab_classes) > 0 ? ' class="' . implode(' ', $tab_classes) . '"' : '' ?>>
-                            <? if ($hasContents) : ?>
-                                <a id="<?= strtolower($tab) ?>"
-                                   href="<?= $this->recordLink()->getTabUrl($this->driver, $tab) ?>#tabnav"><?= $this->translate($desc) ?></a>
-                            <? else : ?>
-                                <a id="<?= strtolower($tab) ?>" href="#tabnav"><?= $this->translate($desc) ?></a>
-                            <? endif; ?>
-                        </li>
-                    <? endforeach; ?>
-                </ul>
-            <? endif; ?>
 
-            <div class="tab-content" id="record-tabs">
-                <div class="tab-pane active" id="<?= $this->activeTab ?>-tab">
-                    <? if (isset($activeTabObj)) {
-                        echo $this->record($this->driver)->getTab($activeTabObj);
-                    } ?>
-                </div>
-            </div>
-        </div>
-
-        <span class="Z3988" title="<?= $this->escapeHtmlAttr($this->driver->getOpenURL()) ?>"></span>
-    </div>
-    <div class="col-md-3<? //$this->layoutClass('sidebar') ?>">
-
-        <div class="text-center">
-
-
-            <? /* Display qrcode if appropriate: */ ?>
-            <? $QRCode = $this->record($this->driver)->getQRCode("core"); ?>
-            <? if ($QRCode): ?>
-                <span class="hidden-xs">
-                  <br/><img alt="<?= $this->translate('QR Code') ?>" class="qrcode"
-                            src="<?= $this->escapeHtmlAttr($QRCode); ?>"/>
-                </span>
-            <? endif; ?>
-        </div>
-
-        <? // if you have a preview tab but want to move or remove the preview link
-        // from this area of the record view, this can be split into
-        // getPreviewData() (should stay here) and
-        // getPreviewLink() (can go in your desired tab) ?>
-        <?= $this->record($this->driver)->getPreviews() ?>
-        <hr/>
-        <?= $this->record($this->driver)->getToolbar() ?>
-        <hr/>
-
-        <? $isbns = $this->singleRecordInternationalStandardBookNumber($this->driver, true); ?>
-        <? if (!empty($isbns)) : ?>
-            <div id="other-editions" data-xid="<?=$isbns['0']?>">
-
-            </div>
-        <? endif;?>
-        <?= $this->render('RecordDriver/SolrDefault/result-bibtip.phtml'); ?>
-        <!--
-        <? /*foreach ($this->related()->getList($this->driver) as $current): ?>
-            <?= $this->related()->render($current) ?>
-        <? endforeach; */?>
-        -->
-    </div>
-</div>
+<span class="Z3988" title="<?= $this->escapeHtmlAttr($this->driver->getOpenURL()) ?>"></span>
