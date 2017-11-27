@@ -16,9 +16,9 @@
 <? if (!empty($toc = $helper->getSyndeticsToc())) : ?>
     <div class="toc">
         <? if(array_key_exists("Content", $toc[0]) && $toc[0]['Source'] = "TOC") : ?>
-            <ul style="padding: 0;">
+            <ul>
             <? foreach ($toc[0]['Content'] as $item) : ?>
-                <li style="display:block; ">
+                <li>
                     <div class="row">
                         <div class="col-xs-1 col-md-2 col-lg-1 text-left">
                             <? if (!empty($item['l'])) : ?>
@@ -29,7 +29,7 @@
                             <div class="title"><?= $item['t'] ?></div>
                         </div>
                         <div class="col-xs-2">
-                            <div class="page text-right"><?= $item['p'] ?></div>
+                            <div class="page text-right"><?= array_key_exists('p', $item) ? $item['p'] : ''?></div>
                         </div>
                     </div>
                 </li>
