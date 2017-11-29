@@ -29,6 +29,7 @@
       <a href="?purge=true"><i class="fa fa-remove" aria-hidden="true"></i> <?=$this->transEsc("history_purge")?></a>
     <? else: ?>
       <?=$this->transEsc("history_no_searches")?>
+        <p><a href="<?=$this->url('home')?>"><?= $this->transEsc('Start a new search request') ?></a></p>
     <? endif; ?>
   </div>
 
