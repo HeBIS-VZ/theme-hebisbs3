@@ -47,29 +47,47 @@ $lang = $this->layout()->userLang;
                 </div>
             </li>
             <? foreach ($this->rows as $row) : ?>
-                <? if ($row->language !== $lang) {
-                    continue;
-                } ?>
                 <? $bcid = $row->bcid;
-                $message = $this->escapeHtml(strip_tags($row->message)); ?>
-                <? if ($bcid !== $oldbcid) : ?>
-                    <li>
-                        <div class="bc">
+                $message = $this->escapeHtml(strip_tags($row->message));
+                ?>
+                <li>
+                    <div class="bc">
                             <span class="admin-delete-button hds-icon-trash"
                                   href="<?= $this->url('broadcastadmin', ['action' => 'delete', 'bcid' => $bcid]) ?>"
                                   data-href="<?= $message ?>"
                                   id="<?= $bcid ?>">
                             </span>
-                            <span class="sp-page-visibility <?= ($row->show == 1) ? "hds-icon-eye green" : "hds-icon-eye-off red" ?>"
-                                  href="<?= $this->url('broadcastadmin', ['action' => 'toggleVisibility', 'bcid' => $bcid]) ?>">
+                        <span class="sp-page-visibility <?= ($row->show == 1) ? "hds-icon-eye green" : "hds-icon-eye-off red" ?>"
+                              href="<?= $this->url('broadcastadmin', ['action' => 'toggleVisibility', 'bcid' => $bcid]) ?>">
                             </span>
-                            <a class="hds-icon-edit"
-                               href="<?= $this->url('broadcastadmin', ['action' => 'edit', 'bcid' => $bcid]) ?>"></a>
-                            <span><?= $message ?></span>
-                        </div>
-                    </li>
-                <? endif; ?>
-                <? $oldbcid = $bcid; ?>
+                        <a class="hds-icon-edit"
+                           href="<?= $this->url('broadcastadmin', ['action' => 'edit', 'bcid' => $bcid]) ?>"></a>
+                        <span><?= $message ?></span>
+                    </div>
+                </li>
+            <? endforeach; ?>
+        </ul>
+
+        <br>
+        <hr>
+
+        <ul id="expired-list">
+            <? foreach ($this->expired as $expired) : ?>
+                <? $bcid = $expired->bcid;
+                $message = $this->escapeHtml(strip_tags($expired->message));
+                ?>
+                <li>
+                    <div class="bc">
+                            <span class="admin-delete-button hds-icon-trash"
+                                  href="<?= $this->url('broadcastadmin', ['action' => 'delete', 'bcid' => $bcid]) ?>"
+                                  data-href="<?= $message ?>"
+                                  id="<?= $bcid ?>">
+                            </span>
+                        <a class="hds-icon-edit"
+                           href="<?= $this->url('broadcastadmin', ['action' => 'edit', 'bcid' => $bcid]) ?>"></a>
+                        <span id="expired-broadcast"><?= $message ?></span>
+                    </div>
+                </li>
             <? endforeach; ?>
         </ul>
 

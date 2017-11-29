@@ -170,6 +170,17 @@ if (!isset($this->layout()->searchbox)) {
 
 </header>
 <div id="main-content" role="main" class="main template-dir-<?= $this->templateDir ?> template-name-<?= $this->templateName ?>">
+    <div class="container">
+        <? $broadcasts = $this->broadcastMessage()->getBroadcasts();
+        if (!empty($broadcasts)) : ?>
+            <? foreach ($broadcasts as $broadcast) : ?>
+                <div id="bc-<?= $broadcast['bcid'] ?>"
+                     class="alert alert-<?= $broadcast['type'] ?>">
+                    <?= $broadcast['message'] ?>
+                </div>
+            <? endforeach; ?>
+        <? endif; ?>
+    </div>
     <div class="breadcrumb-area" style="border: none;">
         <div class="container" style="border: none">
             <? if ((!isset($this->layout()->showBreadcrumbs) || $this->layout()->showBreadcrumbs == true)
