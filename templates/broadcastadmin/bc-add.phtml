@@ -7,7 +7,7 @@ $this->headScript()
     ->appendFile($this->basePath() . '/themes/hebisbs3/js/datepicker/locales/bootstrap-datepicker.de.min.js')
     ->appendFile($this->basePath() . '/themes/hebisbs3/js/bootstrap-checkbox/js/bootstrap-checkbox.min.js');
 
-$datePickerScript = '$(document).ready(function(){$("#datepicker").datepicker({orientation: "bottom right", format: "dd.mm.yyyy", language: "de"});';
+$datePickerScript = '$(document).ready(function(){$("#datepicker").datepicker({format: "dd.mm.yyyy", language: "de"});});';
 
 $this->headScript()->appendScript($datePickerScript, $type = 'text/javascript');
 
@@ -84,12 +84,12 @@ $this->headScript()->appendScript($datePickerScript, $type = 'text/javascript');
                 <div class="input-group">
                     <span class="input-group-addon hds-icon-eye-off">&nbsp;<?= $this->transEsc('Show now') ?></span>
                     <input id="bc-show-checkbox" type="checkbox" checked data-cls="btn-default" data-off-cls="null"
-                           data-on-cls="null" data-on-active-cls="null" data-off-active-cls="null">
+                           name="bc-show" data-on-cls="null" data-on-active-cls="null" data-off-active-cls="null">
                     <script>
                         $('#bc-show-checkbox').checkboxpicker({
                             html: true,
-                            offLabel: 'Ja',
-                            onLabel: 'Nein'
+                            offLabel: '<?= $this->translate('no'); ?>',
+                            onLabel: '<?= $this->translate('yes'); ?>'
                         });
                     </script>
                 </div>
