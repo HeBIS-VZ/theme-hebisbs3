@@ -55,7 +55,7 @@ $lang = $this->layout()->userLang;
                                   data-href="<?= $message ?>"
                                   id="<?= $bcid ?>">
                             </span>
-                        <span class="sp-page-visibility <?= ($row->show == 1) ? "hds-icon-eye green" : "hds-icon-eye-off red" ?>"
+                        <span class="sp-page-visibility <?= ($row->hide == 0) ? "hds-icon-eye green" : "hds-icon-eye-off red" ?>"
                               href="<?= $this->url('broadcastadmin', ['action' => 'toggleVisibility', 'bcid' => $bcid]) ?>">
                             </span>
                         <a class="hds-icon-edit"

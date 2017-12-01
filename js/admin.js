@@ -56,47 +56,16 @@ $(document).ready(function() {
         var selectedLang = $(this).attr('lang');
     });
 
-    $('.bc-message').keyup(function () {
-        $(this).parent().parent().parent().parent().find('.bc-alert').html($(this).val());
-    });
+    var lambdaSyncInput = function() {
+        var lang = $(this).data('lang');
+        $('#bc-alert-' + lang).html($('#bc-message-' + lang).val());
+    };
+
+    $('.bc-message').keyup(lambdaSyncInput);
+    $('.bc-alert').each(lambdaSyncInput);
 
     /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
     $('#admin-lang-tab-' + userLang).tab('show');
-    /* $("#new-post").submit(function (event) {
-
-        var inputs = $(this).serializeArray();
-        var author = inputs[8].value;
-        var $contents = $('.wysiwig-text');
-        var i = -1;
-        $contents.each(function () {
-
-            inputs.splice(i += 4, 1,
-                {
-                    name: "sp-content[]",
-                    value: $($(this).summernote('code')).text()
-                }
-            );
-        });
-
-        if (author == "") {
-            $('#sp-author').addClass('has-error ');
-            event.preventDefault();
-        }
-        else $('#sp-author').removeClass('has-error');
-
-        if (inputs.every(hasNoEmptyValue))
-            $('#sp-save').popover('destroy');
-        else {
-            $('#sp-save').popover('show');
-            event.preventDefault();
-        }
-
-    });
-
-    function hasNoEmptyValue(input) {
-        return input.value.length > 0;
-    }*/
-
 
 });
