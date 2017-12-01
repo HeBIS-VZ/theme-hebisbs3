@@ -1,6 +1,6 @@
 <?
 $this->headTitle('VuFind Administration - ' . 'Broadcast Admin');
-$this->headScript()->appendFile($this->basePath() . '/themes/hebisbs3' . '/js/admin.js');
+$this->headScript()->appendFile($this->basePath() . '/themes/hebisbs3/js/admin.js');
 $lang = $this->layout()->userLang;
 ?>
 
@@ -49,15 +49,15 @@ $lang = $this->layout()->userLang;
                 $message = $this->escapeHtml(strip_tags($row->message));
                 ?>
                 <li>
-                    <div class="bc">
-                            <span class="admin-delete-button hds-icon-trash"
-                                  href="<?= $this->url('broadcastadmin', ['action' => 'delete', 'bcid' => $bcid]) ?>"
-                                  data-href="<?= $message ?>"
-                                  id="<?= $bcid ?>">
-                            </span>
-                        <span class="sp-page-visibility <?= ($row->hide == 0) ? "hds-icon-eye green" : "hds-icon-eye-off red" ?>"
-                              href="<?= $this->url('broadcastadmin', ['action' => 'toggleVisibility', 'bcid' => $bcid]) ?>">
-                            </span>
+                    <div class="bc" id="<?= $row->uid ?>">
+                    <span class="admin-delete-button hds-icon-trash"
+                          href="<?= $this->url('broadcastadmin', ['action' => 'deleteAjax', 'bcid' => $bcid]) ?>"
+                          data-href="<?= $message ?>"
+                          id="<?= $bcid ?>">
+                    </span>
+                        <span class="admin-page-visibility <?= ($row->show == 1) ? "hds-icon-eye green" : "hds-icon-eye-off red" ?>"
+                              href="<?= $this->url('broadcastadmin', ['action' => 'visibilityAjax', 'bcid' => $bcid]) ?>">
+                    </span>
                         <a class="hds-icon-edit"
                            href="<?= $this->url('broadcastadmin', ['action' => 'edit', 'bcid' => $bcid]) ?>"></a>
                         <span><?= $message ?></span>
@@ -76,11 +76,11 @@ $lang = $this->layout()->userLang;
                 ?>
                 <li>
                     <div class="bc">
-                            <span class="admin-delete-button hds-icon-trash"
-                                  href="<?= $this->url('broadcastadmin', ['action' => 'delete', 'bcid' => $bcid]) ?>"
-                                  data-href="<?= $message ?>"
-                                  id="<?= $bcid ?>">
-                            </span>
+                        <span class="admin-delete-button hds-icon-trash"
+                              href="<?= $this->url('broadcastadmin', ['action' => 'delete', 'bcid' => $bcid]) ?>"
+                              data-href="<?= $message ?>"
+                              id="<?= $bcid ?>">
+                        </span>
                         <a class="hds-icon-edit"
                            href="<?= $this->url('broadcastadmin', ['action' => 'edit', 'bcid' => $bcid]) ?>"></a>
                         <span id="expired-broadcast"><?= $message ?></span>

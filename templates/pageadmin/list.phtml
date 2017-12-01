@@ -1,6 +1,6 @@
 <?
 $this->headTitle('VuFind Administration - ' . $this->translate('Static Pages - Home'));
-$this->headScript()->appendFile($this->basePath() . '/themes/hebisbs3' . "/js/admin.js");
+$this->headScript()->appendFile($this->basePath() . '/themes/hebisbs3/js/admin.js');
 $lang = $this->layout()->userLang;
 ?>
 
@@ -45,14 +45,14 @@ $lang = $this->layout()->userLang;
                 <? $pid = $row->pid;
                 $headline = $row->headline; ?>
                 <? if ($pid !== $oldpid) : ?>
-                    <li>
+                    <li id="<?= $row->uid ?>">
                         <div class="sp">
                             <span class="admin-delete-button hds-icon-trash"
                                   data-href="<?= $headline ?>"
                                   href="<?= $this->url('pageadmin/json', ['method' => 'delete', 'pid' => $pid]) ?>"
                                   id="<?= $pid ?>">
                             </span>
-                            <span class="sp-page-visibility <?= ($row->visible == 1) ? "hds-icon-eye green" : "hds-icon-eye-off red" ?>"
+                            <span class="admin-page-visibility <?= ($row->visible == 1) ? "hds-icon-eye green" : "hds-icon-eye-off red" ?>"
                                   href="<?= $this->url('pageadmin/json', ['method' => 'visible', 'pid' => $pid]) ?>">
                             </span>
                             <a class="hds-icon-edit" href="<?= $this->url('pageadmin/edit', ['pid' => $pid]) ?>"></a>

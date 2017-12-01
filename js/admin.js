@@ -6,24 +6,20 @@ $(document).ready(function() {
 
     var userLang = $('html').attr('lang');
 
-    $('.sp-page-visibility').click(function () {
+    $('.admin-page-visibility').click(function () {
         var _this = this;
         var url = $(this).attr('href');
         $.getJSON(url)
             .done(function (output) {
-                if (output.data === true) {
-                    $(_this).find('span').addClass('hds-icon-eye green');
-                    $(_this).find('span').removeClass('hds-icon-eye-off red');
-                } else if (output.data === false) {
-                    $(_this).find('span').addClass('hds-icon-eye-off red');
-                    $(_this).find('span').removeClass('hds-icon-eye green');
-                }
-
+                if (output.status === 'OK')
+                    $(_this).toggleClass('hds-icon-eye green').toggleClass('hds-icon-eye-off red');
             });
     });
 
     $('.admin-delete-button').on('click', function () {
         var url = $(this).attr('href');
+        var uid = $(this).attr('id');
+        var fadeItem = $(this).parent();
 
         /* customize the header in modal confirmation question */
         $('#admin-del-header').remove();
@@ -34,13 +30,12 @@ $(document).ready(function() {
             $.getJSON(url)
                 .done(function (JSONoutput) {
                     if (JSONoutput.data === 1) {
-                        $(this).parent().fadeOut();
+                        $(fadeItem).fadeOut('fast');
                     }
                     else alert(JSONoutput.status);
                 });
         })
     });
-
 
     /* ~~~~~~~~~~~~~~~~~~~~Broadcasts~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
