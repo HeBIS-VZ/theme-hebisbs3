@@ -1,6 +1,6 @@
 <?
 $this->headTitle('VuFind Administration - ' . $this->translate('Static Pages - Home'));
-$this->headScript()->appendFile($this->basePath() . '/themes/hebisbs3' . "/js/admin.js");
+$this->headScript()->appendFile($this->basePath() . '/themes/hebisbs3/js/admin.js');
 $lang = $this->layout()->userLang;
 ?>
 
@@ -45,7 +45,7 @@ $lang = $this->layout()->userLang;
                 <? $pid = $row->pid;
                 $headline = $row->headline; ?>
                 <? if ($pid !== $oldpid) : ?>
-                    <li>
+                    <li id="<?= $row->uid ?>">
                         <div class="sp">
                             <span class="admin-delete-button hds-icon-trash"
                                   data-href="<?= $headline ?>"
