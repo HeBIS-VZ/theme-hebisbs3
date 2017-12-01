@@ -50,6 +50,11 @@ $(document).ready(function() {
             var match = className.match(/alert-([a-z]+)/g);
             return match.shift();
         }).addClass('alert-' + this.value);
+        $('.bc-types input[type=radio]').removeClass("active");
+        $('.bc-types input[type=radio]').attr('checked',false);
+        $(this).addClass("active");
+        $(this).attr("checked", "checked");
+        //console.log($(this).children('input'));
     });
 
     $('.a[data-toggle="tab"]').on('click', function () {
@@ -63,7 +68,13 @@ $(document).ready(function() {
 
     $('.bc-message').keyup(lambdaSyncInput);
     $('.bc-alert').each(lambdaSyncInput);
-
+    $('.bc-alert').each(function(i, item) {
+        $(this).removeClass(function (index, className) {
+            var match = className.match(/alert-([a-z]+)/g);
+            return match.shift();
+        });
+        $(this).addClass("alert-" + $('input[name=bc-type]:checked').val());
+    });
     /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
     $('#admin-lang-tab-' + userLang).tab('show');
