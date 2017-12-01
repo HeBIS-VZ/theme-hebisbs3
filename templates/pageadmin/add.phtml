@@ -1,11 +1,12 @@
 <?php
+
 $activeLang = $this->layout()->userLang;
-$datePickerScript = '$(".input-group.date").datepicker({format: "dd.mm.yyyy", language: "de"});';
 $this->headTitle('VuFind Administration - ' . $this->translate('Static Pages - Add'));
 $this->headLink(['rel' => 'stylesheet', 'href' => $this->basePath() . "/themes/hebisbs3/js/wysiwyg-editor/summernote.css"]);
 $this->headScript()
     ->appendFile($this->basePath() . '/themes/hebisbs3/js/admin.js')
-    ->appendFile($this->basePath() . '/themes/hebisbs3/js/wysiwyg-editor/summernote.min.js');
+    ->appendFile($this->basePath() . '/themes/hebisbs3/js/wysiwyg-editor/summernote.min.js')
+    ->appendScript('$(document).ready(function() {$(".wysiwig-editor").summernote({height : 200});});', $type = 'text/javascript');
 ?>
 <div class="row">
 
@@ -50,7 +51,7 @@ $this->headScript()
                         </div>
 
                         <div class="form-group">
-                            <textarea type="text" class="form-control wysiwig-editor" name="sp-content[]"></textarea>
+                            <textarea class="form-control wysiwig-editor" name="sp-content[]"></textarea>
                         </div>
                     </div>
                 <? endforeach; ?>

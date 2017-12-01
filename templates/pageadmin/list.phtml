@@ -52,7 +52,7 @@ $lang = $this->layout()->userLang;
                                   href="<?= $this->url('pageadmin/json', ['method' => 'delete', 'pid' => $pid]) ?>"
                                   id="<?= $pid ?>">
                             </span>
-                            <span class="sp-page-visibility <?= ($row->visible == 1) ? "hds-icon-eye green" : "hds-icon-eye-off red" ?>"
+                            <span class="admin-page-visibility <?= ($row->visible == 1) ? "hds-icon-eye green" : "hds-icon-eye-off red" ?>"
                                   href="<?= $this->url('pageadmin/json', ['method' => 'visible', 'pid' => $pid]) ?>">
                             </span>
                             <a class="hds-icon-edit" href="<?= $this->url('pageadmin/edit', ['pid' => $pid]) ?>"></a>

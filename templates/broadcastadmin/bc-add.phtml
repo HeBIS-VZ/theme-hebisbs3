@@ -8,7 +8,6 @@ $this->headScript()
     ->appendFile($this->basePath() . '/themes/hebisbs3/js/bootstrap-checkbox/js/bootstrap-checkbox.min.js');
 
 $datePickerScript = '$(document).ready(function(){$("#datepicker").datepicker({format: "dd.mm.yyyy", language: "de"});});';
-
 $this->headScript()->appendScript($datePickerScript, $type = 'text/javascript');
 
 ?>
