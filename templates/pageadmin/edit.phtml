@@ -17,29 +17,33 @@ $langs = $this->langs;
                 </li>
             <? endforeach; ?>
         </ul>
-        <form id="new-post" method="post">
+        <form id="edit-post" method="post">
             <div class="tab-content">
-
                 <? foreach ($langs as $code => $language) : ?>
                     <? foreach ($this->rowSet as $row) : ?>
                         <? if ($row['language'] === $code) : ?>
-                            <input type="hidden" name="sp-pid" value="<?= $row['pid'] ?>" />
-                            <div id="<?= $code ?>-form" class="sp-form-<?= $code ?> tab-pane fade">
-                                <input type="hidden" class="form-control" name="sp-lang[]" value="<?= $code ?>" />
+                            <div class="tab-pane fade" id="admin-<?= $code ?>-form">
+                                <input type="hidden" class="form-control" name="sp-lang[]" value="<?= $code ?>">
+
                                 <div class="form-group">
                                     <input type="text" class="form-control sp-headline input-lg" name="sp-headline[]"
                                            placeholder="Headline"
-                                           id="sp-headline" autocomplete="off" value="<?= $row['headline'] ?>" />
+                                           id="sp-headline" autocomplete="off"
+                                           value="<?= $row['headline'] ?>">
                                 </div>
+
                                 <div class="form-group">
                                     <input type="text" class="form-control sp-nav-title input-sm" name="sp-nav-title[]"
                                            placeholder="<?= $this->translate('navigation Title') ?>"
-                                           id="sp-headline" style="font-size: small" autocomplete="off" value="<?= $row['nav_title'] ?>" />
+                                           id="sp-headline" style="font-size: small" autocomplete="off"
+                                           value="<?= $row['nav_title'] ?>">
                                 </div>
+
                                 <div class="form-group">
-                                    <textarea type="text" class="wysiwig-text form-control" name="sp-content[]">
-                                        <?= $row['content'] ?>
-                                    </textarea>
+                                    <input type="text"
+                                           class="form-control wysiwig-editor"
+                                           name="sp-content[]"
+                                           value="<?= $row['content'] ?>">
                                 </div>
                             </div>
                         <? endif; ?>
@@ -48,24 +52,26 @@ $langs = $this->langs;
             </div>
             <div class="form-group" id="sp-author">
                 <div class="input-group">
-                    <span class="input-group-addon" id="sp-<?= $this->transEsc('author'); ?>"><span
-                                class="hds-icon-user-1"></span></span>
-                    <input id="sp-author" type="text" value="<?= $this->rowSet->current()['author'] ?>" name="sp-author"
-                           class="form-control">
+                    <span class="input-group-addon hds-icon-user-1"></span>
+                    <input class="form-control"
+                           type="text"
+                           placeholder="<?= $this->transEsc('author'); ?>"
+                           name="sp-author"
+                           id="sp-author"
+                           value="<?= $this->rowSet->current()['author'] ?>"
+                    >
                 </div>
             </div>
             <div class="form-group">
-                <button tabindex="0" class="btn btn-default" data-ignore="true"
+                <button tabindex="0" class="btn btn-default"
                         data-toggle="popover" data-placement="auto right"
-                        data-trigger="focus" data-title="Please Note"
+                        data-title="Please Note"
                         data-content="<?= $this->transEsc('input fields of other languages might be empty!') ?>"
                         id="sp-save"><?= $this->transEsc('Save'); ?>
                 </button>
             </div>
-            <!--div style="border: dashed">
-                <span class="label label-warning">input fields of other languages might be empty! <a>continue anyway</a></span>
-            </div-->
-        </form>
+        </form><!-- --------------------------------------------------------------------------- -->
+
     </div>
     <div class="<?= $this->layoutClass('sidebar') ?>">
         <?= $this->render("admin/menu.phtml") ?>

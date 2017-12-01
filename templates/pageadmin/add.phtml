@@ -6,7 +6,8 @@ $this->headLink(['rel' => 'stylesheet', 'href' => $this->basePath() . "/themes/h
 $this->headScript()
     ->appendFile($this->basePath() . '/themes/hebisbs3/js/admin.js')
     ->appendFile($this->basePath() . '/themes/hebisbs3/js/wysiwyg-editor/summernote.min.js')
-    ->appendScript('$(document).ready(function() {$(".wysiwig-editor").summernote({height : 200});});', $type = 'text/javascript');
+    ->appendFile($this->basePath() . '/themes/hebisbs3/js/wysiwyg-editor/lang/summernote-de-DE.js')
+    ->appendScript('$(document).ready(function() {$(".wysiwig-editor").summernote({height : 200, lang : "de-DE"});});', $type = 'text/javascript');
 ?>
 <div class="row">
 
@@ -51,7 +52,7 @@ $this->headScript()
                         </div>
 
                         <div class="form-group">
-                            <textarea class="form-control wysiwig-editor" name="sp-content[]"></textarea>
+                            <input type="textarea" class="form-control wysiwig-editor" name="sp-content[]"></input>
                         </div>
                     </div>
                 <? endforeach; ?>
@@ -65,9 +66,9 @@ $this->headScript()
                 </div>
             </div>
             <div class="form-group">
-                <button tabindex="0" class="btn btn-default" data-ignore="true"
+                <button tabindex="0" class="btn btn-default"
                         data-toggle="popover" data-placement="auto right"
-                        data-trigger="focus" data-title="Please Note"
+                        data-title="Please Note"
                         data-content="<?= $this->transEsc('input fields of other languages might be empty!') ?>"
                         id="sp-save"><?= $this->transEsc('Save'); ?>
                 </button>

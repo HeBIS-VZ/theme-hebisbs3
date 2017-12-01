@@ -2,7 +2,12 @@
 });*/
 
 $(document).ready(function() {
-    /* Static Pages: Toggle the visibility symbol */
+
+    var develeopementMode = true;
+
+    /*if(develeopementMode){
+        $("#new-post :input").attr('value', 'Irgendwas');
+    }*/
 
     var userLang = $('html').attr('lang');
 
@@ -73,5 +78,38 @@ $(document).ready(function() {
     /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
     $('#admin-lang-tab-' + userLang).tab('show');
+
+    /*$("#new-post").submit(function (event) {
+
+        var inputs = $(this).serializeArray();
+        var author = inputs[10].value;
+        // var $contents = $('.wysiwig-text');
+        var i = -1;
+        inputs.splice(5,1,inputs[5].text());
+
+        if (author == "") {
+            $('#sp-author').addClass('has-error');
+            event.preventDefault();
+        }
+
+        if ($('#summernote').summernote('isEmpty')) {
+            alert('contents is empty');
+        }
+
+        else $('#sp-author').removeClass('has-error');
+
+        if (inputs.every(!hasNoEmptyValue))
+            $('#sp-save').popover();
+        else {
+            $('#sp-save').popover();
+            event.preventDefault();
+        }
+
+    });
+
+    function hasNoEmptyValue(input) {
+        return input.value.length > 0;
+    }*/
+
 
 });
