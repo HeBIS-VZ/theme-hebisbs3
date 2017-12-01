@@ -36,7 +36,7 @@ $lang = $this->layout()->userLang;
         ); ?>
         <? $oldbcid = -1; ?>
 
-        <ul id="admin-list">
+        <ul id="admin-list" class="admin-list">
             <li>
                 <div class="bc">
                     <a class="hds-icon-plus-circled"
@@ -55,7 +55,7 @@ $lang = $this->layout()->userLang;
                           data-href="<?= $message ?>"
                           id="<?= $bcid ?>">
                     </span>
-                        <span class="admin-page-visibility <?= ($row->show == 1) ? "hds-icon-eye green" : "hds-icon-eye-off red" ?>"
+                        <span class="admin-page-visibility <?= ($row->hide == 0) ? "hds-icon-eye green" : "hds-icon-eye-off red" ?>"
                               href="<?= $this->url('broadcastadmin', ['action' => 'visibilityAjax', 'bcid' => $bcid]) ?>">
                     </span>
                         <a class="hds-icon-edit"
@@ -68,14 +68,16 @@ $lang = $this->layout()->userLang;
 
         <br>
         <hr>
+        <? if (!empty($this->expired)) :?>
+        <h4><?= $this->transEsc('currently out of date') ?></h4>
+        <ul id="expired-list" class="admin-list">
 
-        <ul id="expired-list">
-            <? foreach ($this->expired as $expired) : ?>
-                <? $bcid = $expired->bcid;
-                $message = $this->escapeHtml(strip_tags($expired->message));
+            <? foreach ($this->expired as $row) : ?>
+                <? $bcid = $row->bcid;
+                $message = $this->escapeHtml(strip_tags($row->message));
                 ?>
                 <li>
-                    <div class="bc">
+                    <div class="bc" id="<?= $row->uid ?>">
                         <span class="admin-delete-button hds-icon-trash"
                               href="<?= $this->url('broadcastadmin', ['action' => 'delete', 'bcid' => $bcid]) ?>"
                               data-href="<?= $message ?>"
@@ -88,7 +90,7 @@ $lang = $this->layout()->userLang;
                 </li>
             <? endforeach; ?>
         </ul>
-
+        <? endif; ?>
     </div>
     <div class="<?= $this->layoutClass('sidebar') ?>">
         <?= $this->render("admin/menu.phtml") ?>
