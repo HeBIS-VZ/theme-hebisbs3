@@ -85,7 +85,7 @@ $this->headScript()->appendScript($rediLinks); ?>
                     <? endif; ?>
                     <? if ($pdfLink): ?>
                         <span>
-                    <a target="_blank" href="<?= $pdfLink ?>" class="icon pdf fulltext">
+                    <a title="<?= $this->transEsc('PDF Full Text')?>" target="_blank" href="<?= $pdfLink ?>" class="icon pdf fulltext">
                         <?= $this->transEsc('PDF Full Text') ?>
                     </a>
                 </span>
@@ -110,7 +110,7 @@ ENDSCRIPT;
                         <? $this->headScript()->appendScript($script); ?>
                         <span>
           <a id="toggleFulltext" href="#" class="icon html fulltext">
-            <?= $this->transEsc('HTML Full Text') ?>
+            <?= $this->transEsc("CL-" . 'HTML Full Text') ?>
           </a>
         </span><br/>
                     <? endif; ?>
@@ -121,9 +121,9 @@ ENDSCRIPT;
                         <ul>
                             <? if (!empty($ftCustomLinks) && strpos($ftCustomLinks[0]['Url'], "www.redi-bw.de") === false) : ?>
                                 <? $url = isset($ftCustomLinks[0]['Url']) ? $ftCustomLinks[0]['Url'] : '';
-                                $mot = isset($ftCustomLinks[0]['MouseOverText']) ? $ftCustomLinks[0]['MouseOverText'] : '';
+                                $mot = isset($ftCustomLinks[0]['MouseOverText']) ? $this->translate("CL-" . $ftCustomLinks[0]['MouseOverText']) : '';
                                 $icon = isset ($ftCustomLinks[0]['Icon']) ? $ftCustomLinks[0]['Icon'] : '';
-                                $name = isset($ftCustomLinks[0]['Text']) ? $this->translate($ftCustomLinks[0]['Text']) : '';
+                                $name = isset($ftCustomLinks[0]['Text']) ? $this->translate("CL-" . $ftCustomLinks[0]['Text']) : '';
                                 ?>
                                 <li>
                             <span>
@@ -139,9 +139,9 @@ ENDSCRIPT;
 
                             <? foreach ($customLinks as $customLink): ?>
                                 <? $url = isset($customLink['Url']) ? $customLink['Url'] : '';
-                                $mot = isset($customLink['MouseOverText']) ? $customLink['MouseOverText'] : '';
+                                $mot = isset($customLink['MouseOverText']) ? $this->translate("CL-" . $customLink['MouseOverText']) : '';
                                 $icon = isset ($customLink['Icon']) ? $customLink['Icon'] : '';
-                                $name = isset($customLink['Text']) ? $this->translate($customLink['Text']) : '';
+                                $name = isset($customLink['Text']) ? $this->translate("CL-" . $customLink['Text']) : '';
                                 ?>
                                 <li>
                         <span>
@@ -179,13 +179,13 @@ ENDSCRIPT;
 
                     <? if ($dbLabel): ?>
                         <div class="row">
-                            <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Database') ?>:</div>
+                            <div class="bold col-sm-12 col-md-3 col-lg-2">Database:</div>
                             <div class="col-sm-12 col-md-9 col-lg-10"><?= $this->escapeHtml($dbLabel) ?></div>
                         </div>
                     <? endif; ?>
                     <? if ($this->driver->hasHTMLFullTextAvailable() || !empty($abstract)) : ?>
                         <br/>
-                        <h4><?= $this->transEsc('Further Information'); ?></h4>
+                        <h4>Further Information</h4>
                         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                             <? if (!empty($abstract) && !empty($abstract['Data'])) : ?>
                                 <div class="panel panel-default">
@@ -193,7 +193,7 @@ ENDSCRIPT;
                                         <h4 class="panel-title">
                                             <a role="button" data-toggle="collapse" data-parent="#accordion"
                                                href="#collapseAbstract"
-                                               aria-controls="collapseAbstract"><?= $this->transEsc('Abstract') ?></a>
+                                               aria-controls="collapseAbstract">Abstract</a>
                                         </h4>
                                     </div>
                                     <div id="collapseAbstract" class="panel-collapse collapse" role="tabpanel"

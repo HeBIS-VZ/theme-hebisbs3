@@ -51,23 +51,23 @@
                         <? if ($this->driver->hasHTMLFullTextAvailable()): ?>
                             <? $customLinksArray[] = '<a href="' . $this->recordLink()->getUrl($this->driver, 'fulltext') .
                                 '#collapseFulltext" class="icon html fulltext _record_link">' .
-                                $this->transEsc('HTML Full Text') .
+                                $this->transEsc("CL-" . 'HTML Full Text') .
                                 '</a>' ?>
                         <? endif; ?>
                         <!-- pdf links -->
                         <? if ($this->driver->hasPdfAvailable()): ?>
                             <? $customLinksArray[] = '<a href="' . $this->recordLink()->getUrl($this->driver) .
                                 '/PDF" class="icon pdf fulltext" target="_blank"> ' .
-                                $this->transEsc('PDF Full Text') .
+                                $this->transEsc("CL-" . 'PDF Full Text') .
                                 '</a>' ?>
                         <? endif; ?>
                         <!-- custom links -->
                         <? if (!empty($customLinks) || !empty($ftCustomLinks)) : ?>
                             <? if (!empty($ftCustomLinks)) : ?>
                                 <? $url = isset($ftCustomLinks[0]['Url']) ? $ftCustomLinks[0]['Url'] : '';
-                                $mot = isset($ftCustomLinks[0]['MouseOverText']) ? $this->transEsc($ftCustomLinks[0]['MouseOverText']) : '';
+                                $mot = isset($ftCustomLinks[0]['MouseOverText']) ? $this->transEsc("CL-" . $ftCustomLinks[0]['MouseOverText']) : '';
                                 $icon = isset ($ftCustomLinks[0]['Icon']) ? $ftCustomLinks[0]['Icon'] : '';
-                                $name = isset($ftCustomLinks[0]['Text']) ? $this->transEsc($ftCustomLinks[0]['Text']) : '';
+                                $name = isset($ftCustomLinks[0]['Text']) ? $this->transEsc("CL-" . $ftCustomLinks[0]['Text']) : '';
                                 $cl = '<span>
                                     <a href="' . $this->escapeHtmlAttr($url) . '" target="_blank" title="' . $this->escapeHtmlAttr($mot) . '"
                                        class="custom-link">';
@@ -82,9 +82,9 @@
 
                                 <? foreach ($customLinks as $customLink) : ?>
                                     <? $url = isset($customLink['Url']) ? $customLink['Url'] : '';
-                                    $mot = isset($customLink['MouseOverText'])? $this->transEsc($customLink['MouseOverText']) : '';
+                                    $mot = isset($customLink['MouseOverText'])? $this->transEsc("CL-" . $customLink['MouseOverText']) : '';
                                     $icon = isset ($customLink['Icon']) ? $customLink['Icon'] : '';
-                                    $name = isset($customLink['Text']) ? $this->transEsc($customLink['Text']) : '';
+                                    $name = isset($customLink['Text']) ? $this->transEsc("CL-" . $customLink['Text']) : '';
                                     ?>
                                     <?
                                     $cl = '<span><a href="' . $this->escapeHtmlAttr($url) .
