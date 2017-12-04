@@ -7,7 +7,7 @@ $pubType = $this->driver->getPubType();
 $customLinks = $this->driver->getCustomLinks();
 $accessLevel = $this->driver->getAccessLevel();
 $restrictedView = empty($accessLevel) ? false : true;
-$abstracts = null;
+$abstracts = [];
 ?>
 <?
 $rediLinks =
@@ -190,6 +190,7 @@ ENDSCRIPT;
                             <? if (!empty($abstracts)) : ?>
                                 <? $i = 0; ?>
                                 <? foreach ($abstracts as $abstract) : ?>
+                                    <? if (!empty($abstract['Data'])) : ?>
                                     <div class="panel panel-default">
                                         <div class="panel-heading" role="tab" id="headingAbstract-<?=$i?>">
                                             <h4 class="panel-title">
@@ -207,7 +208,8 @@ ENDSCRIPT;
                                             </div>
                                         </div>
                                     </div>
-                                    <? ++$i; ?>
+                                    <? endif;
+                                        ++$i; ?>
                                 <? endforeach; ?>
                             <? endif; ?>
                             <? if ($this->driver->hasHTMLFullTextAvailable()): ?>
