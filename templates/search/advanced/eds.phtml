@@ -3,6 +3,7 @@
 <? if (isset($this->dateRangeLimit) || !empty($this->limiterList)): ?>
 <div class="row">
     <div class="col-sm-12">
+    <h4><?= $this->transEsc('Limiter') ?></h4>
     <fieldset class="well">
         <? if (!empty($this->limiterList)): ?>
 
@@ -72,33 +73,18 @@
                                 <? break;
                         }; ?>
                     <? endforeach; ?>
+                    <p class="clearfix">
+                        <hr />
+                    </p>
                 </div>
 
         <? endif; ?>
-
-        <legend><?= $this->transEsc('adv_search_year') ?></legend>
-        <input type="hidden" name="daterange[]" value="PublicationDate"/>
-        <div class="slider-container">
-            <input type="text" id="PublicationDateSlider">
-        </div>
-        <div class="row">
-            <div class="col-sm-6 col-md-2">
-                <label for="PublicationDatefrom"><?= $this->transEsc('date_from') ?>:</label>
-                <input type="text" name="PublicationDatefrom" id="PublicationDatefrom"
-                       value="<?= $this->escapeHtmlAttr($this->dateRangeLimit[0]) ?>" class="form-control"/>
-            </div>
-            <div class="col-sm-6 col-md-offset-8 col-md-2">
-                <label for="PublicationDateto"><?= $this->transEsc('date_to') ?>:</label>
-                <input type="text" name="PublicationDateto" id="PublicationDateto"
-                       value="<?= $this->escapeHtmlAttr($this->dateRangeLimit[1]) ?>" class="form-control"/>
-            </div>
-        </div>
-        <?
+        <? if (!empty($this->dateRangeLimit)):
         $this->headScript()->appendFile('vendor/bootstrap-slider.js');
         //$this->headLink()->appendStylesheet('vendor/bootstrap-slider.min.css');
-        $min = !empty($current['values'][0]) ? min($current['values'][0], 1400) : 1400;
+        $min = !empty($dateRangeLimit[0]) ? min($dateRangeLimit[0], 1400) : 1400;
         $future = date('Y', time() + 31536000);
-        $max = !empty($current['values'][1]) ? max($future, $current['values'][1]) : $future;
+        $max = !empty($dateRangeLimit[1]) ? max($future, $dateRangeLimit[1]) : $future;
         $low = !empty($dateRangeLimit[0]) ? $dateRangeLimit[0] : $min;
         $high = !empty($dateRangeLimit[1]) ? $dateRangeLimit[1] : $max;
         $min = intval($min);
@@ -106,6 +92,29 @@
         $low = intval($low);
         $high = intval($high);
         $init = !empty($current['values'][0]) ? 'fillTexts()' : '';
+        ?>
+
+        <input type="hidden" name="daterange[]" value="PublicationDate"/>
+        <div class="slider-container">
+            <input type="text" id="PublicationDateSlider">
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-sm-6 col-md-offset-4 col-md-2">
+                <label for="PublicationDatefrom" class="pull-right sr-only"><?= $this->transEsc('date_from') ?>:</label>
+                <input type="text" name="PublicationDatefrom" id="PublicationDatefrom"
+                       value="<?= $this->escapeHtmlAttr($low) ?>" class="form-control"/>
+            </div>
+            <div class="col-sm-6 col-md-2">
+                <label for="PublicationDateto" class="sr-only"><?= $this->transEsc('date_to') ?>:</label>
+                <input type="text" name="PublicationDateto" id="PublicationDateto"
+                       value="<?= $this->escapeHtmlAttr($high) ?>" class="form-control"/>
+            </div>
+        </div>
+        <?
+        $half = floor($low+(($high-$low)/2));
+        $quarter = floor($half+(($high-$low)/2)/2);
+        $halfquarter = floor($quarter+((($high-$low)/2)/2)/1.5);
         $script = <<<JS
 $(document).ready(function() {
     var fillTexts = function() {
@@ -118,29 +127,38 @@ $(document).ready(function() {
        'max':{$max},
        'handle':"square",
        'tooltip':"hide",
-       'value':[{$low},{$high}]
+       'value':[{$low},{$high}],
+         'ticks':[{$low}, {$half}, {$quarter}, {$halfquarter}, {$high}],
+	     'ticks_labels':[{$low}, {$half}, {$quarter}, {$halfquarter}, {$high}],
+	     'ticks_positions':[0, 25, 50, 75, 100]
     })
     .on('change', fillTexts)
     .data('slider');
     
     $('#language-selection').multiselect({
         enableFiltering: true
+    })
+    .on('reset', function() {
+        $('.multiselect:selected').each(function() {
+            $(this).prop('selected', false);
+        });
+        $('.multiselect').multiselect('refresh');
     });
 {$init}
 });
 JS;
-        ?>
+        endif; ?>
         <?= $this->inlineScript(\Zend\View\Helper\HeadScript::SCRIPT, $script, 'SET'); ?>
     </fieldset>
     </div>
 </div>
-<br /><br />
-<div class="row">
 <? endif; ?>
+<div class="row">
+    <div class="col-sm-12">
     <? // end daterange ?>
     <? if (!empty($this->expanderList)): ?>
-        <fieldset class="col-sm-4">
-            <legend><?= $this->transEsc('eds_modes_and_expanders') ?></legend>
+        <h4><?= $this->transEsc('eds_modes_and_expanders') ?></h4>
+        <fieldset class="well">
             <? foreach ($this->expanderList as $field => $expander):
                 $value = $expander['Value'] ?>
                 <div class="checkbox">
