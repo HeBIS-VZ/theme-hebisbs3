@@ -83,6 +83,7 @@ $popOverJs = <<<POPOVER
 POPOVER;
 
 $this->headScript()->appendScript($popOverJs);
+$this->headScript()->appendFile("bootstrap-multiselect.js");
 ?>
 
     <?= $this->flashmessages() ?>
