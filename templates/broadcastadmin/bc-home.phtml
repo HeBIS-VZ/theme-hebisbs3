@@ -57,7 +57,7 @@ $lang = $this->layout()->userLang;
                     </span>
                         <span class="admin-page-visibility <?= ($row->hide == 0) ? "hds-icon-eye green" : "hds-icon-eye-off red" ?>"
                               href="<?= $this->url('broadcastadmin', ['action' => 'visibilityAjax', 'bcid' => $bcid]) ?>">
-                    </span>
+                        </span>
                         <a class="hds-icon-edit"
                            href="<?= $this->url('broadcastadmin', ['action' => 'edit', 'bcid' => $bcid]) ?>"></a>
                         <span><?= $message ?></span>
@@ -76,8 +76,8 @@ $lang = $this->layout()->userLang;
                 <? $bcid = $row->bcid;
                 $message = $this->escapeHtml(strip_tags($row->message));
                 ?>
-                <li>
-                    <div class="bc" id="<?= $row->uid ?>">
+                <li id="<?= $row->uid ?>">
+                    <div class="bc">
                         <span class="admin-delete-button hds-icon-trash"
                               href="<?= $this->url('broadcastadmin', ['action' => 'delete', 'bcid' => $bcid]) ?>"
                               data-href="<?= $message ?>"

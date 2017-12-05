@@ -31,20 +31,16 @@ $lang = $this->layout()->userLang;
         <h3><span class="hds-icon-journal"></span>&nbsp;Static<b>Pages</b></h3>
         <hr>
         <? $oldpid = -1; ?>
-        <ul id="admin-list">
+        <ul class="admin-list">
             <li>
                 <div class="sp">
                     <span class="hds-icon-plus-circled"></span>
                     <a href="<?= $this->url('pageadmin/add') ?>"><i><?= $this->transEsc('Add New Page') ?></a>
                 </div>
             </li>
-            <? foreach ($this->rows as $row) : ?>
-                <? if ($row->language !== $lang) {
-                    continue;
-                } ?>
+            <? foreach ($this->rows[$lang] as $row) : ?>
                 <? $pid = $row->pid;
                 $headline = $row->headline; ?>
-                <? if ($pid !== $oldpid) : ?>
                     <li id="<?= $row->uid ?>">
                         <div class="sp">
                             <span class="admin-delete-button hds-icon-trash"
@@ -56,11 +52,9 @@ $lang = $this->layout()->userLang;
                                   href="<?= $this->url('pageadmin/json', ['method' => 'visible', 'pid' => $pid]) ?>">
                             </span>
                             <a class="hds-icon-edit" href="<?= $this->url('pageadmin/edit', ['pid' => $pid]) ?>"></a>
-                            <a href="<?= $this->url('pageadmin/preview', ['pid' => $pid]) ?>"><?= $headline ?></a>
+                            <a href="<?= $this->url('pageadmin/preview', ['pid' => $pid]) ?>"><?= $headline . '/pid: ' . $pid ?></a>
                         </div>
                     </li>
-                <? endif; ?>
-                <? $oldpid = $pid; ?>
             <? endforeach; ?>
         </ul>
 

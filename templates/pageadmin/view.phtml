@@ -5,6 +5,10 @@ $this->headTitle('VuFind Administration - ' . $this->translate('Static Pages - V
 <div class="row">
     <div class="<?= $this->layoutClass('mainbody') ?>">
         <?= $this->render("page/sp-body.phtml") ?>
+        <a class="btn btn-default"
+           href="<?= $this->url('pageadmin') ?>"
+           data-toggle="tooltip"
+           title="<?= $this->transEsc('Back to overview') ?>">←</a>
     </div>
     <div class="<?= $this->layoutClass('sidebar') ?>">
         <?= $this->render("admin/menu.phtml") ?>
