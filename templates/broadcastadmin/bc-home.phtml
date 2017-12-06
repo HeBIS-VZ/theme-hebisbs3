@@ -27,7 +27,21 @@ $lang = $this->layout()->userLang;
 <!--End of Modal-->
 <div class="row">
     <div class="<?= $this->layoutClass('mainbody') ?>">
-        <h3><span class="hds-icon-bullseye"></span><b>Broadcasts</b></h3>
+        <div class="row">
+            <div class="col-sm-7 col-xs-10">
+                <h3><span class="hds-icon-bullseye"></span><b>Broadcasts</b></h3>
+            </div>
+            <div class="col-sm-5 col-xs-2">
+                <h3>
+                    <a class="btn btn-primary hds-icon-plus"
+                       href="<?= $this->url('broadcastadmin', ['action' => 'add']) ?>"
+                       data-toggle="tooltip"
+                       title="<?= $this->transEsc('add_broadcast') ?>">
+                        <?= $this->transEsc('add') ?>
+                    </a>
+                </h3>
+            </div>
+        </div>
         <hr>
         <?
         $visibilitySymbols = array(
@@ -37,13 +51,6 @@ $lang = $this->layout()->userLang;
         <? $oldbcid = -1; ?>
 
         <ul id="admin-list" class="admin-list">
-            <li>
-                <div class="bc">
-                    <a class="hds-icon-plus-circled"
-                       href="<?= $this->url('broadcastadmin', ['action' => 'add']) ?>">
-                        <i><?= $this->transEsc('Add New Broadcast') ?></i></a>
-                </div>
-            </li>
             <? foreach ($this->rows as $row) : ?>
                 <? $bcid = $row->bcid;
                 $message = $this->escapeHtml(strip_tags($row->message));
@@ -54,7 +61,7 @@ $lang = $this->layout()->userLang;
                            href="<?= $this->url('broadcastadmin', ['action' => 'deleteAjax', 'bcid' => $bcid]) ?>"
                            data-message="<?= $message ?>"
                            id="del-bcid-<?= $bcid ?>">
-                            <span class=" hds-icon-trash"></span>
+                            <span class=" hds-icon-trash-empty"></span>
                         </a>
                         <a class="admin-page-visibility"
                               href="<?= $this->url('broadcastadmin', ['action' => 'visibilityAjax', 'bcid' => $bcid]) ?>">
@@ -76,7 +83,7 @@ $lang = $this->layout()->userLang;
         </ul>
         <? if (!empty($this->expired)) : ?>
             <p class="clearfix"><!-- --></p>
-            <h4 style="margin-top: 1em;"><?= $this->transEsc('Currently not active'); ?></h4>
+            <h4 style="margin: 1em 0 0.5em 1em;"><?= $this->transEsc('currently_not_active'); ?></h4>
             <ul class="admin-list">
                 <? foreach ($this->expired as $row) : ?>
                     <? $bcid = $row->bcid;
@@ -87,14 +94,21 @@ $lang = $this->layout()->userLang;
                             <a class="admin-delete-button"
                                href="<?= $this->url('broadcastadmin', ['action' => 'deleteAjax', 'bcid' => $bcid]) ?>"
                                data-message="<?= $message ?>"
+                               data-toggle="tooltip"
+                               title="<?= $this->transEsc('delete') ?>"
                                id="del-bcid-<?= $bcid ?>">
-                                <span class=" hds-icon-trash"></span>
+                                <span class=" hds-icon-trash-empty"></span>
                             </a>
                             <a class="admin-page-visibility"
-                               href="<?= $this->url('broadcastadmin', ['action' => 'visibilityAjax', 'bcid' => $bcid]) ?>">
+                               href="<?= $this->url('broadcastadmin', ['action' => 'visibilityAjax', 'bcid' => $bcid]) ?>"
+                               data-toggle="tooltip"
+                               title="<?= $this->transEsc('change_visibility') ?>"
+                            >
                                 <span class="<?= ($row->hide == 0) ? "hds-icon-eye green" : "hds-icon-eye-off red" ?>"></span>
                             </a>
-                            <a href="<?= $this->url('broadcastadmin', ['action' => 'edit', 'bcid' => $bcid]) ?>">
+                            <a href="<?= $this->url('broadcastadmin', ['action' => 'edit', 'bcid' => $bcid]) ?>"
+                               data-toggle="tooltip"
+                               title="<?= $this->transEsc('edit') ?>">
                                 <span class="hds-icon-edit"></span>
                             </a>
                             <span><?= $message ?></span>

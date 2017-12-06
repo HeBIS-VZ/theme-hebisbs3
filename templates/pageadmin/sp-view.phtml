@@ -8,7 +8,8 @@ $this->headTitle('VuFind Administration - ' . $this->translate('Static Pages - V
         <a class="btn btn-default"
            href="<?= $this->url('pageadmin') ?>"
            data-toggle="tooltip"
-           title="<?= $this->transEsc('Back to overview') ?>">←</a>
+           title="<?= $this->transEsc('back_to_overview') ?>"><span
+                    class="hds-icon-angle-left"></span><?= $this->transEsc('Back') ?></a>
     </div>
     <div class="<?= $this->layoutClass('sidebar') ?>">
         <?= $this->render("admin/menu.phtml") ?>

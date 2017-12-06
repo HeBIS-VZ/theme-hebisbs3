@@ -1,0 +1,92 @@
+<?
+$this->headTitle('VuFind Administration - ' . $this->translate('Static Pages - Home'));
+$this->headScript()->appendFile($this->basePath() . '/themes/hebisbs3/js/admin.js');
+$lang = $this->layout()->userLang;
+?>
+
+<!--Modal-->
+<div class="modal fade" id="admin-delete-confirmation" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" id="cross">&times;</button>
+                <div class="pull-left col-sm-2" style="font-size:300%">
+                    <span class="hds-icon-trash-empty"><!-- --></span>
+                </div>
+                <p id="admin-delete-question"><?= $this->translate('are_you_sure_?') ?><i></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal"><?= $this->translate('cancel') ?></button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"
+                        id="delete-confirmation-button"><?= $this->translate('delete') ?></button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End of Modal-->
+
+<div class="row">
+    <div class="<?= $this->layoutClass('mainbody') ?>">
+        <div class="row">
+            <div class="col-sm-7 col-xs-10">
+                <h3 class="hds-icon-journal">Static<b>Pages</b></h3>
+            </div>
+            <div class="col-sm-5 col-xs-2">
+                <h3>
+                    <a class="btn btn-primary hds-icon-plus"
+                       href="<?= $this->url('pageadmin/sp-add') ?>"
+                       data-toggle="tooltip"
+                       title="<?= $this->transEsc('add_page') ?>">
+                        <?= $this->transEsc('add') ?>
+                    </a>
+                </h3>
+            </div>
+        </div>
+
+        <hr>
+        <? if (!count($this->rows) < 1) : ?>
+        <ul class="admin-list">
+            <? foreach ($this->rows[$lang] as $row) : ?>
+                <? $pid = $row->pid;
+                $headline = $row->headline; ?>
+                    <li id="<?= $row->uid ?>">
+                        <div class="bc col-sm-8 col-xs-12">
+                            <a class="admin-delete-button"
+                               data-message="<?= $headline ?>"
+                               href="<?= $this->url('pageadmin/json', ['method' => 'delete', 'pid' => $pid]) ?>"
+                               id="<?= $pid ?>"
+                               data-toggle="tooltip"
+                               title="<?= $this->transEsc('delete') ?>"
+                            >
+                                <span class="hds-icon-trash-empty"></span>
+                            </a>
+                            <a class="admin-page-visibility"
+                               href="<?= $this->url('pageadmin/json', ['method' => 'visible', 'pid' => $pid]) ?>"
+                               data-toggle="tooltip"
+                               title="<?= $this->transEsc('change_visibility') ?>">
+                                <span class="<?= ($row->visible == 1) ? "hds-icon-eye green" : "hds-icon-eye-off red" ?>"></span>
+                            </a>
+
+                            <a class="hds-icon-edit"
+                               href="<?= $this->url('pageadmin/sp-edit', ['pid' => $pid]) ?>"
+                               data-toggle="tooltip"
+                               title="<?= $this->transEsc('change_visibility') ?>"
+                            ></a>
+                            <a href="<?= $this->url('pageadmin/preview', ['pid' => $pid]) ?>"><?= $headline ?></a>
+                        </div>
+                        <div class="bc col-sm-4 col-xs-12">
+                            <small>
+                                <?= $this->transEsc('nav_title') . ': ' . '<b>' . $row->nav_title . '</b>' ?>
+                            </small>
+                        </div>
+                    </li>
+            <? endforeach; ?>
+        </ul>
+        <? endif; ?>
+
+    </div>
+    <div class="<?= $this->layoutClass('sidebar') ?>">
+        <?= $this->render("admin/menu.phtml") ?>
+    </div>
+</div>

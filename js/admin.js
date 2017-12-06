@@ -27,7 +27,7 @@ $(document).ready(function() {
         event.preventDefault();
         var $this = $(this);
         var url = $this.attr('href');
-        var fadeItem = $("#" + $this.attr('id'));
+        var fadeItem = $("#" + $this.closest('li').attr('id'));
 
         /* customize the header in modal confirmation question */
         $('#admin-del-header').remove();
