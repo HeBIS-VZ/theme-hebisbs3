@@ -11,35 +11,41 @@ $(document).ready(function() {
 
     var userLang = $('html').attr('lang');
 
-    $('.admin-page-visibility').click(function () {
-        var _this = this;
-        var url = $(this).attr('href');
+    $('.admin-page-visibility').click(function (event) {
+        event.preventDefault();
+        var $this = $(this);
+        var url = $this.attr('href');
         $.getJSON(url)
             .done(function (output) {
                 if (output.status === 'OK')
-                    $(_this).toggleClass('hds-icon-eye green').toggleClass('hds-icon-eye-off red');
+                    $this.children('span').toggleClass('hds-icon-eye green').toggleClass('hds-icon-eye-off red');
             });
+        return false;
     });
 
-    $('.admin-delete-button').on('click', function () {
-        var url = $(this).attr('href');
-        var uid = $(this).attr('id');
-        var fadeItem = $(this).parent();
+    $('.admin-delete-button').on('click', function (event) {
+        event.preventDefault();
+        var $this = $(this);
+        var url = $this.attr('href');
+        var fadeItem = $("#" + $this.attr('id'));
 
         /* customize the header in modal confirmation question */
         $('#admin-del-header').remove();
-        $('#admin-delete-question').after("<p id='admin-del-header'><i>\"<strong>" + $(this).data('href') + "</strong>\"</i></p>");
+        $('#admin-delete-question').after("<p id='admin-del-header'><i>\"<strong>" + $(this).data('message') + "</strong>\"</i></p>");
         $('#admin-delete-confirmation').modal();
 
         $('#delete-confirmation-button').on('click', function () {
             $.getJSON(url)
                 .done(function (JSONoutput) {
                     if (JSONoutput.data === 1) {
-                        $(fadeItem).fadeOut('fast');
+                        fadeItem.fadeOut('fast');
                     }
-                    else alert(JSONoutput.status);
+                    else {
+                        alert(JSONoutput.status);
+                    }
                 });
-        })
+        });
+        return false;
     });
 
     /* ~~~~~~~~~~~~~~~~~~~~Broadcasts~~~~~~~~~~~~~~~~~~~~~~~~~ */
