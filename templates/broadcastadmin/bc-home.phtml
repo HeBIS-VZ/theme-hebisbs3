@@ -49,7 +49,7 @@ $lang = $this->layout()->userLang;
                 $message = $this->escapeHtml(strip_tags($row->message));
                 ?>
                 <li>
-                    <div class="bc" id="<?= $row->uid ?>">
+                    <div class="bc col-sm-7 col-xs-12" id="<?= $row->uid ?>">
                     <span class="admin-delete-button hds-icon-trash"
                           href="<?= $this->url('broadcastadmin', ['action' => 'deleteAjax', 'bcid' => $bcid]) ?>"
                           data-href="<?= $message ?>"
@@ -62,35 +62,38 @@ $lang = $this->layout()->userLang;
                            href="<?= $this->url('broadcastadmin', ['action' => 'edit', 'bcid' => $bcid]) ?>"></a>
                         <span><?= $message ?></span>
                     </div>
+                    <div class="bc col-sm-5 col-xs-12">
+                        <small>
+                            (&nbsp;<?= $this->transEsc('from') . ' <strong>' . date('d.m.Y', strtotime($row->startDate)) . '</strong> ' . $this->transEsc('to') . ' <strong>' . date('d.m.Y', strtotime($row->expireDate)) . '</strong>' ?>
+                            &nbsp;)
+                        </small>
+                    </div>
                 </li>
             <? endforeach; ?>
-        </ul>
-
-        <br>
-        <hr>
-        <? if (!empty($this->expired)) :?>
-        <h4><?= $this->transEsc('currently out of date') ?></h4>
-        <ul id="expired-list" class="admin-list">
-
-            <? foreach ($this->expired as $row) : ?>
-                <? $bcid = $row->bcid;
-                $message = $this->escapeHtml(strip_tags($row->message));
-                ?>
-                <li id="<?= $row->uid ?>">
-                    <div class="bc">
+            <li><!--empty li-->&nbsp;</li>
+            <li>
+                <p><? $this->transEsc('Out of date'); ?></p>
+            </li>
+            <? if (!empty($this->expired)) : ?>
+                <? foreach ($this->expired as $row) : ?>
+                    <? $bcid = $row->bcid;
+                    $message = $this->escapeHtml(strip_tags($row->message));
+                    ?>
+                    <li class="expired" id="<?= $row->uid ?>">
+                        <div class="bc">
                         <span class="admin-delete-button hds-icon-trash"
                               href="<?= $this->url('broadcastadmin', ['action' => 'delete', 'bcid' => $bcid]) ?>"
                               data-href="<?= $message ?>"
                               id="<?= $bcid ?>">
                         </span>
-                        <a class="hds-icon-edit"
-                           href="<?= $this->url('broadcastadmin', ['action' => 'edit', 'bcid' => $bcid]) ?>"></a>
-                        <span id="expired-broadcast"><?= $message ?></span>
-                    </div>
-                </li>
-            <? endforeach; ?>
+                            <a class="hds-icon-edit"
+                               href="<?= $this->url('broadcastadmin', ['action' => 'edit', 'bcid' => $bcid]) ?>"></a>
+                            <span id="expired-broadcast"><?= $message ?></span>
+                        </div>
+                    </li>
+                <? endforeach; ?>
+            <? endif; ?>
         </ul>
-        <? endif; ?>
     </div>
     <div class="<?= $this->layoutClass('sidebar') ?>">
         <?= $this->render("admin/menu.phtml") ?>
