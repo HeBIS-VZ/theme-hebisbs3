@@ -56,7 +56,7 @@ $lang = $this->layout()->userLang;
                 $message = $this->escapeHtml(strip_tags($row->message));
                 ?>
                 <li id="bcid-<?=$bcid?>">
-                    <div class="bc col-sm-7 col-xs-12">
+                    <div class="bc col-sm-8 col-xs-12">
                         <a class="admin-delete-button"
                            href="<?= $this->url('broadcastadmin', ['action' => 'deleteAjax', 'bcid' => $bcid]) ?>"
                            data-message="<?= $message ?>"
@@ -72,7 +72,7 @@ $lang = $this->layout()->userLang;
                         </a>
                         <span><?= $message ?></span>
                     </div>
-                    <div class="bc col-sm-5 col-xs-12 text-right">
+                    <div class="bc col-sm-4 col-xs-12 text-right">
                         <small>
                             (&nbsp;<?= $this->transEsc('from') . ' <strong>' . date('d.m.Y', strtotime($row->startDate)) . '</strong> ' . $this->transEsc('to') . ' <strong>' . date('d.m.Y', strtotime($row->expireDate)) . '</strong>' ?>
                             &nbsp;)
