@@ -112,6 +112,7 @@
             </div>
         </div>
         <?
+        $reversed = $this->layout()->rtl ? 'true' : 'false';
         $half = floor($low+(($high-$low)/2));
         $quarter = floor($half+(($high-$low)/2)/2);
         $halfquarter = floor($quarter+((($high-$low)/2)/2)/1.5);
@@ -130,7 +131,8 @@ $(document).ready(function() {
        'value':[{$low},{$high}],
          'ticks':[{$low}, {$half}, {$quarter}, {$halfquarter}, {$high}],
 	     'ticks_labels':[{$low}, {$half}, {$quarter}, {$halfquarter}, {$high}],
-	     'ticks_positions':[0, 25, 50, 75, 100]
+	     'ticks_positions':[0, 25, 50, 75, 100],
+	   'reversed': {$reversed}
     })
     .on('change', fillTexts)
     .data('slider');
