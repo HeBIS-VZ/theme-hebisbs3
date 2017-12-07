@@ -4,8 +4,7 @@ use Zend\ServiceManager\ServiceManager;
 return [
     "extends" => "bootstrap3",
     "css" => [
-        'compiled.css',
-        'icons.css'
+        'compiled.css'
     ],
     'js' => [
         'vendor/bootstrap.min.js',
