@@ -89,7 +89,7 @@ $this->headScript()->appendFile("bootstrap-multiselect.js");
     <?= $this->flashmessages() ?>
     <div role="search">
         <form name="searchForm" id="advSearchForm" method="get"
-              action="<?= $this->url($this->options->getSearchAction()) ?>">
+              action="<?= $this->url($this->options->getSearchAction()) ?>" class="form-horizontal">
             <? foreach ($hiddenFilters as $key => $filter): ?>
                 <? foreach ($filter as $value): ?>
                     <input type="hidden" name="hiddenFilters[]"
@@ -117,26 +117,15 @@ $this->headScript()->appendFile("bootstrap-multiselect.js");
                     <? endif; ?>
                     <div class="tab-content">
 
-                        <? $lastSort = $this->searchMemory()->getLastSort($this->searchClassId); ?>
-                        <? if (!empty($lastSort)): ?>
+                        <? //$lastSort = $this->searchMemory()->getLastSort($this->searchClassId); ?>
+                        <? /*if (!empty($lastSort)): ?>
                             <input type="hidden" name="sort" value="<?= $this->escapeHtmlAttr($lastSort) ?>"/>
-                        <? endif; ?>
-                        <div class="clearfix">
-                            <div id="groupJoin" class="form-inline pull-right flip">
-                                <label for="groupJoinOptions"><?= $this->transEsc("search_match") ?>:</label>
-                                <select id="groupJoinOptions"
-                                        name="join"
-                                        class="form-control help-join"
-                                        data-content="help.advancedsearch.popover.join">
-                                    <option value="AND"<? if ($searchDetails && $searchDetails->getOperator() == 'ALL'): ?> selected<? endif ?>><?= $this->transEsc('group_AND') ?></option>
-                                    <option value="OR"<? if ($searchDetails && $searchDetails->getOperator() == 'OR'): ?> selected<? endif ?>><?= $this->transEsc('group_OR') ?></option>
-                                </select>
-                            </div>
-                        </div>
+                        <? endif;*/ ?>
+
                         <? /* An empty div. This is the target for the javascript that builds this screen */ ?>
                         <span id="groupPlaceHolder" class="hidden">
-                            <a class="btn btn-primary" role="button" href="#" onClick="addGroup()">
-                                <span class="hds hds-icon-plus"></span>
+                            <span class="hds-icon-plus-circled"></span>
+                            <a class="" role="button" href="#" onClick="addGroup()">
                                 <?= $this->transEsc('add_search_group') ?>
                             </a>
                         </span>
@@ -150,69 +139,71 @@ $this->headScript()->appendFile("bootstrap-multiselect.js");
                                         <div id="new_group_template">
                                     <? endif; ?>
                                     <div id="group<?= $group ?>" class="group row">
-                                        <div class="cancel-icon-container">
-                                            <a href="#" class="group-close hidden" title="<?= $this->transEsc("del_search") ?>"><span
-                                                        class="hds-icon-cancel-circled2"><!-- --></span></a>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <div class="row">
-                                                <div class="col-sm-3">
-                                                    <label class="help-block"><?= $this->transEsc("adv_search_label") ?>
-                                                        :</label>
-                                                </div>
-                                                <div class="col-sm-9">
-                                                    <? for ($search = 0; $search < 3 || (isset($setQueries[$group]) && $search < count($setQueries[$group])); $search++): ?>
-                                                        <? if ($group == 0 && $search == 0): ?>
-                                                            <div id="new_search_template">
-                                                        <? endif; ?>
-                                                        <div id="search<?= $group . '_' . $search ?>" class="search">
-                                                            <div class="row">
-                                                                <div class="col-sm-7 left">
-                                                                    <input name="lookfor<?= $group ?>[]"
-                                                                           id="search_lookfor<?= $group . '_' . $search ?>"
-                                                                           class="form-control help-searchterm"
-                                                                           type="text"<? if (isset($setQueries[$group][$search])): ?> value="<?= $this->escapeHtml($setQueries[$group][$search]->getString()) ?>"<? endif; ?>
-                                                                           data-content="<?= $this->transEsc('help.advancedsearch.popover.searchterm')?>"
-                                                                           data-placement="top"
-                                                                           data-toggle="popover"
-                                                                           >
-                                                                    <div class="help help-header hide">Kopfzeile</div>
-                                                                    <div class="help help-content hide">Content</div>
-
-                                                                </div>
-                                                                <div class="col-sm-4 middle">
-                                                                    <select class="type form-control help-type"
-                                                                            name="type<?= $group ?>[]"
-                                                                            data-content="<?= $this->transEsc('help.advancedsearch.popover.type')?>">
-                                                                        <? foreach ($this->options->getAdvancedHandlers() as $searchVal => $searchDesc): ?>
-                                                                            <option value="<?= $this->escapeHtml($searchVal) ?>"<? if (isset($setQueries[$group][$search]) && $searchVal == $setQueries[$group][$search]->getHandler()): ?> selected<? endif; ?>><?= $this->transEsc($searchDesc) ?></option>
-                                                                        <? endforeach; ?>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="col-sm-1 close hidden">
-                                                                    <a class="help-block" href="#">&times;</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <? if ($group == 0 && $search == 0): ?>
-                                                            </div>
-                                                            <i class="fa fa-plus-circle search_place_holder hidden"></i> <a
-                                                                    href="#"
-                                                                    class="add_search_link hidden"><?= $this->transEsc("add_search") ?></a>
-                                                        <? endif; ?>
-                                                    <? endfor; ?>
-                                                </div>
+                                        <div class="col-sm-12">
+                                            <div class="cancel-icon-container pull-right">
+                                                <a href="#" class="help-block group-close hidden" title="<?= $this->transEsc("del_search") ?>">×</a>
                                             </div>
                                         </div>
-                                        <div class="col-sm-3 match">
-                                            <label class="search_bool"><?= $this->transEsc("search_match") ?>:&nbsp;</label>
-                                            <select name="bool<?= $group ?>[]" id="search_bool<?= $group ?>"
-                                                    class="form-control help-bool"
-                                                    data-content="help.advancedsearch.popover.bool">
-                                                <option value="AND"<? if (isset($setSearchGroups[$group]) && 'AND' == $setSearchGroups[$group]): ?> selected<? endif; ?>><?= $this->transEsc("search_AND") ?></option>
-                                                <option value="OR"<? if (isset($setSearchGroups[$group]) && 'OR' == $setSearchGroups[$group]): ?> selected<? endif; ?>><?= $this->transEsc("search_OR") ?></option>
-                                                <option value="NOT"<? if (isset($setSearchGroups[$group]) && 'NOT' == $setSearchGroups[$group]): ?> selected<? endif; ?>><?= $this->transEsc("search_NOT") ?></option>
-                                            </select>
+                                        <div class="col-sm-8" style="padding-right: 0;">
+                                            <? for ($search = 0; $search < 3 || (isset($setQueries[$group]) && $search < count($setQueries[$group])); $search++): ?>
+                                                <?
+
+                                                if ($group == 0 && $search == 0): ?>
+                                                    <div id="new_search_template">
+                                                <? endif; ?>
+                                                <div id="search<?= $group . '_' . $search ?>" class="adv-search search">
+                                                    <div class="row">
+                                                        <div class="col-sm-7 left">
+                                                            <input name="lookfor<?= $group ?>[]"
+                                                                   id="search_lookfor<?= $group . '_' . $search ?>"
+                                                                   class="form-control help-searchterm"
+                                                                   type="text"<? if (isset($setQueries[$group][$search])): ?> value="<?= $this->escapeHtml($setQueries[$group][$search]->getString()) ?>"<? endif; ?>
+                                                                   data-content="<?= $this->transEsc('help.advancedsearch.popover.searchterm')?>"
+                                                                   data-placement="top"
+                                                                   data-toggle="popover"
+                                                                   placeholder="<?= $this->escapeHtmlAttr($this->translate('search terms')) ?>"
+                                                                   >
+                                                            <div class="help help-header hide">Headline</div>
+                                                            <div class="help help-content hide">Content</div>
+
+                                                        </div>
+                                                        <div class="col-sm-4 middle">
+                                                            <select class="type form-control help-type"
+                                                                    name="type<?= $group ?>[]"
+                                                                    data-content="<?= $this->transEsc('help.advancedsearch.popover.type')?>">
+                                                                <? foreach ($this->options->getAdvancedHandlers() as $searchVal => $searchDesc): ?>
+                                                                    <option value="<?= $this->escapeHtml($searchVal) ?>"<? if (isset($setQueries[$group][$search]) && $searchVal == $setQueries[$group][$search]->getHandler()): ?> selected<? endif; ?>><?= $this->transEsc($searchDesc) ?></option>
+                                                                <? endforeach; ?>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-1 close hidden">
+                                                            <a class="help-block" href="#">&times;</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <? if ($group == 0 && $search == 0): ?>
+                                                    </div>
+                                                    <div class="search_place_holder hidden">
+                                                        <span class="hds-icon-plus-circled "></span>
+                                                        <a href="#" class="add_search_link hidden"><?= $this->transEsc("add_search") ?></a>
+                                                    </div>
+                                                <? endif; ?>
+                                            <? endfor; ?>
+
+                                        </div>
+                                        <div class="col-sm-4 adv-group-match match" style="padding-left: 0; margin-left: 0;">
+                                            <div class="form-group">
+                                                <label class="col-sm-6 search_bool text-right"><span><?= $this->transEsc("search_match") ?></span></label>
+                                                <div class="col-sm-6">
+                                                    <select name="bool<?= $group ?>[]" id="search_bool<?= $group ?>"
+                                                            class="form-control help-bool"
+                                                            data-content="<?= ($this->transEsc('help.advancedsearch.popover.bool')) ?>">
+                                                        <option value="AND"<? if (isset($setSearchGroups[$group]) && 'AND' == $setSearchGroups[$group]): ?> selected<? endif; ?>><?= $this->transEsc("search_AND") ?></option>
+                                                        <option value="OR"<? if (isset($setSearchGroups[$group]) && 'OR' == $setSearchGroups[$group]): ?> selected<? endif; ?>><?= $this->transEsc("search_OR") ?></option>
+                                                        <option value="NOT"<? if (isset($setSearchGroups[$group]) && 'NOT' == $setSearchGroups[$group]): ?> selected<? endif; ?>><?= $this->transEsc("search_NOT") ?></option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <? if ($group == 0): ?>
@@ -221,7 +212,26 @@ $this->headScript()->appendFile("bootstrap-multiselect.js");
                                 <? endfor; ?>
                             <? endif; ?>
                         </div>
+
+                        <div class="clearfix">
+                            <div id="groupJoin" class="form-inline flip text-center" >
+                                <div class="group-join-container">
+                                    <div>
+                                        <label for="groupJoinOptions"><?= $this->transEsc("search_match") ?>:</label>
+                                        <select id="groupJoinOptions"
+                                                name="join"
+                                                class="form-control help-join"
+                                                data-content="help.advancedsearch.popover.join">
+                                            <option value="AND"<? if ($searchDetails && $searchDetails->getOperator() == 'ALL'): ?> selected<? endif ?>><?= $this->transEsc('group_AND') ?></option>
+                                            <option value="OR"<? if ($searchDetails && $searchDetails->getOperator() == 'OR'): ?> selected<? endif ?>><?= $this->transEsc('group_OR') ?></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
+                    <!--
                     <div class="pull-right">
                         <div class="btn-group" role="group">
                             <button class="btn btn-primary pull-right flip" type="submit"><span
@@ -230,7 +240,8 @@ $this->headScript()->appendFile("bootstrap-multiselect.js");
                                         class="hds-icon-recycle"></span><?= $this->transEsc('Clear') ?></button>
                         </div>
                     </div>
-                    <p class="clearfix"><!-- --></p>
+                    -->
+                    <div class="clearfix"><br /><br /><!-- --></div>
                     <? if (isset($this->extraAdvancedControls)): ?>
                         <?= $this->extraAdvancedControls ?>
                         <div class="pull-right">

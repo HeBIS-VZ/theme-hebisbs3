@@ -105,6 +105,13 @@ $(document).ready(function () {
             });
         }
     });
+
+    /* hack erweiterte Suche um letztem Suchfeld innerhalb einer Gruppe eine Klasse zuzuordnen.*/
+    var $groups = $('#advSearchForm #group0');
+    $groups.each(function() {
+        $(this).children('.col-sm-8').first().children('.adv-search').first().addClass('first');
+        console.log($(this).children('.col-sm-8'));
+    });
 });
 
 function processRvkLinks() {

@@ -3,7 +3,7 @@
 <? if (isset($this->dateRangeLimit) || !empty($this->limiterList)): ?>
 <div class="row">
     <div class="col-sm-12">
-    <h4><?= $this->transEsc('Limiter') ?></h4>
+    <h4><?= $this->transEsc('Limit to') ?></h4>
     <fieldset class="well">
         <? if (!empty($this->limiterList)): ?>
 
@@ -157,7 +157,7 @@ JS;
     <div class="col-sm-12">
     <? // end daterange ?>
     <? if (!empty($this->expanderList)): ?>
-        <h4><?= $this->transEsc('eds_modes_and_expanders') ?></h4>
+        <h4><?= $this->transEsc('Expand with') ?></h4>
         <fieldset class="well">
             <? foreach ($this->expanderList as $field => $expander):
                 $value = $expander['Value'] ?>
