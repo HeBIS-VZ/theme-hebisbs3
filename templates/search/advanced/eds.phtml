@@ -139,12 +139,9 @@ $(document).ready(function() {
     
     $('#language-selection').multiselect({
         enableFiltering: true
-    })
-    .on('reset', function() {
-        $('.multiselect:selected').each(function() {
-            $(this).prop('selected', false);
-        });
-        $('.multiselect').multiselect('refresh');
+    });
+    $('form button:reset').click(function (event) {
+      $('#PublicationDateSlider').slider('refresh');
     });
 {$init}
 });
