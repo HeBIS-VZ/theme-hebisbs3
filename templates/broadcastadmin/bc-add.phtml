@@ -1,0 +1,24 @@
+<?php
+$activeLang = $this->layout()->userLang;
+$this->headTitle('VuFind Administration - ' . $this->translate('Broadcasts - Add'));
+$this->headScript()
+    ->appendFile($this->basePath() . '/themes/hebisbs3/js/admin.js')
+    ->appendFile($this->basePath() . '/themes/hebisbs3/js/datepicker/bootstrap-datepicker.js')
+    ->appendFile($this->basePath() . '/themes/hebisbs3/js/datepicker/locales/bootstrap-datepicker.de.min.js')
+    ->appendFile($this->basePath() . '/themes/hebisbs3/js/bootstrap-checkbox/js/bootstrap-checkbox.min.js');
+
+?>
+<div class="row">
+
+    <div class="<?= $this->layoutClass('mainbody') ?>">
+
+
+    <?= $this->render('bc-form.phtml'); ?>
+
+
+
+    </div>
+    <div class="<?= $this->layoutClass('sidebar') ?>">
+        <?= $this->render("admin/menu.phtml") ?>
+    </div>
+</div>

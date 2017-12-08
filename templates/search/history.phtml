@@ -1,0 +1,46 @@
+<?
+  // Set page title.
+  $this->headTitle($this->translate('Search History'));
+
+  // Set up breadcrumbs:
+  $this->layout()->breadcrumbs = '<li><a href="' .  $this->url('myresearch-home') . '">' . $this->transEsc('Your Account') . '</a></li>'
+    . '<li class="active">' . $this->transEsc('History') . '</li>';
+
+  $saveSupported = $this->accountCapabilities()->getSavedSearchSetting() === 'enabled';
+  $this->layout()->searchbox = false;
+?>
+
+<div class="row">
+  <div class="<?=$this->layoutClass('mainbody')?>">
+    <?=$this->flashmessages()?>
+    <? $searches = $this->unsaved; ?>
+    <? if (!empty($searches)) : ?>
+        <? $info = array_pop($searches) ?>
+        <a href="<?=$this->url($info->getOptions()->getSearchAction()) . $info->getUrlQuery()->getParams()?>"><span class="hds-icon-left-big"></span><?= $this->transEsc("back to last search")?></a>
+    <? endif; ?>
+    <? if ($saveSupported && !empty($this->saved)): ?>
+      <h2><?=$this->transEsc("history_saved_searches")?></h2>
+      <?=$this->context()->renderInContext('search/history-table.phtml', array('showSaved' => true));?>
+    <? endif; ?>
+
+    <h2><?=$this->transEsc("history_recent_searches")?></h2>
+    <? if (!empty($this->unsaved)): ?>
+      <?=$this->context()->renderInContext('search/history-table.phtml', array('showSaved' => false));?>
+      <a href="?purge=true"><i class="fa fa-remove" aria-hidden="true"></i> <?=$this->transEsc("history_purge")?></a>
+    <? else: ?>
+      <?=$this->transEsc("history_no_searches")?>
+        <p><a href="<?=$this->url('home')?>"><?= $this->transEsc('Start a new search request') ?></a></p>
+    <? endif; ?>
+  </div>
+
+  <? if ($saveSupported): ?>
+    <div class="<?=$this->layoutClass('sidebar')?>">
+      <?=$this->context($this)->renderInContext(
+          "myresearch/menu.phtml",
+          // Only activate search history in account menu if user is logged in.
+          $this->auth()->isLoggedIn() ? array('active' => 'history') : array()
+       );
+       ?>
+    </div>
+  <? endif; ?>
+</div>

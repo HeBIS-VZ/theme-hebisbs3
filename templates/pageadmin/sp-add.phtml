@@ -1,0 +1,84 @@
+<?php
+
+$activeLang = $this->layout()->userLang;
+$this->headTitle('VuFind Administration - ' . $this->translate('Static Pages - Add'));
+$this->headLink(['rel' => 'stylesheet', 'href' => $this->basePath() . "/themes/hebisbs3/js/wysiwyg-editor/summernote.css"]);
+$this->headScript()
+    ->appendFile($this->basePath() . '/themes/hebisbs3/js/admin.js')
+    ->appendFile($this->basePath() . '/themes/hebisbs3/js/wysiwyg-editor/summernote.min.js')
+    ->appendFile($this->basePath() . '/themes/hebisbs3/js/wysiwyg-editor/lang/summernote-de-DE.js')
+    ->appendScript('$(document).ready(function() {$(".wysiwig-editor").summernote({height : 200, lang : "de-DE", placeholder : "Content"});});', $type = 'text/javascript');
+?>
+<div class="row">
+
+    <div class="<?= $this->layoutClass('mainbody') ?>">
+        <h4><?= $this->transEsc('Add New Page') ?></h4>
+
+        <ul class="nav nav-tabs">
+            <? foreach ($this->langs as $code => $language) : ?>
+                <li class="bc-form">
+                    <a data-toggle="tab"
+                       lang="<?= $code ?>"
+                       href="#admin-<?= $code ?>-form"
+                       id="admin-lang-tab-<?= $code ?>"><?= $this->transEsc($language) ?></a>
+                </li>
+            <? endforeach; ?>
+        </ul>
+        <!-- Tab Contents -->
+
+        <form id="new-post" method="post">
+            <div class="tab-content">
+                <? /* if ($this->error) : */ ?><!--
+                    <div class="alert alert-danger">
+                        <? /*= $this->translate("Fill out the form"); */ ?>
+                    </div>
+                --><? /* endif; */ ?>
+                <? foreach ($this->langs as $code => $language) : ?>
+
+                    <div class="tab-pane fade" id="admin-<?= $code ?>-form">
+
+                        <input type="hidden" class="form-control" name="sp-lang[]" value="<?= $code ?>">
+
+                        <div class="form-group">
+                            <input type="text" class="form-control sp-headline input-lg" name="sp-headline[]"
+                                   placeholder="Headline"
+                                   id="sp-headline" autocomplete="off">
+                        </div>
+
+                        <div class="form-group">
+                            <input type="text" class="form-control sp-nav-title input-sm" name="sp-nav-title[]"
+                                   placeholder="<?= $this->translate('navigation Title') ?>"
+                                   id="sp-headline" style="font-size: small" autocomplete="off">
+                        </div>
+
+                        <div class="form-group">
+                            <textarea class="form-control wysiwig-editor"
+                                      name="sp-content[]">
+                            </textarea>
+                        </div>
+                    </div>
+                <? endforeach; ?>
+            </div>
+            <div class="form-group" id="sp-author">
+                <div class="input-group">
+                    <span class="input-group-addon" id="sp-<?= $this->transEsc('author'); ?>"><span
+                                class="hds-icon-user-1"></span></span>
+                    <input id="sp-author" type="text" placeholder="<?= $this->transEsc('author'); ?>" name="sp-author"
+                           class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <button tabindex="0" class="btn btn-default"
+                        id="sp-save"><?= $this->transEsc('Save'); ?>
+                </button>
+            </div>
+            <!--div style="border: dashed">
+                <span class="label label-warning">input fields of other languages might be empty! <a>continue anyway</a></span>
+            </div-->
+        </form>
+
+    </div>
+    <div class="<?= $this->layoutClass('sidebar') ?>">
+        <?= $this->render("admin/menu.phtml") ?>
+    </div>
+</div>

@@ -6,7 +6,9 @@ userIsLoggedIn = false;
 
 $(document).ready(function () {
 
-    $('.list-group.facet .list-group-item.toggle-more').click(function(event) {
+    $('[data-toggle="popover"]').popover();
+
+    $('.list-group.facet .list-group-item.toggle-more').click(function (event) {
         event.preventDefault();
         var id = $(this).data("group");
         $('.' + id).removeClass('hidden');
@@ -14,7 +16,7 @@ $(document).ready(function () {
         return false;
     });
 
-    $('.list-group.facet .list-group-item.toggle-less').click(function(event) {
+    $('.list-group.facet .list-group-item.toggle-less').click(function (event) {
         event.preventDefault();
         var id = $(this).data("group");
         $('.' + id).addClass('hidden');
@@ -26,6 +28,7 @@ $(document).ready(function () {
         var target = this;
         return target.split(search).join(replacement);
     };
+
     /** language switch */
     $('.lang-switch').click(function (event) {
         event.preventDefault();
@@ -41,8 +44,8 @@ $(document).ready(function () {
 
     function scroll() {
         if (document.body.clientWidth >= 768) {
-            if ($(window).scrollTop() > (origOffsetY)) {
-                $('#height-offset-workaround').height(origOffsetY*2).show();
+            if (window.scrollTop() > (origOffsetY)) {
+                $('#height-offset-workaround').height(origOffsetY * 2).show();
                 navbar.addClass('sticky');
                 menu.hide();
                 $("#main-content").css({marginTop: $("header.header").height()+origOffsetY});
@@ -60,18 +63,18 @@ $(document).ready(function () {
     processRvkLinks();
     processOtherEditions();
 
-    // support "jump menu" dropdown boxes
-    $('select.jumpMenu').change(function() {
+// support "jump menu" dropdown boxes
+    $('select.jumpMenu').change(function () {
 
-        $form = $(this).parent('form');
+        var $form = $(this).parent('form');
 
-        if($form.length < 1) {
+        if ($form.length < 1) {
             $form = $(this).parentsUntil('form').parent();
         }
         $form.submit();
     });
 
-    $('#select-search-handler li a').click(function(event) {
+    $('#select-search-handler li a').click(function (event) {
         var value = $(this).data('value');
         var label = $(this).data('label');
         $('#search-option-type').val(value);
@@ -161,14 +164,14 @@ function processWikipediaLinks() {
 
     var baseUrl = 'https://resolver.hebis.de/wikimedia/gnd/intro/json/';
 
-    $(".wiki-gnd-popover").click(function(e) {
+    $(".wiki-gnd-popover").click(function (e) {
         e.preventDefault();
         var $popup = $(this);
         $popup.popover('show');
         return false;
     });
 
-    $(".wiki-gnd-popover").each(function(e) {
+    $(".wiki-gnd-popover").each(function (e) {
         var $popup = $(this);
         var gndId = $(this).data('id');
         var url = baseUrl + VuFind.userLang + '/' + gndId;
@@ -176,7 +179,7 @@ function processWikipediaLinks() {
         $.get(url, function (result) {
             setPopup($popup, gndId, eval(result));
         }).fail(function (e) {
-            setPopup($popup, gndId, {"title":"Error", "extract":"Something gone wrong!"});
+            setPopup($popup, gndId, {"title": "Error", "extract": "Something gone wrong!"});
             $popup.hide();
         });
     });
@@ -188,9 +191,9 @@ function processWikipediaLinks() {
             placement: 'auto',
             content: function () {
                 var contentDiv = $(this).attr("data-popover-content");
-                var content = '<p>'+data.extract;
+                var content = '<p>' + data.extract;
                 if (data.title !== "Error") {
-                    content += '&nbsp;<a href="'+data.location+'"><span class="hds-icon-link-ext"></span>more</a>';
+                    content += '&nbsp;<a href="' + data.location + '"><span class="hds-icon-link-ext"></span>more</a>';
                 }
                 content += '</p>';
                 return $(contentDiv).children(".popover-body").html(content).html();
@@ -198,7 +201,7 @@ function processWikipediaLinks() {
             title: function () {
                 var title = $(this).attr("data-popover-content");
                 var $header = $(title).children(".popover-heading");
-                $header.html(data.title + '<a data-id="'+gndId+'" class="close" role="button">&times;</a>');
+                $header.html(data.title + '<a data-id="' + gndId + '" class="close" role="button">&times;</a>');
                 return $header.html();
             }
         }).on('shown.bs.popover', function (eventShown) {
@@ -212,7 +215,7 @@ function processWikipediaLinks() {
 }
 
 function processOtherEditions() {
-    $("#other-editions").each(function(e) {
+    $("#other-editions").each(function (e) {
         var $otherEditionsContainer = $(this);
         var xid = $(this).data('xid');
         var url = VuFind.path + "/xisbn/xid?type=xid&lookfor=" + xid;

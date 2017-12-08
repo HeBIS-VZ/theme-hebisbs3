@@ -1,6 +1,6 @@
 <?
   // Set up page title:
-  $lookfor = $this->results->getUrlQuery()->isQuerySuppressed() ? '' : $this->params->getDisplayQuery();
+  $lookfor = $this->results->getUrlQuery()->isQuerySuppressed() ? '' : $this->params->getDisplayQueryInputField();
   $this->lookfor = $lookfor;
   $this->searchIndex = $this->params->getSearchHandler();
   $this->searchType = $this->params->getSearchType();

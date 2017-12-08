@@ -179,13 +179,13 @@ ENDSCRIPT;
 
                     <? if ($dbLabel): ?>
                         <div class="row">
-                            <div class="bold col-sm-12 col-md-3 col-lg-2"><?= $this->transEsc('Database') ?>:</div>
+                            <div class="bold col-sm-12 col-md-3 col-lg-2">Database:</div>
                             <div class="col-sm-12 col-md-9 col-lg-10"><?= $this->escapeHtml($dbLabel) ?></div>
                         </div>
                     <? endif; ?>
                     <? if ($this->driver->hasHTMLFullTextAvailable() || !empty($abstract)) : ?>
                         <br/>
-                        <h4><?= $this->transEsc('Further Information'); ?></h4>
+                        <h4>Further Information</h4>
                         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                             <? if (!empty($abstract) && !empty($abstract['Data'])) : ?>
                                 <div class="panel panel-default">
@@ -193,7 +193,7 @@ ENDSCRIPT;
                                         <h4 class="panel-title">
                                             <a role="button" data-toggle="collapse" data-parent="#accordion"
                                                href="#collapseAbstract"
-                                               aria-controls="collapseAbstract"><?= $this->transEsc('Abstract') ?></a>
+                                               aria-controls="collapseAbstract">Abstract</a>
                                         </h4>
                                     </div>
                                     <div id="collapseAbstract" class="panel-collapse collapse" role="tabpanel"
