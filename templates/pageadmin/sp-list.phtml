@@ -29,27 +29,26 @@ $lang = $this->layout()->userLang;
 <div class="row">
     <div class="<?= $this->layoutClass('mainbody') ?>">
         <div class="row">
-            <div class="col-sm-7 col-xs-10">
-                <h3 class="hds-icon-journal">Static<b>Pages</b></h3>
-            </div>
-            <div class="col-sm-5 col-xs-2">
-                <h3>
+            <h3>
+                <div class="col-sm-7 col-xs-10 hds-icon-journal">Static<b>Pages</b>
+                </div>
+                <div class="col-sm-5 col-xs-2">
                     <a class="btn btn-primary hds-icon-plus"
                        href="<?= $this->url('pageadmin/sp-add') ?>"
                        data-toggle="tooltip"
                        title="<?= $this->transEsc('add_page') ?>">
                         <?= $this->transEsc('add') ?>
                     </a>
-                </h3>
-            </div>
+                </div>
+            </h3>
         </div>
 
         <hr>
         <? if (!count($this->rows) < 1) : ?>
-        <ul class="admin-list">
-            <? foreach ($this->rows[$lang] as $row) : ?>
-                <? $pid = $row->pid;
-                $headline = $row->headline; ?>
+            <ul class="admin-list">
+                <? foreach ($this->rows[$lang] as $row) : ?>
+                    <? $pid = $row->pid;
+                    $headline = $row->headline; ?>
                     <li id="<?= $row->uid ?>">
                         <div class="bc col-sm-8 col-xs-12">
                             <a class="admin-delete-button"
@@ -81,8 +80,8 @@ $lang = $this->layout()->userLang;
                             </small>
                         </div>
                     </li>
-            <? endforeach; ?>
-        </ul>
+                <? endforeach; ?>
+            </ul>
         <? endif; ?>
 
     </div>
