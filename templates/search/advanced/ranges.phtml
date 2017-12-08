@@ -11,7 +11,8 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="slider-container">
-                        <input type="text" id="<?= $escField ?><?= $this->escapeHtmlAttr($current['type']) ?>Slider">
+                        <? $sliderId = $escField . $this->escapeHtmlAttr($current['type']) . 'Slider'; ?>
+                        <input type="text" id="<?= $sliderId ?>">
                     </div>
                     <br />
                     <?
@@ -33,11 +34,11 @@
                     $script = <<<JS
 $(document).ready(function() {
   var fillTexts = function() {
-    var v = {$escField}dateSlider.getValue();
+    var v = {$sliderId}.getValue();
     $('#${escField}from').val(v[0]);
     $('#${escField}to').val(v[1]);
   };
-  var {$escField}dateSlider = $('#{$escField}dateSlider')
+  var {$sliderId} = $('#{$sliderId}')
     .slider({
 'min':{$min},
        'max':{$max},
@@ -52,6 +53,10 @@ $(document).ready(function() {
     .on('change', fillTexts)
     .data('slider');
   {$init}
+  $('form button:reset').click(function (event) {
+      $('#{$sliderId}').slider('refresh');
+  });
+   
 });
 JS;
             ?>

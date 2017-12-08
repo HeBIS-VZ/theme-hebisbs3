@@ -106,11 +106,23 @@ $(document).ready(function () {
         }
     });
 
-    /* hack erweiterte Suche um letztem Suchfeld innerhalb einer Gruppe eine Klasse zuzuordnen.*/
-    var $groups = $('#advSearchForm #group0');
-    $groups.each(function() {
-        $(this).children('.col-sm-8').first().children('.adv-search').first().addClass('first');
-        console.log($(this).children('.col-sm-8'));
+    // reset handler that clears the form
+    $('form button:reset').click(function (event) {
+        event.preventDefault();
+        $('form')
+            .find(':radio, :checkbox').removeAttr('checked').end()
+            .find('textarea, :text').val('')
+            .find('.multiselect option:selected').each(function() {
+                $(this).prop('selected', false);
+            });
+        $('select[multiple="multiple"]').multiselect('destroy');
+        $multiSelect = $('select[multiple="multiple"]').multiselect({
+            enableFiltering: true
+        }).next();
+        $multiSelect.find('.multiselect-selected-text').text('None selected');
+        $multiSelect.find('.multiselect-container li.active input').prop('checked', false);
+        $multiSelect.find('.multiselect-container li.active').removeClass('active');
+        return false;
     });
 });
 

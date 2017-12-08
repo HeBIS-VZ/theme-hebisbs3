@@ -79,12 +79,6 @@ $popOverJs = <<<POPOVER
         });
         $('select[multiple="multiple"]').multiselect({
             enableFiltering: true
-        })
-        .on('reset', function() {
-            $('select[multiple="multiple"]').each(function() {
-                $(this).prop('selected', false);
-            });
-            $('select[multiple="multiple"]').multiselect('refresh');
         });
     });
     
@@ -245,7 +239,7 @@ $this->headScript()->appendFile("bootstrap-multiselect.js");
                                 <div class="btn-group" role="group">
                                     <button class="btn btn-primary pull-right flip" type="submit"><span
                                                 class="hds-icon-search"></span> <?= $this->transEsc('Find') ?></button>
-                                    <button class="btn btn-default pull-right clear-btn" type="button"><span
+                                    <button class="btn btn-default pull-right clear-btn" type="reset"><span
                                                 class="hds-icon-recycle"></span><?= $this->transEsc('Clear') ?></button>
                                 </div>
                             </div>
