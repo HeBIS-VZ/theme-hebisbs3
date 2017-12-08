@@ -11,6 +11,8 @@ $(document).ready(function() {
 
     var userLang = $('html').attr('lang');
 
+    $('[data-toggle="tooltip"]').tooltip({delay: {show: 600, hide: 30}});
+
     $('.admin-page-visibility').click(function (event) {
         event.preventDefault();
         var $this = $(this);
@@ -57,9 +59,9 @@ $(document).ready(function() {
             return match.shift();
         }).addClass('alert-' + this.value);
         $('.bc-types input[type=radio]').removeClass("active");
-        $('.bc-types input[type=radio]').attr('checked',false);
+        $('.bc-types input[type=radio]').prop('checked', false);
         $(this).addClass("active");
-        $(this).attr("checked", "checked");
+        $(this).prop("checked", true);
         //console.log($(this).children('input'));
     });
 

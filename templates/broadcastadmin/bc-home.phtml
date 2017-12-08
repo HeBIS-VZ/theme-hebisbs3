@@ -25,6 +25,7 @@ $lang = $this->layout()->userLang;
     </div>
 </div>
 <!--End of Modal-->
+
 <div class="row">
     <div class="<?= $this->layoutClass('mainbody') ?>">
         <div class="row">
@@ -32,14 +33,7 @@ $lang = $this->layout()->userLang;
                 <h3><span class="hds-icon-bullseye"></span><b>Broadcasts</b></h3>
             </div>
             <div class="col-sm-5 col-xs-2">
-                <h3>
-                    <a class="btn btn-primary hds-icon-plus"
-                       href="<?= $this->url('broadcastadmin', ['action' => 'add']) ?>"
-                       data-toggle="tooltip"
-                       title="<?= $this->transEsc('add_broadcast') ?>">
-                        <?= $this->transEsc('add') ?>
-                    </a>
-                </h3>
+                <!-- -->
             </div>
         </div>
         <hr>
@@ -51,6 +45,16 @@ $lang = $this->layout()->userLang;
         <? $oldbcid = -1; ?>
 
         <ul id="admin-list" class="admin-list">
+            <li>
+                <div class="bc">
+                    <span class="hds-icon-plus"></span>
+                    <a href="<?= $this->url('broadcastadmin', ['action' => 'add']) ?>"
+                       data-toggle="tooltip"
+                       title="<?= $this->transEsc('add_broadcast') ?>">
+                        <?= $this->transEsc('add') ?>
+                    </a>
+                </div>
+            </li>
             <? foreach ($this->rows as $row) : ?>
                 <? $bcid = $row->bcid;
                 $message = $this->escapeHtml(strip_tags($row->message));
@@ -60,17 +64,23 @@ $lang = $this->layout()->userLang;
                         <a class="admin-delete-button"
                            href="<?= $this->url('broadcastadmin', ['action' => 'deleteAjax', 'bcid' => $bcid]) ?>"
                            data-message="<?= $message ?>"
-                           id="del-bcid-<?= $bcid ?>">
+                           id="del-bcid-<?= $bcid ?>"
+                           data-toggle="tooltip"
+                           title="<?= $this->transEsc('delete') ?>">
                             <span class=" hds-icon-trash-empty"></span>
                         </a>
                         <a class="admin-page-visibility"
-                              href="<?= $this->url('broadcastadmin', ['action' => 'visibilityAjax', 'bcid' => $bcid]) ?>">
+                           href="<?= $this->url('broadcastadmin', ['action' => 'visibilityAjax', 'bcid' => $bcid]) ?>"
+                           data-toggle="tooltip"
+                           title="<?= $this->transEsc('change_visibility') ?>">
                             <span class="<?= ($row->hide == 0) ? "hds-icon-eye green" : "hds-icon-eye-off red" ?>"></span>
                         </a>
-                        <a href="<?= $this->url('broadcastadmin', ['action' => 'edit', 'bcid' => $bcid]) ?>">
+                        <a href="<?= $this->url('broadcastadmin', ['action' => 'edit', 'bcid' => $bcid]) ?>"
+                           data-toggle="tooltip"
+                           title="<?= $this->transEsc('edit') ?>">
                             <span class="hds-icon-edit"></span>
                         </a>
-                        <span><?= $message ?></span>
+                        <span><?= strlen($message) > 70 ? substr($message, 0, 70) . "..." : $message; ?></span>
                     </div>
                     <div class="bc col-sm-4 col-xs-12 text-right">
                         <small>
@@ -83,6 +93,7 @@ $lang = $this->layout()->userLang;
         </ul>
         <? if (!empty($this->expired)) : ?>
             <p class="clearfix"><!-- --></p>
+            <br/>
             <h4 style="margin: 1em 0 0.5em 1em;"><?= $this->transEsc('currently_not_active'); ?></h4>
             <ul class="admin-list">
                 <? foreach ($this->expired as $row) : ?>
@@ -90,7 +101,7 @@ $lang = $this->layout()->userLang;
                     $message = $this->escapeHtml(strip_tags($row->message));
                     ?>
                     <li id="bcid-<?=$bcid?>" class="expired">
-                        <div class="bc col-sm-7 col-xs-12">
+                        <div class="bc col-sm-8 col-xs-12">
                             <a class="admin-delete-button"
                                href="<?= $this->url('broadcastadmin', ['action' => 'deleteAjax', 'bcid' => $bcid]) ?>"
                                data-message="<?= $message ?>"
@@ -111,9 +122,9 @@ $lang = $this->layout()->userLang;
                                title="<?= $this->transEsc('edit') ?>">
                                 <span class="hds-icon-edit"></span>
                             </a>
-                            <span><?= $message ?></span>
+                            <span><?= strlen($message) > 70 ? substr($message, 0, 70) . "..." : $message; ?></span>
                         </div>
-                        <div class="bc col-sm-5 col-xs-12 text-right">
+                        <div class="bc col-sm-4 col-xs-12 text-right">
                             <small>
                                 (&nbsp;<?= $this->transEsc('from') . ' <strong>' . date('d.m.Y', strtotime($row->startDate)) . '</strong> ' . $this->transEsc('to') . ' <strong>' . date('d.m.Y', strtotime($row->expireDate)) . '</strong>' ?>
                                 &nbsp;)

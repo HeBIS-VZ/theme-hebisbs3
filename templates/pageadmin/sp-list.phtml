@@ -33,19 +33,23 @@ $lang = $this->layout()->userLang;
                 <div class="col-sm-7 col-xs-10 hds-icon-journal">Static<b>Pages</b>
                 </div>
                 <div class="col-sm-5 col-xs-2">
-                    <a class="btn btn-primary hds-icon-plus"
-                       href="<?= $this->url('pageadmin/sp-add') ?>"
-                       data-toggle="tooltip"
-                       title="<?= $this->transEsc('add_page') ?>">
-                        <?= $this->transEsc('add') ?>
-                    </a>
+
                 </div>
             </h3>
         </div>
 
         <hr>
-        <? if (!count($this->rows) < 1) : ?>
-            <ul class="admin-list">
+        <ul class="admin-list">
+            <li>
+                <div class="bc hds-icon-plus">
+                    <a href="<?= $this->url('pageadmin/sp-add') ?>"
+                       data-toggle="tooltip"
+                       title="<?= $this->transEsc('add_page') ?>">
+                        <?= $this->transEsc('add') ?>
+                    </a>
+                </div>
+            </li>
+            <? if (!count($this->rows) < 1) : ?>
                 <? foreach ($this->rows[$lang] as $row) : ?>
                     <? $pid = $row->pid;
                     $headline = $row->headline; ?>
@@ -81,8 +85,8 @@ $lang = $this->layout()->userLang;
                         </div>
                     </li>
                 <? endforeach; ?>
-            </ul>
-        <? endif; ?>
+            <? endif; ?>
+        </ul>
 
     </div>
     <div class="<?= $this->layoutClass('sidebar') ?>">

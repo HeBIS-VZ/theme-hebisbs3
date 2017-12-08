@@ -1,16 +1,18 @@
-<div class="viewpage" style="">
-    <h3><b> <?= $this->row->headline ?> </b></h3>
-    <small style="color: #466666"><i>Autor: <b><?= $this->row->author ?></b></i></small>
-    <br>
-    <small id="create-date" style="color: #74c2c1">Create Date:&nbsp;<?= $this->cDate ?></small>
-    <? if (!empty($this->modDate)) : ?>
-        <br>
-        <small id="modify-date" style="color: #6579c2">Last modified:&nbsp;<?= $this->modDate ?></small>
-    <? endif; ?>
-    <hr>
-    <span>
+<div class="viewpage" id="toplink">
+    <h3 class="page-headline"> <?= $this->row->headline ?></h3>
+
+    <div class="page-content">
         <?= $this->row->content ?>
-    </span>
-    <br>
-    <hr>
+    </div>
+
+    <hr/>
+    <div class="">
+        <small style="color: #466666"><i>Autor: <b><?= $this->row->author ?></b></i></small>
+        <small id="create-date" style="color: #74c2c1"><?= $this->transEsc('Create Date') ?>
+            : <?= $this->cDate ?></small>
+        <? if (!empty($this->modDate)) : ?>
+            <br>
+            <small id="modify-date" style="color: #6579c2">Last modified:&nbsp;<?= $this->modDate ?></small>
+        <? endif; ?>
+    </div>
 </div>

@@ -25,7 +25,8 @@ $this->headScript()->appendScript($datePickerScript, $type = 'text/javascript');
 
             <div data-lang="<?= $code ?>" class="tab-pane fade" id="admin-<?= $code ?>-form">
 
-                <div data-lang="<?= $code ?>" id="bc-alert-<?= $code ?>" class="alert alert-warning bc-alert">&nbsp;</div>
+                <div data-lang="<?= $code ?>" id="bc-alert-<?= $code ?>" class="alert alert-danger bc-alert"><p>
+                        &nbsp;</p></div>
 
                 <div class="form-group">
                     <input type="hidden" class="form-control" name="bc-lang[]" value="<?= $code ?>">
@@ -33,29 +34,33 @@ $this->headScript()->appendScript($datePickerScript, $type = 'text/javascript');
 
                 <div class="form-group">
                     <div class="input-group">
-                        <input type="text"
-                               class="form-control bc-message input-md"
+                        <input class="form-control bc-message input-md"
                                name="bc-message[]"
                                placeholder="<?= $this->translate('broadcast_message') ?>"
                                autocomplete="off" id="bc-message-<?= $code ?>"
                                value="<?= array_key_exists($code, $this->message) ? $this->message[$code] : '' ?>"
-                               data-lang="<?= $code ?>">
+                               data-lang="<?= $code ?>"/>
+
                         <div class="input-group-btn bc-types" data-toggle="buttons">
+                            <!--green-->
                             <label class="btn btn-success<?= $this->type === "success" || empty($this->type) ? ' active' : ''?>">
                                 <input class="form-control" type="radio" name="bc-type" value="success"
                                        autocomplete="off" <?= $this->type === "success" || empty($this->type) ? 'checked="checked"' : ''?>/>&nbsp;
                             </label>
+                            <!--blue-->
                             <label class="btn btn-info<?= $this->type === "info" ? ' active' : ''?>">
                                 <input class="form-control" type="radio" name="bc-type" value="info"
-                                       autocomplete="off"<?= $this->type === "info" ? 'checked="checked"' : ''?>/>&nbsp;
+                                       autocomplete="off" <?= $this->type === "info" ? 'checked="checked"' : '' ?>/>&nbsp;
                             </label>
+                            <!--yellow-->
                             <label class="btn btn-warning<?= $this->type === "warning" ? ' active' : ''?>">
                                 <input class="form-control" type="radio" name="bc-type" value="warning"
-                                       autocomplete="off"<?= $this->type === "warning" ? 'checked="checked"' : ''?>/>&nbsp;
+                                       autocomplete="off" <?= $this->type === "warning" ? 'checked="checked"' : '' ?>/>&nbsp;
                             </label>
+                            <!--red-->
                             <label class="btn btn-danger<?= $this->type === "danger" ? ' active' : ''?>">
                                 <input class="form-control" type="radio" name="bc-type" value="danger"
-                                       autocomplete="off"<?= $this->type === "danger" ? 'checked="checked"' : ''?>/>&nbsp;
+                                       autocomplete="off" <?= $this->type === "danger" ? 'checked="checked"' : '' ?>/>&nbsp;
                             </label>
                         </div>
                     </div>

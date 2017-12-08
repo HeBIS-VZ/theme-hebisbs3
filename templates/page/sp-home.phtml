@@ -3,7 +3,10 @@ $this->headTitle($this->translate('Static Pages'));
 ?>
 
 <!-- TODO: Grids -->
-<div class="page-header"><h2>Static Pages</h2></div>
+
+<div class="page-header">
+    <h2>Static Pages</h2>
+</div>
 <div class="row"> <!--style="padding: 50px"-->
     <? foreach ($this->rows as $row) : ?>
         <? if ($row->visible == 1) : ?>
@@ -18,5 +21,4 @@ $this->headTitle($this->translate('Static Pages'));
             </div>
         <? endif; ?>
     <? endforeach; ?>
-
 </div>
