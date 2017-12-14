@@ -80,18 +80,16 @@
 
         <? endif; ?>
         <? if (!empty($this->dateRangeLimit)):
-        $this->headScript()->appendFile('vendor/bootstrap-slider.js');
-        //$this->headLink()->appendStylesheet('vendor/bootstrap-slider.min.css');
-        $min = !empty($dateRangeLimit[0]) ? min($dateRangeLimit[0], 1400) : 1400;
-        $future = date('Y', time() + 31536000);
-        $max = !empty($dateRangeLimit[1]) ? max($future, $dateRangeLimit[1]) : $future;
-        $low = !empty($dateRangeLimit[0]) ? $dateRangeLimit[0] : $min;
-        $high = !empty($dateRangeLimit[1]) ? $dateRangeLimit[1] : $max;
-        $min = intval($min);
-        $max = intval($max);
-        $low = intval($low);
-        $high = intval($high);
-        $init = !empty($current['values'][0]) ? 'fillTexts()' : '';
+            $this->headScript()->appendFile('vendor/bootstrap-slider.js');
+            //$this->headLink()->appendStylesheet('vendor/bootstrap-slider.min.css');
+            $min = !empty($dateRangeLimit[0]) ? min($dateRangeLimit[0], 1000) : 1000;
+            $future = date('Y', time() + 31536000);
+            $max = !empty($dateRangeLimit[1]) ? max($future, $dateRangeLimit[1]) : $future;
+            $low = !empty($dateRangeLimit[0]) && intval($dateRangeLimit[0]) > $min ? intval($dateRangeLimit[0]) : $min;
+            $high = !empty($dateRangeLimit[1]) && intval($dateRangeLimit[1]) < $max ? $dateRangeLimit[1] : $max;
+            $min = intval($min);
+            $max = intval($max);
+            $init = !empty($current['values'][0]) ? 'fillTexts()' : '';
         ?>
 
         <input type="hidden" name="daterange[]" value="PublicationDate"/>
@@ -103,19 +101,19 @@
             <div class="col-sm-6 col-md-offset-4 col-md-2">
                 <label for="PublicationDatefrom" class="pull-right sr-only"><?= $this->transEsc('date_from') ?>:</label>
                 <input type="text" name="PublicationDatefrom" id="PublicationDatefrom"
-                       value="<?= $this->escapeHtmlAttr($low) ?>" class="form-control"/>
+                       value="<?= $this->escapeHtmlAttr(!empty($dateRangeLimit[0]) ? $dateRangeLimit[0] : '') ?>" class="form-control"/>
             </div>
             <div class="col-sm-6 col-md-2">
                 <label for="PublicationDateto" class="sr-only"><?= $this->transEsc('date_to') ?>:</label>
                 <input type="text" name="PublicationDateto" id="PublicationDateto"
-                       value="<?= $this->escapeHtmlAttr($high) ?>" class="form-control"/>
+                       value="<?= $this->escapeHtmlAttr(!empty($dateRangeLimit[1]) ? $dateRangeLimit[1] : '') ?>" class="form-control"/>
             </div>
         </div>
         <?
         $reversed = $this->layout()->rtl ? 'true' : 'false';
-        $half = floor($low+(($high-$low)/2));
-        $quarter = floor($half+(($high-$low)/2)/2);
-        $halfquarter = floor($quarter+((($high-$low)/2)/2)/1.5);
+        $half = floor($min+(($max-$min)/2));
+        $quarter = floor($half+(($max-$min)/2)/2);
+        $halfquarter = floor($quarter+((($max-$min)/2)/2)/1.5);
         $script = <<<JS
 $(document).ready(function() {
     var fillTexts = function() {
@@ -129,8 +127,8 @@ $(document).ready(function() {
        'handle':"square",
        'tooltip':"hide",
        'value':[{$low},{$high}],
-         'ticks':[{$low}, {$half}, {$quarter}, {$halfquarter}, {$high}],
-	     'ticks_labels':[{$low}, {$half}, {$quarter}, {$halfquarter}, {$high}],
+         'ticks':[{$min}, {$half}, {$quarter}, {$halfquarter}, {$high}],
+	     'ticks_labels':[{$min}, {$half}, {$quarter}, {$halfquarter}, {$high}],
 	     'ticks_positions':[0, 25, 50, 75, 100],
 	   'reversed': {$reversed}
     })

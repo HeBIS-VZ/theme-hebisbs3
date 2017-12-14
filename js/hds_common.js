@@ -107,7 +107,7 @@ $(document).ready(function () {
     });
 
     // reset handler that clears the form
-    $('form button:reset').click(function (event) {
+    $('form#advSearchForm button:reset').click(function (event) {
         event.preventDefault();
         $('form')
             .find(':radio, :checkbox').removeAttr('checked').end()
@@ -252,5 +252,15 @@ function toIso(n) {
         n = 1;
     }
     n = n.toString();
-    return n + '-01-01T00:00:00Z'
+    return zeroFill(n, 4) + '-01-01T00:00:00Z'
+}
+
+function zeroFill( number, width )
+{
+    width -= number.toString().length;
+    if ( width > 0 )
+    {
+        return new Array( width + (/\./.test( number ) ? 2 : 1) ).join( '0' ) + number;
+    }
+    return number + ""; // always return a string
 }
