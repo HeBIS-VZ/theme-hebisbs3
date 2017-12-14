@@ -7,7 +7,7 @@ $pubType = $this->driver->getPubType();
 $customLinks = $this->driver->getCustomLinks();
 $accessLevel = $this->driver->getAccessLevel();
 $restrictedView = empty($accessLevel) ? false : true;
-$abstract = null;
+$abstracts = [];
 ?>
 <?
 $rediLinks =
@@ -162,9 +162,21 @@ ENDSCRIPT;
                 <h3 property="name"><?= $this->escapeHtml($this->driver->getTitle()) ?></h3>
 
                 <div class="record-details">
+                    <? $prev = ""; ?>
                     <? foreach ($items as $key => $item): ?>
-                        <? if ($item['Group'] == "Ab") : ?>
-                            <? $abstract = $item; ?>
+                        <? if ($item['Group'] == "Ab" && !empty($item['Label'])) : ?>
+                            <? $abstracts[] = $item; ?>
+                            <? $prev = $item['Group']; ?>
+                        <? elseif ($prev == "Ab") : ?>
+                            <?
+                            if ((empty($item['Label']) && empty($item['Group'])) || ($item['Group'] == "Ab" && empty($item['Label'])) || (array_key_exists('Name', $item) && $item['Name'] == "AbstractSuppliedCopyright")) {
+                                $abstract = array_pop($abstracts);
+                                $abstract['Data'] .= '<br /><br />' . $item['Data'];
+                                $abstracts[] = $abstract;
+                                $prev = "";
+                            }
+
+                            ?>
                         <? elseif (!empty($item['Data'])): ?>
                             <div class="row">
                                 <div class="bold col-sm-12 col-md-3 col-lg-2">
@@ -174,6 +186,7 @@ ENDSCRIPT;
                                     <?= $this->driver->linkUrls($item['Data']) ?>
                                 </div>
                             </div>
+                            <? $prev = $item['Group']; ?>
                         <? endif; ?>
                     <? endforeach; ?>
 
@@ -183,28 +196,34 @@ ENDSCRIPT;
                             <div class="col-sm-12 col-md-9 col-lg-10"><?= $this->escapeHtml($dbLabel) ?></div>
                         </div>
                     <? endif; ?>
-                    <? if ($this->driver->hasHTMLFullTextAvailable() || !empty($abstract)) : ?>
+                    <? if ($this->driver->hasHTMLFullTextAvailable() || !empty($abstracts)) : ?>
                         <br/>
                         <h4>Further Information</h4>
                         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                            <? if (!empty($abstract) && !empty($abstract['Data'])) : ?>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading" role="tab" id="headingAbstract">
-                                        <h4 class="panel-title">
-                                            <a role="button" data-toggle="collapse" data-parent="#accordion"
-                                               href="#collapseAbstract"
-                                               aria-controls="collapseAbstract">Abstract</a>
-                                        </h4>
-                                    </div>
-                                    <div id="collapseAbstract" class="panel-collapse collapse" role="tabpanel"
-                                         aria-labelledby="headingAbstract">
-                                        <div class="panel-body">
-                                            <div class="col-sm-12 col-md-9 col-lg-10">
-                                                <?= $this->driver->linkUrls($abstract['Data']) ?>
+                            <? if (!empty($abstracts)) : ?>
+                                <? $i = 0; ?>
+                                <? foreach ($abstracts as $abstract) : ?>
+                                    <? if (!empty($abstract['Data'])) : ?>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="headingAbstract-<?=$i?>">
+                                            <h4 class="panel-title">
+                                                <a role="button" data-toggle="collapse" data-parent="#accordion"
+                                                   href="#collapseAbstract-<?=$i?>"
+                                                   aria-controls="collapseAbstract-<?=$i?>">Abstract</a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapseAbstract-<?=$i?>" class="panel-collapse collapse" role="tabpanel"
+                                             aria-labelledby="headingAbstract">
+                                            <div class="panel-body">
+                                                <div class="col-sm-12 col-md-9 col-lg-10">
+                                                    <?= $this->driver->linkUrls($abstract['Data']) ?>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                    <? endif;
+                                        ++$i; ?>
+                                <? endforeach; ?>
                             <? endif; ?>
                             <? if ($this->driver->hasHTMLFullTextAvailable()): ?>
 

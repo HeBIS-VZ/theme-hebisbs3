@@ -2,11 +2,16 @@
 @import "bootstrap-slider.less";
 @import "advanced-search.less";
 @import "bootstrap-multiselect.less";
+@import "bootstrap-datepicker.less";
 body {
   background-color: #ededed;
 }
 
 a  {
+}
+
+.inner-container {
+  padding: 0 15px;
 }
 
 /* --- Bootstrap MODS ---*/
@@ -631,4 +636,68 @@ footer {
 }
 .search-tools {
   margin-left: 35px;
+}
+
+
+.label-subject {
+  .label-variant(darken(@badge-bg, 10%));
+  color: #555;
+  font-weight: normal;
+}
+
+span.subjects-label {
+  font-weight: bold;
+}
+.admin-page-visibility {
+  cursor: pointer;
+
+}
+
+.green {
+  color: #2b5944;
+}
+
+.red {
+  color: #9b838c;
+}
+
+.admin-delete-button:hover {
+  cursor: pointer;
+  color: darkred;
+}
+
+.log-box {
+  background-color: #0b262e;
+  width: 85%;
+  padding: 10px;
+  wrap-option: off;
+  font-weight: lighter;
+  font-size: 10px;
+  font-family: 'Source Sans Pro', monospace;
+  color: lightgrey;
+}
+
+#save-static-post {
+  float: right;
+}
+
+.admin-list {
+  padding-left: 0;
+  display: block;
+  li {
+    display: block;
+    > div {
+      display: block;
+      padding: 0.5em 1em;
+    }
+  }
+  li:nth-child(odd) > div {
+    background-color: lighten(@gray-base, 96%);
+  }
+  li:nth-child(even) > div {
+    background-color: lighten(@gray-base, 99%);
+  }
+  .expired {
+    color: dimgray;
+  }
 }

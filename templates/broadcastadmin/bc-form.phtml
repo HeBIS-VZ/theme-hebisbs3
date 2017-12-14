@@ -1,0 +1,104 @@
+<?
+$datePickerScript = '$(document).ready(function(){$("#datepicker-startdate,#datepicker-expiredate").datepicker({format: "dd.mm.yyyy", language: "'.$this->layout()->userLang.'"});});';
+
+$this->headScript()->appendScript($datePickerScript, $type = 'text/javascript');
+?>
+<form id="bc-form" method="post">
+
+    <input type="hidden" value="<?= $this->bcid ?>" name="bcid" />
+    <!-- Language Tabs -->
+    <ul class="nav nav-tabs">
+        <? foreach ($this->langs as $code => $language) : ?>
+            <li class="bc-form">
+                <a data-toggle="tab"
+                   lang="<?= $code ?>"
+                   href="#admin-<?= $code ?>-form"
+                   id="admin-lang-tab-<?= $code ?>"><?= $this->transEsc($language) ?></a>
+            </li>
+        <? endforeach; ?>
+    </ul>
+
+    <!-- Tab Contents -->
+    <div class="tab-content">
+
+        <? foreach ($this->langs as $code => $language) : ?>
+
+            <div data-lang="<?= $code ?>" class="tab-pane fade" id="admin-<?= $code ?>-form">
+
+                <div data-lang="<?= $code ?>" id="bc-alert-<?= $code ?>" class="alert alert-danger bc-alert"><p>
+                        &nbsp;</p></div>
+
+                <div class="form-group">
+                    <input type="hidden" class="form-control" name="bc-lang[]" value="<?= $code ?>">
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <input class="form-control bc-message input-md"
+                               name="bc-message[]"
+                               placeholder="<?= $this->translate('broadcast_message') ?>"
+                               autocomplete="off" id="bc-message-<?= $code ?>"
+                               value="<?= array_key_exists($code, $this->message) ? $this->message[$code] : '' ?>"
+                               data-lang="<?= $code ?>"/>
+
+                        <div class="input-group-btn bc-types" data-toggle="buttons">
+                            <!--green-->
+                            <label class="btn btn-success<?= $this->type === "success" || empty($this->type) ? ' active' : ''?>">
+                                <input class="form-control" type="radio" name="bc-type" value="success"
+                                       autocomplete="off" <?= $this->type === "success" || empty($this->type) ? 'checked="checked"' : ''?>/>&nbsp;
+                            </label>
+                            <!--blue-->
+                            <label class="btn btn-info<?= $this->type === "info" ? ' active' : ''?>">
+                                <input class="form-control" type="radio" name="bc-type" value="info"
+                                       autocomplete="off" <?= $this->type === "info" ? 'checked="checked"' : '' ?>/>&nbsp;
+                            </label>
+                            <!--yellow-->
+                            <label class="btn btn-warning<?= $this->type === "warning" ? ' active' : ''?>">
+                                <input class="form-control" type="radio" name="bc-type" value="warning"
+                                       autocomplete="off" <?= $this->type === "warning" ? 'checked="checked"' : '' ?>/>&nbsp;
+                            </label>
+                            <!--red-->
+                            <label class="btn btn-danger<?= $this->type === "danger" ? ' active' : ''?>">
+                                <input class="form-control" type="radio" name="bc-type" value="danger"
+                                       autocomplete="off" <?= $this->type === "danger" ? 'checked="checked"' : '' ?>/>&nbsp;
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <? endforeach; ?>
+    </div>
+
+    <div class="form-group" style="width: 40%">
+        <div class="input-group date">
+            <label for="datepicker-startdate"
+                   class="input-group-addon hds-icon-calendar-empty">&nbsp;<?= $this->transEsc('starts_on') ?></label>
+            <input type="text" class="form-control" autocomplete="off"
+                   name="bc-startDate" id="datepicker-startdate" value="<?= $this->startDate ?>">
+        </div>
+    </div>
+
+    <div class="form-group" style="width: 40%">
+        <div class="input-group date">
+            <label for="datepicker-expiredate"
+                   class="input-group-addon hds-icon-calendar-empty">&nbsp;<?= $this->transEsc('expires_on') ?></label>
+            <input type="text" class="form-control" autocomplete="off"
+                   name="bc-expireDate" id="datepicker-expiredate" value="<?= $this->expireDate ?>">
+        </div>
+    </div>
+
+
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" name="bc-hide"<?= !empty($this->hide) ? ' checked="checked"' : ''?> />
+            <span class=" hds-icon-eye-off"></span><?= $this->transEsc('hide_message') ?>
+        </label>
+    </div>
+
+    <div class="form-group">
+        <button tabindex="0" class="btn btn-primary" data-ignore="true"
+                data-toggle="popover" data-placement="auto right"
+                id="bc-save"><?= $this->transEsc('save'); ?>
+        </button>
+    </div>
+</form>
