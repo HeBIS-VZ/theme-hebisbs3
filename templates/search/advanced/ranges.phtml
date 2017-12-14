@@ -60,9 +60,12 @@ $(document).ready(function() {
       $('#{$sliderId}').slider('refresh');
   });
      $("#advSearchForm").submit(function(e) {
-        
-        $('#publish_datefrom').val(toIso($('#publish_datefrom').val()));
-        $('#publish_dateto').val(toIso($('#publish_dateto').val()));
+        if ($('#publish_datefrom').val() != "") {
+            $('#publish_datefrom').val(toIso($('#publish_datefrom').val()));    
+        }
+        if ($('#publish_dateto').val() != "") {
+            $('#publish_dateto').val(toIso($('#publish_dateto').val()));
+        }
         return true;
   });
   
