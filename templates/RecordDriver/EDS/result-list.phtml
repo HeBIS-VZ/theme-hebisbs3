@@ -33,8 +33,9 @@
                     <?=$title?>
                     <?= !empty($authors) ? "<br />" . $authors : ""?>
                     <?= !empty($titleSource) ? "<br />" . $titleSource : ""?>
-                    <?= !empty($subjects) ? "<br />" . $subjects : ""?>
                 </p>
+                    <?= !empty($subjects) ? '<div class="eds-subjects">' . '<span class="subjects-label">' . $this->translate('Subjects') . ':</span> ' . $subjects . '</div>' : ""?>
+
                 <? $ftCustomLinks = $this->driver->getFTCustomLinks();
 
                     $ftCustomLinks = array_filter($ftCustomLinks, function ($ftCustomLink) {
@@ -47,6 +48,7 @@
                 ?>
                 <? if ($this->driver->hasHTMLFullTextAvailable() || $this->driver->hasPdfAvailable() || !empty($customLinks) || !empty($ftCustomLinks)): ?>
                     <? $customLinksArray = [] ?>
+                    <div class="customlinks clearfix">
                         <!-- HTML links -->
                         <? if ($this->driver->hasHTMLFullTextAvailable()): ?>
                             <? $customLinksArray[] = '<a href="' . $this->recordLink()->getUrl($this->driver, 'fulltext') .
@@ -97,10 +99,10 @@
                                 <? endforeach; ?>
                             <? endif; ?>
                         <? endif; ?>
-                    <? if (!empty($customLinksArray)) : ?>
-                        <p><?= implode(" | ", $customLinksArray) ?></p>
-                    <? endif; ?>
-
+                        <? if (!empty($customLinksArray)) : ?>
+                            <p><?= implode(" | ", $customLinksArray) ?></p>
+                        <? endif; ?>
+                    </div>
 
                 <? elseif ($restrictedView): ?>
                     <div class="resultItemLine1">
