@@ -164,14 +164,18 @@ ENDSCRIPT;
                 <div class="record-details">
                     <? $prev = ""; ?>
                     <? foreach ($items as $key => $item): ?>
-                        <? if ($item['Group'] == "Ab") : ?>
+                        <? if ($item['Group'] == "Ab" && !empty($item['Label'])) : ?>
                             <? $abstracts[] = $item; ?>
                             <? $prev = $item['Group']; ?>
-                        <? elseif (empty($item['Group']) && $prev == "Ab") : ?>
+                        <? elseif ($prev == "Ab") : ?>
                             <?
+                            if ((empty($item['Label']) && empty($item['Group'])) || ($item['Group'] == "Ab" && empty($item['Label'])) || (array_key_exists('Name', $item) && $item['Name'] == "AbstractSuppliedCopyright")) {
                                 $abstract = array_pop($abstracts);
                                 $abstract['Data'] .= '<br /><br />' . $item['Data'];
                                 $abstracts[] = $abstract;
+                                $prev = "";
+                            }
+
                             ?>
                         <? elseif (!empty($item['Data'])): ?>
                             <div class="row">
