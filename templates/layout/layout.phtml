@@ -1,4 +1,5 @@
 <?= $this->doctype('HTML5') ?>
+
 <html lang="<?= $this->layout()->userLang ?>">
 <head>
     <?$this->headThemeResources()?>
@@ -10,12 +11,12 @@
     <style media="screen" type="text/css">
         @font-face {
             font-family: 'vufind-hds';
-            src: url('<?= $this->basePath() ?>/themes/hebisbs3/font/vufind-hds.eot?45523202');
-            src: url('<?= $this->basePath() ?>/themes/hebisbs3/font/vufind-hds.eot?45523202#iefix') format('embedded-opentype'),
-            url('<?= $this->basePath() ?>/themes/hebisbs3/font/vufind-hds.woff2?45523202') format('woff2'),
-            url('<?= $this->basePath() ?>/themes/hebisbs3/font/vufind-hds.woff?45523202') format('woff'),
-            url('<?= $this->basePath() ?>/themes/hebisbs3/font/vufind-hds.ttf?45523202') format('truetype'),
-            url('<?= $this->basePath() ?>/themes/hebisbs3/font/vufind-hds.svg?45523202#vufind-hds') format('svg');
+            src: url('<?= $this->basePath() ?>/themes/hebisbs3/font/vufind-hds.eot');
+            src: url('<?= $this->basePath() ?>/themes/hebisbs3/font/vufind-hds.eot#iefix') format('embedded-opentype'),
+
+            url('<?= $this->basePath() ?>/themes/hebisbs3/font/vufind-hds.woff') format('woff'),
+            url('<?= $this->basePath() ?>/themes/hebisbs3/font/vufind-hds.ttf') format('truetype'),
+            url('<?= $this->basePath() ?>/themes/hebisbs3/font/vufind-hds.svg#vufind-hds') format('svg');
             font-weight: normal;
             font-style: normal;
         }
@@ -169,6 +170,17 @@ if (!isset($this->layout()->searchbox)) {
 
 </header>
 <div id="main-content" role="main" class="main template-dir-<?= $this->templateDir ?> template-name-<?= $this->templateName ?>">
+    <div class="container">
+        <? $broadcasts = $this->broadcastMessage()->getBroadcasts();
+        if (!empty($broadcasts)) : ?>
+            <? foreach ($broadcasts as $broadcast) : ?>
+                <div id="bc-<?= $broadcast['bcid'] ?>"
+                     class="alert alert-<?= $broadcast['type'] ?>">
+                    <?= $broadcast['message'] ?>
+                </div>
+            <? endforeach; ?>
+        <? endif; ?>
+    </div>
     <div class="breadcrumb-area" style="border: none;">
         <div class="container" style="border: none">
             <? if ((!isset($this->layout()->showBreadcrumbs) || $this->layout()->showBreadcrumbs == true)
@@ -200,7 +212,6 @@ if (!isset($this->layout()->searchbox)) {
         </div>
     </div>
     <div class="container">
-
         <?
         if (isset($this->results)) : // it is a search request?
             $this->searchIndex = $this->params->getSearchHandler();
