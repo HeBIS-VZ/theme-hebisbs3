@@ -128,7 +128,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                 </div>
                                 <div class="col-sm-12 col-md-9 col-lg-10" property="author">
                                     <? foreach ($corporates as $corporate) : ?>
-                                        <a href="<?= $this->record($this->driver)->getLink('other', html_entity_decode($corporate)); ?>"><?= $corporate ?></a><br />
+                                        <a href="<?= $this->record($this->driver)->getLink('other', html_entity_decode($corporate["link"])); ?>"><?= $corporate["text"] ?></a><br />
                                     <? endforeach; ?>
 
                                 </div>
