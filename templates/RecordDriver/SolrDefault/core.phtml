@@ -111,8 +111,7 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                         <? $owauthors = $this->singleRecordOWPersonalName($this->driver, false); ?>
                         <? if (!empty($authors)) : ?>
                             <div class="row">
-                                <div
-                                        class="bold col-sm-12 col-md-3 col-lg-2">
+                                <div class="bold col-sm-12 col-md-3 col-lg-2">
                                     <?= $this->translate('Author/editor-in-chief') ?>:
                                 </div>
                                 <div class="col-sm-12 col-md-9 col-lg-10" property="author">
