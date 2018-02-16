@@ -76,9 +76,10 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                                 <?= $this->translate('Title') ?>:
                             </div>
                             <div class="col-sm-12 col-md-9 col-lg-10">
-                                <? if ($owtitle) : ?><?= $owtitle ?><br/><? endif; ?>
+                                <? if ($owtitle) : ?>
+                                    <a href="<?= $this->record($this->driver)->getLink('title', html_entity_decode($owtitle["link"])); ?>"><?= $owtitle["text"] ?></a><?= $owtitle["text2"] ?><br/>
+                                <? endif; ?>
                                 <bdi>
-                                    <? /* <?= $title ?> */ ?>
                                     <a href="<?= $this->record($this->driver)->getLink('title', html_entity_decode($title["link"])); ?>"><?= $title["text"] ?></a><?= $title["text2"] ?>
                                 </bdi>
                             </div>
