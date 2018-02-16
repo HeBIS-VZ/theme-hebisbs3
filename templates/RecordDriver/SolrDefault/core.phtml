@@ -77,7 +77,10 @@ if ($loggedin = $this->auth()->isLoggedIn()) {
                             </div>
                             <div class="col-sm-12 col-md-9 col-lg-10">
                                 <? if ($owtitle) : ?><?= $owtitle ?><br/><? endif; ?>
-                                <bdi><?= $title ?></bdi>
+                                <bdi>
+                                    <? /* <?= $title ?> */ ?>
+                                    <a href="<?= $this->record($this->driver)->getLink('title', html_entity_decode($title["link"])); ?>"><?= $title["text"] ?></a><?= $title["text2"] ?>
+                                </bdi>
                             </div>
                         </div>
 
