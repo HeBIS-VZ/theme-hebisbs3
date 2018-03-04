@@ -1,11 +1,44 @@
 
 <strong><?=$this->transEsc('Table of Contents')?>: </strong>
-<? $summary = $this->tabTocSummary($this->driver); ?>
-<? if (!empty($summary)) : ?>
-<div class="">
-    <?= $summary ?>
-</div>
-<? else : ?>
+<?
+    /** @var \Hebis\View\Helper\Record\Tab\TabTocSummary $helper */
+    $helper = $this->tabTocSummary($this->driver); ?>
+<? if (!empty($abstract = $helper->getAbstract())) : ?>
+    <div class="abstract">
+        <?= $abstract ?>
+    </div>
+<? endif; ?>
+<? if (!empty($contentNotes = $helper->getContentNotes())) : ?>
+    <div class="notes">
+        <?= $contentNotes ?>
+    </div>
+<? endif; ?>
+<? if (!empty($toc = $helper->getSyndeticsToc())) : ?>
+    <div class="toc">
+        <? if(array_key_exists("Content", $toc[0]) && $toc[0]['Source'] = "TOC") : ?>
+            <ul>
+            <? foreach ($toc[0]['Content'] as $item) : ?>
+                <li>
+                    <div class="row">
+                        <div class="col-xs-1 col-md-2 col-lg-1 text-left">
+                            <? if (!empty($item['l'])) : ?>
+                                <div class="chapter"><span class="hds-icon-book-open hidden-xs"></span><?=  $item['l'] ?></div>
+                            <?endif;?>
+                        </div>
+                        <div class="col-xs-9 col-md-8 col-lg-9">
+                            <div class="title"><?= $item['t'] ?></div>
+                        </div>
+                        <div class="col-xs-2">
+                            <div class="page text-right"><?= array_key_exists('p', $item) ? $item['p'] : ''?></div>
+                        </div>
+                    </div>
+                </li>
+            <? endforeach; ?>
+            </ul>
+        <? endif; ?>
+    </div>
+<? endif; ?>
+<? if (empty($abstract) && empty($contentNotes) && empty($toc)) : ?>
     <?=$this->transEsc("Table of Contents unavailable")?>.
 <? endif; ?>
 <?

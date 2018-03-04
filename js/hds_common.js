@@ -127,6 +127,14 @@ $(document).ready(function () {
         $multiSelect.find('.multiselect-container li.active').removeClass('active');
         return false;
     });
+
+    /* ignore links of disabled tabs */
+    $(".nav-tabs > li").click(function(event) {
+        if ($(this).hasClass("disabled")) {
+            event.preventDefault();
+            return false;
+        }
+    });
 });
 
 function processRvkLinks() {
