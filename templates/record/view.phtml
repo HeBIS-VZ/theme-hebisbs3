@@ -1,5 +1,7 @@
 <?
 // Set up standard record scripts:
+use Hebis\RecordDriver\SolrMarc;
+
 $this->headScript()->appendFile("record.js");
 $this->headScript()->appendFile("check_save_statuses.js");
 // Activate Syndetics Plus if necessary:
@@ -29,7 +31,7 @@ $this->layout()->breadcrumbs .= !empty($shortTitle) ? '<li class="active">'.$thi
 //$this->layout()->title = $this->singleRecordTitleStatementHeadline($this->driver);
 ?>
 
-
+<? if ($this->driver instanceof SolrMarc) :?>
 <div class="row">
 
     <div class="col-md-9 <? //$this->layoutClass('mainbody') ?>">
@@ -110,14 +112,15 @@ $this->layout()->breadcrumbs .= !empty($shortTitle) ? '<li class="active">'.$thi
         <hr/>
         <?= $this->record($this->driver)->getToolbar() ?>
         <hr/>
+        <? if ($this->driver instanceof SolrMarc) :?>
+            <? $isbns = $this->singleRecordInternationalStandardBookNumber($this->driver, true); ?>
+            <? if (!empty($isbns)) : ?>
+                <div id="other-editions" data-xid="<?=$isbns['0']?>">
 
-        <? $isbns = $this->singleRecordInternationalStandardBookNumber($this->driver, true); ?>
-        <? if (!empty($isbns)) : ?>
-            <div id="other-editions" data-xid="<?=$isbns['0']?>">
-
-            </div>
-        <? endif;?>
-        <?= $this->render('RecordDriver/SolrDefault/result-bibtip.phtml'); ?>
+                </div>
+            <? endif;?>
+            <?= $this->render('RecordDriver/SolrDefault/result-bibtip.phtml'); ?>
+        <? endif; ?>
         <!--
             <? /*foreach ($this->related()->getList($this->driver) as $current): ?>
                 <?= $this->related()->render($current) ?>
@@ -125,4 +128,46 @@ $this->layout()->breadcrumbs .= !empty($shortTitle) ? '<li class="active">'.$thi
             -->
     </div>
 </div>
+<? else : ?>
+
+
+    <? if (isset($this->scrollData) && ($this->scrollData['previousRecord'] || $this->scrollData['nextRecord'])): ?>
+        <ul class="pager hidden-print hidden-md hidden-lg">
+            <? if ($this->scrollData['previousRecord']): ?>
+                <li>
+                    <a href="<?= $this->recordLink()->getUrl($this->scrollData['previousRecord']) ?>"
+                       title="<?= $this->transEsc('Previous Search Result') ?>"><span class="hds-icon-left-open"><!-- --> </span><span class="sr-only"><?= $this->transEsc('Prev') ?></span></a>
+                </li>
+            <? else: ?>
+                <li class="disabled"><span class="hds-icon-left-open"><!-- --> </span><span class="sr-only"><?= $this->transEsc('Prev') ?></span></li>
+            <? endif; ?>
+            <li><span><?= $this->localizedNumber($this->scrollData['currentPosition']) . ' / ' . $this->localizedNumber($this->scrollData['resultTotal']) //' ' . $this->transEsc('results') ?></span></li>
+            <? if ($this->scrollData['nextRecord']): ?>
+                <li>
+                    <a href="<?= $this->recordLink()->getUrl($this->scrollData['nextRecord']) ?>"
+                       title="<?= $this->transEsc('Next Search Result') ?>"><span class="sr-only"><?= $this->transEsc('Next') ?></span><span class="hds-icon-right-open"> <!-- --></span></a>
+                </li>
+            <? else: ?>
+                <li class="disabled"><span class="sr-only"><?= $this->transEsc('Next') ?></span><span class="hds-icon-right-open"> <!-- --></span></li>
+            <? endif; ?>
+        </ul>
+    <? endif; ?>
+
+
+    <div class="view-record">
+        <div class="record recordId source<?= $this->escapeHtmlAttr($this->driver->getResourceSource()) ?>" id="record">
+            <input type="hidden" value="<?= $this->escapeHtmlAttr($this->driver->getUniqueId()) ?>" class="hiddenId"
+                   id="record_id"/>
+            <input type="hidden" value="<?= $this->escapeHtmlAttr($this->driver->getResourceSource()) ?>"
+                   class="hiddenSource"/>
+            <?= $this->flashmessages() ?>
+            <?= $this->record($this->driver)->getCoreMetadata() ?>
+        </div>
+
+
+    </div>
+
+
+
+<? endif; ?>
 <?=$this->inlineScript(\Zend\View\Helper\HeadScript::SCRIPT, '$(document).ready(recordDocReady);', 'SET'); ?>
